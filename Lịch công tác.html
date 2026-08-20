@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lịch công tác · Cần Thơ Digital Government</title>
+<style>
+
+:root{
+ --navy:#0B2239;--navy2:#12304A;--green:#07883E;--teal:#168C8C;--gold:#C79A3B;
+ --red:#C83C3C;--amber:#D99020;--blue:#3276B1;--grey:#7A8791;
+ --bg:#F5F7F8;--card:#fff;--text:#18232D;--muted:#65717C;--line:#E4E9ED;
+ --shadow:0 1px 2px rgba(11,34,57,.05),0 8px 28px rgba(11,34,57,.06);
+}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--text)}
+a{text-decoration:none;color:inherit}.app{display:grid;grid-template-columns:264px 1fr;min-height:100vh}
+.sidebar{background:linear-gradient(180deg,var(--navy),#102D46);color:#fff;padding:22px 16px;position:sticky;top:0;height:100vh;overflow:auto}
+.brand{padding:0 10px 20px;border-bottom:1px solid rgba(255,255,255,.12);margin-bottom:14px}.brand small{display:block;opacity:.7;letter-spacing:.08em;font-size:10px}.brand strong{font-size:17px;line-height:1.25;display:block;margin-top:5px}.brand span{font-size:11px;opacity:.68}
+.navlabel{font-size:10px;text-transform:uppercase;letter-spacing:.1em;opacity:.48;padding:18px 10px 7px}.nav a{display:flex;gap:10px;align-items:center;padding:10px 11px;border-radius:9px;font-size:13px;color:rgba(255,255,255,.78);margin:2px 0}.nav a:hover{background:rgba(255,255,255,.07);color:#fff}.nav a.active{background:rgba(7,136,62,.26);box-shadow:inset 3px 0 0 #47C87A;color:#fff;font-weight:650}.ico{width:18px;text-align:center;opacity:.9}
+.main{min-width:0}.topbar{height:64px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 28px;gap:16px;position:sticky;top:0;z-index:4}.crumb{font-size:12px;color:var(--muted)}.topspace{flex:1}.search{border:1px solid var(--line);background:#F8FAFB;border-radius:9px;padding:9px 12px;width:260px;color:var(--muted);font-size:12px}.avatar{width:34px;height:34px;border-radius:50%;background:var(--navy2);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:700}
+.content{padding:25px 28px 38px;max-width:1540px;margin:auto}.pagehead{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:18px}.pagehead h1{font-size:24px;margin:0 0 5px}.pagehead p{margin:0;color:var(--muted);font-size:13px}.actions{display:flex;gap:8px}.btn{border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 12px;font-size:12px;font-weight:650}.btn.primary{background:var(--navy2);color:#fff;border-color:var(--navy2)}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 15px;box-shadow:var(--shadow)}.stat .label{font-size:11px;color:var(--muted)}.stat .value{font-size:24px;font-weight:760;margin:5px 0 2px}.stat .sub{font-size:11px;color:var(--muted)}.good{color:var(--green)}.warn{color:var(--amber)}.bad{color:var(--red)}
+.grid{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(300px,.8fr);gap:14px}.card{background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:14px}.cardhead{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.cardhead h2{font-size:14px;margin:0}.cardhead span{font-size:11px;color:var(--muted)}.filters{padding:12px 14px;display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--line)}.chip{font-size:11px;border:1px solid var(--line);padding:7px 9px;border-radius:999px;background:#fff}.chip.on{background:#EAF6F0;border-color:#BFE3CE;color:#05652F;font-weight:650}
+table{width:100%;border-collapse:collapse}th{text-align:left;font-size:10px;color:var(--muted);font-weight:650;padding:10px 12px;background:#FAFBFC;border-bottom:1px solid var(--line)}td{padding:12px;font-size:11px;border-bottom:1px solid #EEF1F3;vertical-align:top}.tasktitle{font-size:12px;font-weight:700;margin-bottom:4px}.meta{color:var(--muted);font-size:10px;line-height:1.5}.badge{display:inline-block;border-radius:999px;padding:4px 7px;font-size:9px;font-weight:750;white-space:nowrap}.b-red{background:#FBEAEA;color:#A82828}.b-amber{background:#FFF4DF;color:#A76500}.b-green{background:#E8F5EC;color:#087438}.b-blue{background:#EAF2FB;color:#28649A}.b-grey{background:#EEF1F3;color:#66717A}
+.progress{height:5px;background:#EDF0F2;border-radius:5px;overflow:hidden;margin-top:6px}.progress i{display:block;height:100%;background:var(--green);border-radius:5px}.progress.red i{background:var(--red)}.progress.amber i{background:var(--amber)}
+.sideitem{padding:13px 15px;border-bottom:1px solid #EEF1F3}.sideitem:last-child{border:0}.sideitem strong{font-size:12px;display:block;margin-bottom:4px}.sideitem p{font-size:10px;color:var(--muted);margin:0;line-height:1.45}.rank{display:flex;align-items:center;gap:10px;margin-top:9px}.rank .num{font-weight:800;width:20px}.bar{flex:1;height:6px;background:#EDF0F2;border-radius:6px}.bar i{display:block;height:100%;background:var(--teal);border-radius:6px}.ai{background:linear-gradient(135deg,#F2F8F5,#F3F7FA);padding:15px}.prompt{background:#fff;border:1px solid var(--line);border-radius:8px;padding:9px 10px;font-size:10px;margin-top:7px}
+.timeline{padding:6px 16px 14px}.event{position:relative;padding:11px 0 11px 19px;border-left:1px solid #DDE4E8}.event:before{content:"";position:absolute;width:8px;height:8px;border-radius:50%;background:var(--teal);left:-4.5px;top:15px}.event strong{font-size:11px}.event p{margin:3px 0 0;font-size:10px;color:var(--muted)}
+@media(max-width:1050px){.app{grid-template-columns:76px 1fr}.brand strong,.brand span,.brand small,.navlabel,.nav a span:not(.ico){display:none}.sidebar{padding:18px 10px}.nav a{justify-content:center}.stats{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.search{display:none}}
+
+/* Shell alignment: match Dự án trọng điểm */
+:root{--navy:#071d36;--navy2:#0b2d55;--blue:#1768c9;--green:#16a05d;--teal:#0c9aa5;--orange:#ef8b12;--red:#e33636;--purple:#6955c7;--gold:#c79a3b;--ink:#162642;--muted:#6f7d91;--line:#dfe6ee;--bg:#f4f7fb;--card:#fff;--shadow:0 3px 14px rgba(20,47,78,.07);--sidebar:220px}
+body{font-size:13px;background:var(--bg);color:var(--ink)}
+.app{grid-template-columns:var(--sidebar) 1fr}
+.sidebar{background:linear-gradient(180deg,var(--navy),#05162b);height:100vh;position:sticky;top:0;overflow:auto;padding:14px 10px}
+.brand{display:flex;gap:10px;align-items:center;padding:4px 7px 14px;border:0;margin:0}.brandmark{width:42px;height:42px;border-radius:50%;background:#fff;color:#158e56;display:grid;place-items:center;font-weight:900;border:3px solid #dcefe3}.brand b{font-size:15px}.brand small{display:block;color:#cbd6e4;font-size:10px;line-height:1.35;margin-top:2px;opacity:1;letter-spacing:0}.brand strong,.brand span{display:initial}
+.mode-switch{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:rgba(255,255,255,.08);padding:4px;border-radius:9px;margin:2px 5px 12px}.mode-switch button{border:0;background:transparent;color:#bfcada;padding:8px;border-radius:7px;font-weight:700;font-size:11px}.mode-switch button.active{background:white;color:var(--navy2)}
+.section-label{font-size:10px;font-weight:800;color:#8ea1b7;letter-spacing:.08em;margin:15px 8px 6px;text-transform:uppercase}.navlabel{display:none}.nav{display:grid;gap:3px}.nav a{color:#d8e1ec;text-decoration:none;padding:9px 10px;border-radius:7px;display:flex;gap:10px;align-items:center;font-size:12px;margin:0}.nav a.active,.nav a:hover{background:#0e467d;color:#fff;box-shadow:none}.ico{width:18px;text-align:center}
+.topbar{height:64px;background:#071a31;color:white;display:flex;align-items:center;justify-content:space-between;padding:0 18px;position:sticky;top:0;z-index:10;border:0}.topbar h1{font-size:18px;margin:0;letter-spacing:-.02em}.top-actions{display:flex;align-items:center;gap:12px}.period{border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:8px 12px;font-size:11px;line-height:1.3}.topbar .badge{background:var(--red);color:#fff;border-radius:999px;font-weight:800;padding:2px 6px;font-size:9px}.avatar{width:34px;height:34px;border-radius:50%;background:#f3f5f8;color:var(--navy);display:grid;place-items:center;font-weight:900}.profile{display:flex;gap:8px;align-items:center;font-size:11px}.back{color:#a9bdd3;text-decoration:none;font-size:10px}.back:hover{color:#fff}
+.content{padding:14px;max-width:none;margin:0}.pagehead{margin-bottom:12px}.pagehead h1{font-size:20px}.pagehead p{font-size:11px}.search,.topspace{display:none}
+@media(max-width:1250px){.app{grid-template-columns:190px 1fr}:root{--sidebar:190px}}
+@media(max-width:780px){.app{grid-template-columns:1fr}.sidebar{display:none}.period{display:none}.topbar h1{font-size:13px}}
+
+.schedule-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(320px,.85fr);gap:14px}
+.schedule-card{background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:14px}
+.schedule-item{padding:14px 16px;border-bottom:1px solid #EEF1F3;display:grid;grid-template-columns:84px 1fr 170px;gap:14px;align-items:start}
+.schedule-item:last-child{border-bottom:0}
+.datebox{background:#F3F7FA;border:1px solid var(--line);border-radius:10px;padding:9px 7px;text-align:center}
+.datebox .day{font-size:22px;font-weight:800;line-height:1}
+.datebox .dow{font-size:10px;color:var(--muted);margin-top:4px}
+.schedule-title{font-size:13px;font-weight:760;margin-bottom:5px}
+.schedule-meta{font-size:10px;color:var(--muted);line-height:1.55}
+.output-list{margin-top:9px;display:flex;gap:6px;flex-wrap:wrap}
+.output-pill{font-size:9px;padding:5px 7px;border-radius:999px;background:#EDF5F9;color:#2B617F;border:1px solid #D7E7EF}
+.ai-box{background:linear-gradient(145deg,#F2F8F5,#F5F8FC);border:1px solid #DDE8E2;border-radius:12px;padding:15px}
+.ai-box h3{font-size:13px;margin:0 0 5px} .ai-box p{font-size:10px;color:var(--muted);margin:0 0 10px}
+.ai-action{background:#fff;border:1px solid var(--line);border-radius:9px;padding:10px 11px;margin:7px 0;font-size:10px}
+.section-title{font-size:14px;font-weight:800;padding:14px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}
+.done-item{padding:13px 15px;border-bottom:1px solid #EEF1F3}
+.done-item:last-child{border:0}
+.done-item strong{font-size:12px;display:block;margin-bottom:4px}
+.done-meta{font-size:10px;color:var(--muted);line-height:1.55}
+.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:9px}
+.result{background:#F8FAFB;border:1px solid var(--line);border-radius:9px;padding:8px}
+.result b{font-size:11px;display:block;margin-bottom:3px} .result span{font-size:9px;color:var(--muted)}
+.issue-box{background:#FFF9ED;border:1px solid #F2D79D;border-radius:10px;padding:11px;margin-top:8px}
+.issue-box b{font-size:10px;color:#8B5D00} .issue-box p{font-size:10px;color:#725B2B;margin:4px 0 0}
+.top-ai{display:grid;grid-template-columns:1.2fr .8fr;gap:12px;margin-bottom:14px}
+@media(max-width:1100px){.schedule-grid,.top-ai{grid-template-columns:1fr}.schedule-item{grid-template-columns:75px 1fr}.schedule-item>div:last-child{grid-column:2}}
+
+/* v5 alignment + focus */
+.app{grid-template-columns:242px 1fr}
+.sidebar{padding:0 12px 18px}
+.brand{padding:0 10px 20px;border-bottom:1px solid rgba(255,255,255,.12);margin-bottom:14px}
+.brand small{font-size:9px}.brand strong{font-size:16px;margin-top:3px}.brand span{font-size:10px}
+.mode-switch{height:48px;margin:0 4px 12px;padding:5px;display:flex;gap:5px;background:rgba(255,255,255,.08);border-radius:10px}
+.mode-switch div{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.mode-switch .active-mode{background:#fff;color:var(--navy);border-radius:8px}
+.topbar{height:80px;padding:0 24px}
+.content{padding-top:22px}
+.pagehead{margin-bottom:14px}
+.pagehead h1{font-size:22px}
+.ai-hero{
+  background:linear-gradient(135deg,#0F3552,#124C62 60%,#0E6B63);
+  color:#fff;border-radius:14px;padding:18px 20px;box-shadow:var(--shadow);
+  display:grid;grid-template-columns:1.15fr .85fr;gap:20px;margin-bottom:14px;
+}
+.ai-hero h2{margin:0 0 6px;font-size:17px}.ai-hero p{margin:0;color:rgba(255,255,255,.72);font-size:11px;line-height:1.5}
+.ai-kicker{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#9FE2C1;font-weight:800;margin-bottom:7px}
+.ai-priority{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:15px}
+.ai-priority .p{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px}
+.ai-priority b{display:block;font-size:11px;margin-bottom:4px}.ai-priority span{font-size:9px;color:rgba(255,255,255,.68);line-height:1.4}
+.ai-side{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:11px;padding:14px}
+.ai-side .next{font-size:12px;font-weight:800;margin-bottom:7px}.ai-side .summary{font-size:10px;color:rgba(255,255,255,.72);line-height:1.55}
+.ai-side .single-action{margin-top:12px;background:#fff;color:var(--navy);border-radius:8px;padding:9px 11px;text-align:center;font-size:10px;font-weight:800}
+.schedule-grid{grid-template-columns:minmax(0,1.65fr) minmax(300px,.7fr)}
+.schedule-item{grid-template-columns:76px 1fr 125px;padding:13px 15px}
+.output-list{margin-top:8px}.output-pill{background:#F1F6F8;border-color:#E0EBEF;color:#315D70}
+.section-title{padding:13px 15px}
+.side-summary{padding:13px 15px}
+.side-summary .big{font-size:22px;font-weight:800;line-height:1}.side-summary .label{font-size:10px;color:var(--muted);margin-top:4px}
+.report-issues .sideitem{padding:12px 14px}
+.done-item{padding:12px 15px}
+.result-grid{grid-template-columns:repeat(3,1fr);gap:7px}
+.result{padding:7px}
+.issue-box{margin-top:7px;padding:9px 10px}
+@media(max-width:1100px){
+  .app{grid-template-columns:78px 1fr}.brand{padding:0 10px 20px;border-bottom:1px solid rgba(255,255,255,.12);margin-bottom:14px}.brand strong,.brand span,.brand small{display:none}
+  .mode-switch{display:none}.ai-hero{grid-template-columns:1fr}.ai-priority{grid-template-columns:1fr}
+}
+
+.sidebar{padding:0 11px 18px;background:linear-gradient(180deg,#0B2239,#07233A)}
+.navlabel{font-size:10px;font-weight:800;letter-spacing:.08em;color:#8FAFC6;opacity:1;padding:16px 10px 7px}
+.nav a{padding:10px 10px;border-radius:8px;font-size:12px;margin:2px 0;color:#EEF5FA}
+.nav a.active{background:#1A5C95;box-shadow:none;color:#fff}
+.nav a .ico{width:18px;color:#fff}
+
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+ <div class="brand" style="height:auto;margin:0;padding:22px 10px 18px;border-bottom:0;display:block">
+   <div style="display:flex;align-items:flex-start;gap:12px">
+     <div style="width:54px;height:54px;border-radius:50%;background:#fff;border:2px solid #DCE9E3;display:grid;place-items:center;color:#07883E;font-weight:850;font-size:15px;flex:0 0 auto">CT</div>
+     <div style="padding-top:2px">
+       <div style="font-size:18px;font-weight:850;line-height:1.1">CẦN THƠ</div>
+       <div style="font-size:11px;line-height:1.45;color:#C8D8E3;margin-top:6px">Hệ thống điều hành<br>thành phố thông minh</div>
+     </div>
+   </div>
+ </div>
+
+ <div style="display:flex;gap:4px;background:rgba(255,255,255,.08);padding:6px;border-radius:10px;margin:4px 5px 14px">
+   <div style="flex:1;background:#fff;color:#0B2239;padding:9px 8px;border-radius:8px;text-align:center;font-size:11px;font-weight:800">Quản trị</div>
+   <div style="flex:1;padding:9px 8px;border-radius:8px;text-align:center;font-size:11px;font-weight:700;color:#DCE7EF">Thực thi</div>
+ </div>
+
+ <nav class="nav">
+  <div class="navlabel">ĐIỀU HÀNH</div>
+  <a href="index.html"><span class="ico">⌂</span><span>Tổng quan</span></a>
+  <a href="kpi.html"><span class="ico">◴</span><span>KPI chiến lược</span></a>
+  <a href="projects.html"><span class="ico">▣</span><span>Dự án trọng điểm</span></a>
+  <a href="#"><span class="ico">△</span><span>Cảnh báo & Rủi ro</span></a>
+  <a href="directives.html"><span class="ico">✓</span><span>Nhiệm vụ lãnh đạo</span></a>
+  <a href="#"><span class="ico">▧</span><span>Báo cáo nhanh</span></a>
+  <a class="active" href="calendar.html"><span class="ico">▤</span><span>Lịch công tác</span></a>
+  <a href="#"><span class="ico">▥</span><span>Văn bản cần xử lý</span></a>
+
+  <div class="navlabel">PHÂN TÍCH CHUYÊN SÂU</div>
+  <a href="#"><span class="ico">⌂</span><span>Kinh tế - Tài chính</span></a>
+  <a href="#"><span class="ico">▣</span><span>Đầu tư - Doanh nghiệp</span></a>
+  <a href="#"><span class="ico">♜</span><span>Hạ tầng - Đô thị</span></a>
+  <a href="#"><span class="ico">♟</span><span>Xã hội - Nhân văn</span></a>
+  <a href="#"><span class="ico">⌘</span><span>Chuyển đổi số</span></a>
+
+  <div class="navlabel">TIỆN ÍCH</div>
+  <a href="#"><span class="ico">◎</span><span>Bản đồ số</span></a>
+  <a href="#"><span class="ico">✦</span><span>Trợ lý AI</span></a>
+  <a href="#"><span class="ico">⌘</span><span>Dữ liệu dùng chung</span></a>
+ </nav>
+</aside>
+
+<main class="main">
+<header class="topbar" style="background:var(--navy);color:#fff;border-bottom:0">
+ <div><div style="font-size:10px;opacity:.72">← Tổng quan</div><div style="font-size:20px;font-weight:800;margin-top:2px">LỊCH CÔNG TÁC CHỦ TỊCH UBND TP. CẦN THƠ</div></div>
+ <div class="topspace"></div>
+ <div style="border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:8px 12px;font-size:10px"><b>Kỳ báo cáo</b><br><b>Tuần này (18/11 - 24/11/2025)</b></div>
+ <span style="background:#E54848;border-radius:999px;padding:4px 7px;font-size:9px;font-weight:800">12</span>
+ <span>?</span>
+ <div class="avatar" style="background:#fff;color:var(--navy)">CT</div>
+ <span style="font-size:11px">Chủ tịch UBND TP.</span>
+</header>
+
+<div class="content">
+ <div class="pagehead">
+  <div><h1>Lịch công tác</h1><p>Chuẩn bị trước cuộc họp · Chốt output sau cuộc họp · Theo dõi vấn đề chưa đóng.</p></div>
+  <div class="actions"><button class="btn">Tuần này</button></div>
+ </div>
+
+ <section class="ai-hero">
+   <div>
+     <div class="ai-kicker">✦ AI BRIEFING CENTER</div>
+     <h2>3 việc Chủ tịch cần chú ý trong lịch công tác tuần này</h2>
+     <p>AI tổng hợp trực tiếp từ KPI, dự án trọng điểm, nhiệm vụ chỉ đạo, biên bản họp và báo cáo của các Sở.</p>
+     <div class="ai-priority">
+       <div class="p"><b>① Giải ngân đầu tư công</b><span>6 dự án chậm; 3 blocker cần tháo gỡ trong cuộc họp 25/11.</span></div>
+       <div class="p"><b>② KCN Vĩnh Thạnh</b><span>Thiếu 1 báo cáo pháp lý trước buổi làm việc nhà đầu tư 26/11.</span></div>
+       <div class="p"><b>③ Phiên họp UBND</b><span>GRDP và giải ngân đang dưới kế hoạch; cần chốt owner cho 4 action.</span></div>
+     </div>
+   </div>
+   <div class="ai-side">
+     <div class="next">Cuộc họp gần nhất · 25/11 · 08:00</div>
+     <div style="font-size:14px;font-weight:800;margin-bottom:7px">Ban chỉ đạo giải ngân đầu tư công</div>
+     <div class="summary">AI đã chuẩn bị briefing 1 trang: 6 dự án cần chú ý, 3 nguyên nhân chính, 2 quyết định cần Chủ tịch cho ý kiến và 5 câu hỏi nên đặt tại cuộc họp.</div>
+     <div class="single-action">Mở AI Briefing</div>
+   </div>
+ </section>
+
+ <div class="schedule-grid">
+  <div>
+   <section class="schedule-card">
+    <div class="section-title"><span>Lịch công tác thời gian tới</span><span style="font-size:10px;color:var(--muted)">3 lịch quan trọng</span></div>
+
+    <div class="schedule-item">
+      <div class="datebox"><div class="day">25</div><div class="dow">T3 · 08:00</div></div>
+      <div><div class="schedule-title">Họp Ban chỉ đạo giải ngân đầu tư công</div><div class="schedule-meta">Phòng họp UBND TP. · Sở Tài chính, Sở Xây dựng, Sở NN&MT, BQLDA</div>
+      <div class="output-list"><span class="output-pill">Quyết định blocker</span><span class="output-pill">Owner & deadline</span><span class="output-pill">Danh sách dự án tăng tốc</span></div></div>
+      <div><span class="badge b-red">ƯU TIÊN CAO</span><div class="meta" style="margin-top:7px">Briefing sẵn sàng</div></div>
+    </div>
+
+    <div class="schedule-item">
+      <div class="datebox"><div class="day">26</div><div class="dow">T4 · 14:00</div></div>
+      <div><div class="schedule-title">Làm việc với nhà đầu tư chiến lược về KCN Vĩnh Thạnh</div><div class="schedule-meta">Phòng khách UBND TP. · BQL KCN, Sở Tài chính, Sở Xây dựng, nhà đầu tư</div>
+      <div class="output-list"><span class="output-pill">Kết luận thủ tục</span><span class="output-pill">Cam kết hai bên</span><span class="output-pill">Mốc triển khai</span></div></div>
+      <div><span class="badge b-amber">THIẾU 1 TÀI LIỆU</span><div class="meta" style="margin-top:7px">AI đang chờ bổ sung</div></div>
+    </div>
+
+    <div class="schedule-item">
+      <div class="datebox"><div class="day">27</div><div class="dow">T5 · 08:30</div></div>
+      <div><div class="schedule-title">Phiên họp thường kỳ UBND Thành phố</div><div class="schedule-meta">GRDP · Thu ngân sách · Đầu tư công · An sinh xã hội</div>
+      <div class="output-list"><span class="output-pill">Kết luận phiên họp</span><span class="output-pill">Nhiệm vụ giao Sở</span><span class="output-pill">Issue cần escalated</span></div></div>
+      <div><span class="badge b-blue">ĐỊNH KỲ</span><div class="meta" style="margin-top:7px">12 KPI liên quan</div></div>
+    </div>
+   </section>
+
+   <section class="schedule-card">
+    <div class="section-title"><span>Lịch công tác đã triển khai</span><span style="font-size:10px;color:var(--muted)">AI đã chốt output</span></div>
+
+    <div class="done-item">
+      <strong>18/11 · Họp xử lý vướng mắc GPMB Vành đai phía Tây</strong>
+      <div class="done-meta">8 đơn vị tham gia · Biên bản đã hoàn tất</div>
+      <div class="result-grid">
+        <div class="result"><b>03 kết luận</b><span>Đã trích xuất</span></div>
+        <div class="result"><b>07 nhiệm vụ</b><span>5 có owner · 2 chưa</span></div>
+        <div class="result"><b>02 deadline</b><span>25/08 · 30/08</span></div>
+      </div>
+      <div class="issue-box"><b>Cần báo cáo thêm</b><p>Số liệu GPMB giữa Sở NN&MT và BQLDA lệch 4 điểm %. Chưa đủ cơ sở để đóng issue.</p></div>
+    </div>
+
+    <div class="done-item">
+      <strong>17/11 · Làm việc về tiến độ Bệnh viện Ung bướu</strong>
+      <div class="done-meta">6 đơn vị tham gia · Có ghi âm và biên bản</div>
+      <div class="result-grid">
+        <div class="result"><b>02 kết luận</b><span>1 quyết định</span></div>
+        <div class="result"><b>05 nhiệm vụ</b><span>1 quá hạn</span></div>
+        <div class="result"><b>01 issue</b><span>Cơ chế tài chính</span></div>
+      </div>
+      <div class="issue-box"><b>Cần báo cáo thêm</b><p>Sở Y tế chưa gửi phương án tài chính cập nhật sau cuộc họp.</p></div>
+    </div>
+
+    <div class="done-item">
+      <strong>15/11 · Hội nghị xúc tiến đầu tư</strong>
+      <div class="done-meta">24 doanh nghiệp, nhà đầu tư · 11 biên bản song phương</div>
+      <div class="result-grid">
+        <div class="result"><b>08 leads</b><span>3 ưu tiên cao</span></div>
+        <div class="result"><b>04 cam kết</b><span>Chờ xác nhận</span></div>
+        <div class="result"><b>06 follow-up</b><span>Đã giao XTĐT</span></div>
+      </div>
+      <div class="issue-box"><b>Cần follow-up</b><p>2 nhà đầu tư chưa nhận phản hồi sau 5 ngày.</p></div>
+    </div>
+   </section>
+  </div>
+
+  <aside>
+    <section class="card">
+      <div class="cardhead"><h2>Output tuần này</h2><span>Tự động tổng hợp</span></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr">
+        <div class="side-summary"><div class="big">12</div><div class="label">Kết luận / quyết định</div></div>
+        <div class="side-summary"><div class="big">21</div><div class="label">Nhiệm vụ cần giao</div></div>
+        <div class="side-summary"><div class="big">6</div><div class="label">Báo cáo bổ sung</div></div>
+        <div class="side-summary"><div class="big">9</div><div class="label">Cam kết cần theo dõi</div></div>
+      </div>
+    </section>
+
+    <section class="card report-issues">
+      <div class="cardhead"><h2>Vấn đề chưa đóng</h2><span>5 issue</span></div>
+      <div class="sideitem"><span class="badge b-red">CAO</span><strong style="margin-top:6px">Chênh lệch số liệu GPMB</strong><p>Sở NN&MT và BQLDA báo cáo khác nhau.</p></div>
+      <div class="sideitem"><span class="badge b-amber">TB</span><strong style="margin-top:6px">Phương án tài chính BV Ung bướu</strong><p>Chưa có bản cập nhật sau cuộc họp 17/11.</p></div>
+      <div class="sideitem"><span class="badge b-amber">TB</span><strong style="margin-top:6px">Phản hồi nhà đầu tư</strong><p>2 nhà đầu tư chưa được phản hồi.</p></div>
+    </section>
+  </aside>
+ </div>
+</div>
+</main>
+</div>
+<script id="ct-navigation-wiring">
+(function(){
+  'use strict';
+  const FILES = {
+    mgmtHome: 'Tổng quan quản trị.html',
+    mgmtKpi: 'KPI tỉnh.html',
+    mgmtProjects: 'Dự án trọng điểm.html',
+    mgmtTasks: 'Nhiệm vụ Lãnh đạo.html',
+    mgmtCalendar: 'Lịch công tác.html',
+    execHome: 'Cổng chat nội bộ - Layer 2.html',
+    execIntranet: 'Intranet cần thơ_Layer 2.html',
+    execProjects: 'Portfolio dự án - Layer 2.html',
+    execProjectDetail: 'Dự án trọng điểm_chi tiết_Layer 2.html',
+    execProjectRoadmap: 'Lộ trình dự án chi tiết - Layer 2.html',
+    execDocs: 'Văn bản điều hành điện tử_Layer 2.html',
+    execDocDetail: 'Văn bản cần xử lý - Layer 2.html',
+    execCalendar: 'Lịch làm việc chi tiết_Layer 2.html',
+    execMeetings: 'Phòng họp số Layer 2.html',
+    execPeople: 'Quản lý cán bộ tỉnh - Layer 2.html',
+    execOrg: 'Sơ đồ tổ chức - Layer 2.html',
+    execWorkflow: 'Quy trình thẩm định nghiệp vụ - layer 2.html',
+    execWorkflowDetail: 'Chi tiết dự án cần thẩm định - layer 2.html'
+  };
+  const current = decodeURIComponent(location.pathname.split('/').pop() || '');
+  const isExec = /layer\s*2/i.test(current);
+  const normalize = s => (s||'').replace(/\s+/g,' ').trim().toLowerCase();
+  const goto = file => { if(file && current !== file) location.href = encodeURI(file); };
+
+  function targetFor(text, el){
+    const t = normalize(text);
+    if(!t) return null;
+
+    // Existing management shell
+    if(t.includes('tổng quan') && !isExec && (el.matches('a') || el.closest('.nav'))) return FILES.mgmtHome;
+    if(t.includes('kpi chiến lược')) return FILES.mgmtKpi;
+    if(t.includes('dự án trọng điểm') && !isExec) return FILES.mgmtProjects;
+    if(t.includes('nhiệm vụ lãnh đạo')) return FILES.mgmtTasks;
+    if(t.includes('lịch công tác')) return FILES.mgmtCalendar;
+
+    // Execution app launcher / major modules
+    if(t === '▤ trao đổi' || t.includes('trao đổi')) return FILES.execHome;
+    if(t.includes('intranet')) return FILES.execIntranet;
+    if(t === '▣ dự án' || t.includes('portfolio gantt')) return FILES.execProjects;
+    if((t === '▥ văn bản' || t === 'văn bản') && isExec) return FILES.execDocs;
+    if(t.includes('lịch lãnh đạo')) return FILES.execCalendar;
+    if(t.includes('phòng họp') || t.includes('họp trực tuyến')) return FILES.execMeetings;
+    if(t === '♙ cán bộ' || t.includes('tổng quan nhân sự')) return FILES.execPeople;
+    if(t.includes('sơ đồ tổ chức')) return FILES.execOrg;
+    if(t.includes('dịch vụ / quy trình')) return FILES.execWorkflow;
+
+    // Project drill-down
+    if(t.includes('vành đai phía tây')) return FILES.execProjectDetail;
+    if(t === '▦ tổng quan' && /dự án trọng điểm_chi tiết|lộ trình dự án/i.test(current)) return FILES.execProjectDetail;
+    if(t.includes('lộ trình') && /dự án trọng điểm_chi tiết|lộ trình dự án/i.test(current)) return FILES.execProjectRoadmap;
+    if(t.includes('mở hồ sơ dự án')) return FILES.execProjectDetail;
+    if(t.includes('timeline đầy đủ') || t.includes('mở milestone')) return FILES.execProjectRoadmap;
+
+    // Workflow drill-down
+    if(t.includes('01. thẩm định chuyên môn')) return FILES.execWorkflowDetail;
+    if(t.includes('thẩm định hồ sơ') && /chi tiết dự án cần thẩm định/i.test(current)) return FILES.execWorkflow;
+
+    // Document drill-down
+    if(t.includes('văn bản đến') && /văn bản điều hành điện tử/i.test(current)) return FILES.execDocDetail;
+    if(t.includes('quay lại') && /văn bản cần xử lý/i.test(current)) return FILES.execDocs;
+
+    // People drill-down
+    if(t.includes('mở sơ đồ đầy đủ')) return FILES.execOrg;
+
+    // Intranet channel to projects
+    if(t === 'dự án trọng điểm' && /intranet/i.test(current)) return FILES.execProjects;
+    return null;
+  }
+
+  const selectors = [
+    'a','.nav','.app','.appicon','.pm','.tree','.portfolio','.service','.back','.mode-switch button','.link','.project'
+  ].join(',');
+
+  document.querySelectorAll(selectors).forEach(el => {
+    const text = el.textContent || '';
+    const compactText = normalize(text);
+    // Some pages use .app as the root application container; never wire a large container.
+    if(el.classList.contains('app') && compactText.length > 40) return;
+    let target = null;
+    const nt = normalize(text);
+
+    // Mode switch is explicit and overrides text rules.
+    if(el.matches('.mode-switch button')){
+      if(nt === 'quản trị') target = FILES.mgmtHome;
+      if(nt === 'thực thi') target = FILES.execHome;
+    } else {
+      target = targetFor(text, el);
+    }
+    if(!target) return;
+
+    if(el.tagName === 'A') el.setAttribute('href', encodeURI(target));
+    el.setAttribute('data-nav-target', target);
+    el.setAttribute('role', el.getAttribute('role') || 'link');
+    if(!el.hasAttribute('tabindex') && el.tagName !== 'A' && el.tagName !== 'BUTTON') el.setAttribute('tabindex','0');
+    el.addEventListener('click', function(ev){
+      if(el.tagName === 'A') return; // native href works
+      ev.preventDefault();
+      goto(target);
+    });
+    if(el.tagName !== 'A' && el.tagName !== 'BUTTON'){
+      el.addEventListener('keydown', function(ev){
+        if(ev.key === 'Enter' || ev.key === ' '){ ev.preventDefault(); goto(target); }
+      });
+    }
+  });
+
+  // Brand/logo always returns to the home of the current mode, without changing visual design.
+  const brand = document.querySelector('.brand, .logo');
+  if(brand){
+    const target = isExec ? FILES.execHome : FILES.mgmtHome;
+    brand.setAttribute('data-nav-target',target);
+    brand.setAttribute('role','link');
+    brand.setAttribute('tabindex','0');
+    brand.addEventListener('click',()=>goto(target));
+    brand.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();goto(target);}});
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Phòng họp số · Cần Thơ</title>
+<style>
+:root{--navy:#0b2239;--green:#07883e;--g2:#0a6f45;--blue:#1479c9;--cyan:#13a0a0;--red:#df4348;--amber:#e8951b;--purple:#7d55cf;--bg:#f5f7f9;--line:#e0e6ea;--txt:#17212b;--muted:#72808a}
+*{box-sizing:border-box}body{margin:0;font:13px Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:var(--txt);background:var(--bg)}
+.shell{height:100vh;display:grid;grid-template-columns:68px 250px minmax(700px,1fr) 315px;grid-template-rows:54px 1fr;overflow:hidden}
+.top{grid-column:1/-1;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 14px;gap:12px}.brand{display:flex;align-items:center;gap:9px;font-weight:850;font-size:15px;width:245px}.brand i{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--navy),var(--green));display:grid;place-items:center;color:#fff;font-style:normal;font-size:9px}.search{margin:auto;width:370px;border:1px solid #dce3e7;border-radius:6px;padding:8px 12px;color:#7b8790;font-size:10px}.topicons{display:flex;align-items:center;gap:16px;color:#5d6a73}.ava{width:29px;height:29px;border-radius:50%;display:grid;place-items:center;background:#e5f3eb;color:var(--g2);font-size:8px;font-weight:850}
+.apps{grid-row:2;background:#fff;border-right:1px solid var(--line);padding:9px 6px}.app{height:58px;text-align:center;border-radius:8px;padding:7px 2px;font-size:7px;color:#64717a}.app b{width:28px;height:28px;border-radius:7px;background:#eff3f5;display:grid;place-items:center;margin:0 auto 4px;font-size:12px}.app.active{background:#e7f4ec;color:var(--g2);font-weight:800}.app.active b{background:var(--green);color:#fff}
+.meetings{grid-row:2;background:#fff;border-right:1px solid var(--line);overflow:auto}.apptitle{padding:17px 15px 12px;font-size:14px;font-weight:850;border-bottom:1px solid var(--line)}.new{margin:10px 12px;background:var(--green);color:#fff;padding:9px;border-radius:7px;text-align:center;font-size:9px;font-weight:800}.sect{font-size:8px;color:#87939b;font-weight:800;margin:15px 14px 6px}.meeting{padding:10px 12px;border-left:3px solid transparent;border-bottom:1px solid #f0f2f3}.meeting.active{background:#eaf5ef;border-left-color:var(--green)}.meeting b{display:block;font-size:9px;line-height:1.35}.meeting span{display:block;font-size:8px;color:var(--muted);margin-top:4px}.live{display:inline-block!important;color:#b22d32!important;background:#fde9e9;border-radius:999px;padding:2px 5px;font-weight:800}
+.main{grid-row:2;overflow:auto;background:#fff}.hero{padding:18px 22px 14px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:10}.crumb{font-size:8px;color:var(--muted);margin-bottom:8px}.hero-row{display:flex;justify-content:space-between;gap:15px}.hero h1{font-size:19px;margin:0 0 6px}.meta{font-size:9px;color:var(--muted)}.hbuttons{display:flex;gap:7px}.btn{border:1px solid #d8e0e4;background:#fff;border-radius:6px;padding:7px 10px;font-size:8px;font-weight:750;height:31px}.btn.ai{background:#e9f6ef;color:var(--g2);border-color:#cce6d8}.tabs{display:flex;gap:22px;margin-top:15px}.tab{padding-bottom:9px;font-size:9px;color:#65727b}.tab.active{color:var(--g2);font-weight:850;border-bottom:2px solid var(--green)}
+.content{padding:16px 22px 40px}.aihero{border:1px solid #cfe4d8;border-radius:11px;background:linear-gradient(135deg,#f3fbf7,#f7fbfd);padding:15px;margin-bottom:14px}.ai-title{display:flex;justify-content:space-between;align-items:center}.ai-title h2{font-size:13px;margin:0}.aibadge{font-size:7px;background:var(--navy);color:#fff;border-radius:999px;padding:4px 7px}.aihero p{font-size:9px;line-height:1.6;color:#53636d}.insights{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:11px}.ins{background:#fff;border:1px solid #dce8e1;border-radius:8px;padding:9px}.ins span{font-size:7px;color:var(--muted);font-weight:800}.ins b{display:block;font-size:14px;margin-top:4px}.grid2{display:grid;grid-template-columns:1.08fr .92fr;gap:12px}.card{border:1px solid var(--line);border-radius:10px;background:#fff;padding:13px;margin-bottom:12px}.ch{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.ch h2{font-size:12px;margin:0}.link{font-size:8px;color:var(--g2);font-weight:800}
+.summary-block{padding:9px 0;border-bottom:1px solid #eef1f2}.summary-block:last-child{border:0}.summary-block b{font-size:9px}.summary-block p{font-size:8px;color:#63717a;line-height:1.55;margin:4px 0}.quote{border-left:3px solid #a8d5be;background:#f7faf8;padding:8px 9px;font-size:8px;line-height:1.5;color:#56656e;margin-top:7px}
+.task{display:grid;grid-template-columns:1fr 100px 72px 60px;gap:8px;padding:9px 0;border-bottom:1px solid #eef1f2;align-items:center}.task:last-child{border:0}.task b{font-size:9px}.task small{display:block;font-size:7px;color:var(--muted);margin-top:3px}.owner{font-size:8px;font-weight:700}.deadline{font-size:8px}.status{font-size:7px;border-radius:999px;padding:4px 6px;text-align:center;font-weight:800}.sred{background:#fde9e9;color:#b62b31}.samber{background:#fff2df;color:#9a6208}.sgreen{background:#e7f5ec;color:#087438}.sblue{background:#e8f2fb;color:#176ba8}
+.decision{display:flex;gap:9px;padding:9px 0;border-bottom:1px solid #eef1f2}.decision:last-child{border:0}.dicon{width:23px;height:23px;border-radius:6px;background:#e7f5ec;color:var(--g2);display:grid;place-items:center;font-size:8px;font-weight:850}.decision b{font-size:9px}.decision span{display:block;font-size:8px;color:var(--muted);margin-top:3px;line-height:1.4}
+.transcript{font-size:8px}.speech{display:grid;grid-template-columns:75px 1fr;gap:8px;padding:8px 0;border-bottom:1px solid #f0f2f3}.speech time{color:#82909a}.speech b{font-size:8px}.speech p{margin:3px 0;color:#5e6c75;line-height:1.5}.mark{background:#fff0a8}
+.right{grid-row:2;background:#f6f8fa;border-left:1px solid var(--line);padding:15px;overflow:auto}.livecard{background:linear-gradient(145deg,#0b2239,#0b5e49);color:#fff;border-radius:10px;padding:14px;margin-bottom:12px}.livecard .ey{font-size:7px;color:#b9d8cd;font-weight:800}.livecard h3{font-size:12px;margin:6px 0}.livecard p{font-size:8px;color:#d0ded9;line-height:1.45}.wave{display:flex;gap:3px;height:28px;align-items:center;margin:10px 0}.wave i{width:3px;background:#6fd0a1;border-radius:2px}.wave i:nth-child(1){height:8px}.wave i:nth-child(2){height:18px}.wave i:nth-child(3){height:25px}.wave i:nth-child(4){height:13px}.wave i:nth-child(5){height:22px}.wave i:nth-child(6){height:9px}.wave i:nth-child(7){height:17px}.wave i:nth-child(8){height:26px}.livefoot{display:flex;justify-content:space-between;font-size:7px;color:#b8cec6}
+.rcard{background:#fff;border:1px solid var(--line);border-radius:9px;padding:12px;margin-bottom:11px}.rcard h3{font-size:10px;margin:0 0 9px}.person{display:flex;align-items:center;gap:8px;margin:8px 0}.person .ava{width:26px;height:26px}.person b{font-size:8px}.person span{display:block;font-size:7px;color:var(--muted);margin-top:2px}.aiask{border:1px solid #cfe4d8;background:#f2faf6;border-radius:9px;padding:11px}.aiask b{font-size:9px}.suggest{background:#fff;border:1px solid #dce8e1;border-radius:6px;padding:7px;margin-top:7px;font-size:7px;color:#53636d}
+@media(max-width:1200px){.shell{grid-template-columns:60px 230px 1fr}.right{display:none}}
+@media(max-width:850px){.shell{grid-template-columns:56px 1fr}.meetings{display:none}.grid2{grid-template-columns:1fr}.insights{grid-template-columns:1fr 1fr}.search{display:none}.content{padding:13px}.hero{padding:14px}}
+
+/* v2 - stronger meeting-detail visual hierarchy */
+.meeting-focus{
+ display:grid;grid-template-columns:1.25fr .75fr;gap:10px;margin-bottom:14px
+}
+.focus-primary{
+ background:linear-gradient(135deg,#0B263E,#0A664A);color:#fff;border-radius:12px;
+ padding:16px 17px;box-shadow:0 9px 24px rgba(11,34,57,.10)
+}
+.focus-primary .kicker{font-size:7px;color:#B8DCCE;font-weight:850;letter-spacing:.08em}
+.focus-primary h2{font-size:17px;line-height:1.35;margin:7px 0}
+.focus-primary p{font-size:9px;color:#D4E4DE;line-height:1.55;margin:0}
+.focus-primary .ask{margin-top:12px;display:flex;gap:7px}
+.focus-primary .ask span{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);padding:6px 8px;border-radius:6px;font-size:7px}
+.focus-side{display:grid;grid-template-rows:1fr 1fr;gap:8px}
+.alert-focus{border-radius:10px;padding:12px;border:1px solid #F0D4D5;background:#FFF5F5}
+.alert-focus.amber{border-color:#F1DFC0;background:#FFF9EF}
+.alert-focus .ey{font-size:7px;font-weight:850;color:#9B3438}
+.alert-focus.amber .ey{color:#9A660C}
+.alert-focus b{display:block;font-size:11px;margin:5px 0}
+.alert-focus p{font-size:8px;color:#6D7479;line-height:1.45;margin:0}
+.section-title{display:flex;align-items:center;gap:8px}
+.section-title .n{width:21px;height:21px;border-radius:6px;background:#E7F5EC;color:#087438;display:grid;place-items:center;font-size:8px;font-weight:850}
+.task-feature{
+ border:1px solid #EFC9CB;border-left:4px solid var(--red);background:#FFF8F8;border-radius:8px;
+ padding:10px 11px;margin-bottom:8px;display:grid;grid-template-columns:1fr 120px 80px;gap:10px;align-items:center
+}
+.task-feature b{font-size:10px}.task-feature small{display:block;font-size:7px;color:var(--muted);margin-top:4px}
+.tfmeta{font-size:8px}.tfmeta strong{display:block;font-size:9px;margin-bottom:2px}
+.deadbox{text-align:center;background:#fff;border:1px solid #F0D6D7;border-radius:7px;padding:7px;font-size:7px;color:#8A5558}
+.deadbox b{display:block;color:var(--red);font-size:11px;margin-top:2px}
+.decision-hero{border-radius:9px;background:#F3F8F5;border:1px solid #D7E8DF;padding:11px;margin-bottom:8px}
+.decision-hero .ey{font-size:7px;color:var(--g2);font-weight:850}
+.decision-hero h3{font-size:11px;margin:5px 0}.decision-hero p{font-size:8px;color:#5D6B64;line-height:1.5;margin:0}
+.ai-confidence{display:flex;align-items:center;gap:6px;font-size:7px;color:#708078;margin-top:8px}
+.ai-confidence i{width:54px;height:4px;background:#DDE8E2;border-radius:4px;overflow:hidden}.ai-confidence i:after{content:"";display:block;width:94%;height:100%;background:var(--green)}
+@media(max-width:900px){.meeting-focus{grid-template-columns:1fr}.focus-side{grid-template-columns:1fr 1fr;grid-template-rows:auto}.task-feature{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="top"><div class="brand"><i>CT</i><span>Cần Thơ · Thực thi</span></div><div class="search">⌕ &nbsp; Tìm cuộc họp, kết luận, nhiệm vụ, nội dung trao đổi...</div><div class="topicons"><span>?</span><span>♧ 8</span><span>◐</span><div class="ava">NA</div><span>⌄</span></div></header>
+
+<aside class="apps">
+ <div class="app"><b>▤</b>Trao đổi</div><div class="app"><b>⌂</b>Intranet</div><div class="app active"><b>◉</b>Phòng họp</div><div class="app"><b>▥</b>Văn bản</div><div class="app"><b>✓</b>Nhiệm vụ</div>
+</aside>
+
+<aside class="meetings">
+ <div class="apptitle">◉ &nbsp; Phòng họp số</div><div class="new">＋ Tạo cuộc họp</div>
+ <div class="sect">ĐANG DIỄN RA</div>
+ <div class="meeting active"><span class="live">● ĐANG HỌP</span><b>Ban chỉ đạo giải ngân đầu tư công</b><span>13:30–15:00 · Phòng họp UBND TP.</span></div>
+ <div class="sect">HÔM NAY</div>
+ <div class="meeting"><b>Rà soát GPMB Vành đai phía Tây</b><span>15:30 · 12 thành viên</span></div>
+ <div class="meeting"><b>Họp giao ban chuyển đổi số</b><span>16:30 · Sở KH&CN chủ trì</span></div>
+ <div class="sect">SẮP TỚI</div>
+ <div class="meeting"><b>Thường kỳ UBND Thành phố</b><span>20/08 · 08:00</span></div>
+ <div class="meeting"><b>Kịch bản tăng trưởng GRDP Q3</b><span>20/08 · 14:00</span></div>
+ <div class="meeting"><b>Tiến độ KCN Vĩnh Thạnh</b><span>21/08 · 09:00</span></div>
+ <div class="sect">ĐÃ HỌP</div>
+ <div class="meeting"><b>Điều phối dự án logistics Cái Cui</b><span>18/08 · 7 nhiệm vụ</span></div>
+ <div class="meeting"><b>Rà soát thu ngân sách</b><span>18/08 · 4 kết luận</span></div>
+</aside>
+
+<main class="main">
+ <div class="hero">
+  <div class="crumb">Phòng họp số › Đầu tư công › Chi tiết cuộc họp</div>
+  <div class="hero-row"><div><h1>Ban chỉ đạo giải ngân đầu tư công</h1><div class="meta">19/08/2026 · 13:30–15:00 · Phòng họp UBND TP. · 18 người tham dự · Chủ trì: Phó Chủ tịch UBND TP.</div></div><div class="hbuttons"><button class="btn">▣ Tài liệu</button><button class="btn">↗ Chia sẻ</button><button class="btn ai">✦ Hỏi AI về cuộc họp</button></div></div>
+  <div class="tabs"><div class="tab active">Tổng quan AI</div><div class="tab">Biên bản</div><div class="tab">Nhiệm vụ</div><div class="tab">Tài liệu</div><div class="tab">Bản ghi & Transcript</div></div>
+ </div>
+
+ <div class="content">
+
+  <div class="meeting-focus">
+   <div class="focus-primary">
+    <div class="kicker">ĐIỂM CẦN LÃNH ĐẠO CHỐT TRONG CUỘC HỌP</div>
+    <h2>GPMB Vành đai phía Tây đang là blocker lớn nhất của kế hoạch giải ngân</h2>
+    <p>37 trường hợp chưa bàn giao → ảnh hưởng 2 mũi thi công → kéo chậm khối lượng nghiệm thu và giải ngân. AI đề xuất tách 8 hồ sơ phức tạp để xử lý ở cấp Thành phố ngay trong tuần này.</p>
+    <div class="ask"><span>✦ Xem bằng chứng từ transcript</span><span>↗ Mở dự án Vành đai phía Tây</span></div>
+   </div>
+   <div class="focus-side">
+    <div class="alert-focus"><div class="ey">CẦN QUYẾT ĐỊNH</div><b>8 hồ sơ GPMB phức tạp</b><p>Đang vượt khả năng xử lý tuần tự tại địa phương. Cần chốt cơ chế phối hợp và owner.</p></div>
+    <div class="alert-focus amber"><div class="ey">NGUY CƠ 30 NGÀY</div><b>Giải ngân hụt quỹ đạo kế hoạch</b><p>Nếu milestone GPMB trễ thêm 2 tuần, forecast giải ngân của nhóm dự án giao thông sẽ giảm.</p></div>
+   </div>
+  </div>
+
+  <section class="aihero">
+   <div class="ai-title"><h2>✦ AI Meeting Intelligence</h2><span class="aibadge">LIVE · ĐÃ PHÂN TÍCH 54 PHÚT</span></div>
+   <p><b>Tóm tắt điều hành:</b> Cuộc họp tập trung vào nguy cơ không đạt kế hoạch giải ngân năm do GPMB tại 6 dự án trọng điểm và thời gian hoàn thiện hồ sơ thanh toán. Vành đai phía Tây là điểm nghẽn lớn nhất. Lãnh đạo yêu cầu chuyển từ báo cáo tình hình sang quản trị theo từng blocker, có owner và ngày đóng cụ thể.</p>
+   <div class="insights"><div class="ins"><span>KẾT LUẬN ĐÃ NHẬN DIỆN</span><b>6</b></div><div class="ins"><span>NHIỆM VỤ AI TRÍCH XUẤT</span><b>11</b></div><div class="ins"><span>BLOCKER CẦN ESCALATE</span><b style="color:var(--red)">3</b></div><div class="ins"><span>ĐƠN VỊ ĐƯỢC GIAO VIỆC</span><b style="color:var(--green)">7</b></div></div>
+  </section>
+
+  <div class="grid2">
+   <div>
+    <section class="card">
+     <div class="ch"><div class="section-title"><span class="n">AI</span><h2>AI tóm tắt nội dung trao đổi</h2></div><span class="link">Xem tóm tắt đầy đủ →</span></div>
+     <div class="summary-block"><b>01 · Giải ngân toàn Thành phố</b><p>Tỷ lệ giải ngân hiện tại thấp hơn quỹ đạo kế hoạch. Nhóm dự án giao thông chiếm phần lớn phần vốn chưa giải ngân; nguyên nhân chính không nằm ở nguồn vốn mà ở GPMB và hồ sơ nghiệm thu.</p></div>
+     <div class="summary-block"><b>02 · Vành đai phía Tây là critical blocker</b><p>37 trường hợp chưa bàn giao mặt bằng đang ảnh hưởng trực tiếp 2 mũi thi công. Sở NN&MT đề xuất xử lý riêng nhóm 8 hồ sơ phức tạp ở cấp Thành phố.</p><div class="quote">✦ AI: Nội dung này được nhắc lại 7 lần bởi 4 người tham dự và liên quan trực tiếp tới 3 nhiệm vụ sau họp.</div></div>
+     <div class="summary-block"><b>03 · Thay đổi cách báo cáo</b><p>Chủ trì yêu cầu từ tuần sau báo cáo theo blocker: vấn đề → người chịu trách nhiệm → phương án → ngày xử lý, thay vì báo cáo % tiến độ đơn thuần.</p></div>
+     <div class="summary-block"><b>04 · Hồ sơ thanh toán</b><p>Sở Tài chính và các Ban QLDA thống nhất rà soát trước các bộ hồ sơ có thể giải ngân trong 30 ngày, ưu tiên dự án có khối lượng đã nghiệm thu.</p></div>
+    </section>
+
+    <section class="card">
+     <div class="ch"><div class="section-title"><span class="n">✓</span><h2>Kết luận & nhiệm vụ sau họp</h2></div><span class="link">＋ Tạo nhiệm vụ</span></div>
+
+     <div class="task-feature">
+       <div><b>ƯU TIÊN #1 · Xử lý GPMB Vành đai phía Tây</b><small>AI xác định đây là nhiệm vụ có tác động lớn nhất tới tiến độ và giải ngân sau cuộc họp.</small></div>
+       <div class="tfmeta"><strong>Sở NN&MT</strong>Phối hợp UBND địa phương</div>
+       <div class="deadbox">DEADLINE<b>25/08</b></div>
+     </div>
+
+     <div class="task"><div><b>Đóng tối thiểu 18/37 trường hợp GPMB còn tồn</b><small>Liên kết: Dự án Vành đai phía Tây · GPMB</small></div><div class="owner">Sở NN&MT<br>+ UBND địa phương</div><div class="deadline">25/08/2026</div><div class="status sred">Ưu tiên cao</div></div>
+     <div class="task"><div><b>Trình phương án xử lý 8 hồ sơ GPMB phức tạp</b><small>Cần quyết định cấp Thành phố</small></div><div class="owner">Sở NN&MT</div><div class="deadline">22/08/2026</div><div class="status sred">Escalate</div></div>
+     <div class="task"><div><b>Lập danh sách hồ sơ có thể giải ngân trong 30 ngày</b><small>Phân nhóm theo dự án và giá trị giải ngân</small></div><div class="owner">Sở Tài chính</div><div class="deadline">23/08/2026</div><div class="status samber">Đang làm</div></div>
+     <div class="task"><div><b>Cập nhật forecast giải ngân 6 dự án trọng điểm</b><small>Baseline mới sau khi cập nhật blocker</small></div><div class="owner">Các Ban QLDA</div><div class="deadline">24/08/2026</div><div class="status sblue">Mới giao</div></div>
+     <div class="task"><div><b>Chuẩn hóa mẫu báo cáo blocker hàng tuần</b><small>Problem · Owner · Action · Deadline · Status</small></div><div class="owner">VP UBND TP.</div><div class="deadline">21/08/2026</div><div class="status sgreen">Đã xác nhận</div></div>
+     <div class="task"><div><b>Rà soát năng lực thi công gói số 3</b><small>Liên kết: Vành đai phía Tây · Thi công</small></div><div class="owner">Ban QLDA</div><div class="deadline">26/08/2026</div><div class="status samber">Theo dõi</div></div>
+    </section>
+   </div>
+
+   <div>
+    <section class="card">
+     <div class="ch"><div class="section-title"><span class="n">!</span><h2>Quyết định / chỉ đạo chính</h2></div><span class="link">6 kết luận</span></div>
+
+     <div class="decision-hero">
+       <div class="ey">KẾT LUẬN QUAN TRỌNG NHẤT</div>
+       <h3>Chuyển cách điều hành từ “báo cáo % tiến độ” sang “quản trị blocker”</h3>
+       <p>Từ tuần sau, mỗi vấn đề phải thể hiện rõ blocker, owner, action, deadline và trạng thái đóng. Đây là thay đổi cách vận hành được chủ trì nhấn mạnh nhiều nhất.</p>
+       <div class="ai-confidence">AI confidence <i></i> 94% · xuất hiện tại 4 đoạn hội thoại</div>
+     </div>
+
+     <div class="decision"><div class="dicon">1</div><div><b>Ưu tiên xử lý GPMB trước tăng nguồn lực thi công</b><span>Không bổ sung thêm mũi thi công tại khu vực chưa có mặt bằng sạch.</span></div></div>
+     <div class="decision"><div class="dicon">2</div><div><b>8 hồ sơ phức tạp đưa lên cấp Thành phố</b><span>Không tiếp tục để các đơn vị xử lý tuần tự nếu vượt thẩm quyền.</span></div></div>
+     <div class="decision"><div class="dicon">3</div><div><b>Báo cáo hàng tuần theo blocker</b><span>Mỗi blocker bắt buộc có owner và ngày dự kiến đóng.</span></div></div>
+     <div class="decision"><div class="dicon">4</div><div><b>Ưu tiên hồ sơ thanh toán có thể giải ngân ngay</b><span>Sở Tài chính tổng hợp danh sách trước ngày 23/08.</span></div></div>
+    </section>
+
+    <section class="card">
+     <div class="ch"><h2>Transcript thông minh</h2><span class="link">Mở toàn bộ →</span></div>
+     <div class="transcript">
+      <div class="speech"><time>14:07:18</time><div><b>Phó Chủ tịch UBND</b><p>Điểm tôi cần không phải là báo cáo lại 68%. Tôi cần biết <span class="mark">37 trường hợp này ai xử lý, khi nào đóng được</span>.</p></div></div>
+      <div class="speech"><time>14:08:03</time><div><b>Sở NN&MT</b><p>Trong 37 trường hợp, có 8 hồ sơ cần phối hợp cấp Thành phố; nhóm còn lại có thể xử lý tại địa phương.</p></div></div>
+      <div class="speech"><time>14:10:41</time><div><b>VP UBND TP.</b><p>Chúng tôi sẽ chuyển thành danh sách blocker và theo dõi deadline trực tiếp trên hệ thống.</p></div></div>
+      <div class="speech"><time>14:13:26</time><div><b>Sở Tài chính</b><p>Nếu khối lượng nghiệm thu được hoàn thiện đúng lịch, phần giải ngân tháng tới có thể cải thiện đáng kể.</p></div></div>
+     </div>
+    </section>
+   </div>
+  </div>
+ </div>
+</main>
+
+<aside class="right">
+ <div class="livecard"><div class="ey">AI LIVE TRANSCRIPTION</div><h3>Đang ghi nhận cuộc họp</h3><p>Nhận diện 8 người phát biểu · Tiếng Việt · tự động tách speaker và đánh dấu action item.</p><div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="livefoot"><span>● 54:12</span><span>Độ tin cậy 96%</span></div></div>
+ <div class="rcard"><h3>Người tham dự chính</h3><div class="person"><div class="ava">PC</div><div><b>Phó Chủ tịch UBND TP.</b><span>Chủ trì</span></div></div><div class="person"><div class="ava">TC</div><div><b>Sở Tài chính</b><span>Giải ngân · ngân sách</span></div></div><div class="person"><div class="ava">MT</div><div><b>Sở NN&MT</b><span>GPMB</span></div></div><div class="person"><div class="ava">XD</div><div><b>Sở Xây dựng</b><span>Dự án giao thông</span></div></div><div class="person"><div class="ava">VP</div><div><b>Văn phòng UBND TP.</b><span>Theo dõi kết luận</span></div></div></div>
+ <div class="aiask"><b>✦ Hỏi AI về cuộc họp</b><div class="suggest">Vấn đề nào đang ảnh hưởng giải ngân nhiều nhất?</div><div class="suggest">Ai đang được giao xử lý GPMB?</div><div class="suggest">Những việc nào phải xong trong 7 ngày?</div><div class="suggest">So sánh kết luận hôm nay với cuộc họp tuần trước</div></div>
+</aside>
+</div>
+<script id="ct-navigation-wiring">
+(function(){
+  'use strict';
+  const FILES = {
+    mgmtHome: 'Tổng quan quản trị.html',
+    mgmtKpi: 'KPI tỉnh.html',
+    mgmtProjects: 'Dự án trọng điểm.html',
+    mgmtTasks: 'Nhiệm vụ Lãnh đạo.html',
+    mgmtCalendar: 'Lịch công tác.html',
+    execHome: 'Cổng chat nội bộ - Layer 2.html',
+    execIntranet: 'Intranet cần thơ_Layer 2.html',
+    execProjects: 'Portfolio dự án - Layer 2.html',
+    execProjectDetail: 'Dự án trọng điểm_chi tiết_Layer 2.html',
+    execProjectRoadmap: 'Lộ trình dự án chi tiết - Layer 2.html',
+    execDocs: 'Văn bản điều hành điện tử_Layer 2.html',
+    execDocDetail: 'Văn bản cần xử lý - Layer 2.html',
+    execCalendar: 'Lịch làm việc chi tiết_Layer 2.html',
+    execMeetings: 'Phòng họp số Layer 2.html',
+    execPeople: 'Quản lý cán bộ tỉnh - Layer 2.html',
+    execOrg: 'Sơ đồ tổ chức - Layer 2.html',
+    execWorkflow: 'Quy trình thẩm định nghiệp vụ - layer 2.html',
+    execWorkflowDetail: 'Chi tiết dự án cần thẩm định - layer 2.html'
+  };
+  const current = decodeURIComponent(location.pathname.split('/').pop() || '');
+  const isExec = /layer\s*2/i.test(current);
+  const normalize = s => (s||'').replace(/\s+/g,' ').trim().toLowerCase();
+  const goto = file => { if(file && current !== file) location.href = encodeURI(file); };
+
+  function targetFor(text, el){
+    const t = normalize(text);
+    if(!t) return null;
+
+    // Existing management shell
+    if(t.includes('tổng quan') && !isExec && (el.matches('a') || el.closest('.nav'))) return FILES.mgmtHome;
+    if(t.includes('kpi chiến lược')) return FILES.mgmtKpi;
+    if(t.includes('dự án trọng điểm') && !isExec) return FILES.mgmtProjects;
+    if(t.includes('nhiệm vụ lãnh đạo')) return FILES.mgmtTasks;
+    if(t.includes('lịch công tác')) return FILES.mgmtCalendar;
+
+    // Execution app launcher / major modules
+    if(t === '▤ trao đổi' || t.includes('trao đổi')) return FILES.execHome;
+    if(t.includes('intranet')) return FILES.execIntranet;
+    if(t === '▣ dự án' || t.includes('portfolio gantt')) return FILES.execProjects;
+    if((t === '▥ văn bản' || t === 'văn bản') && isExec) return FILES.execDocs;
+    if(t.includes('lịch lãnh đạo')) return FILES.execCalendar;
+    if(t.includes('phòng họp') || t.includes('họp trực tuyến')) return FILES.execMeetings;
+    if(t === '♙ cán bộ' || t.includes('tổng quan nhân sự')) return FILES.execPeople;
+    if(t.includes('sơ đồ tổ chức')) return FILES.execOrg;
+    if(t.includes('dịch vụ / quy trình')) return FILES.execWorkflow;
+
+    // Project drill-down
+    if(t.includes('vành đai phía tây')) return FILES.execProjectDetail;
+    if(t === '▦ tổng quan' && /dự án trọng điểm_chi tiết|lộ trình dự án/i.test(current)) return FILES.execProjectDetail;
+    if(t.includes('lộ trình') && /dự án trọng điểm_chi tiết|lộ trình dự án/i.test(current)) return FILES.execProjectRoadmap;
+    if(t.includes('mở hồ sơ dự án')) return FILES.execProjectDetail;
+    if(t.includes('timeline đầy đủ') || t.includes('mở milestone')) return FILES.execProjectRoadmap;
+
+    // Workflow drill-down
+    if(t.includes('01. thẩm định chuyên môn')) return FILES.execWorkflowDetail;
+    if(t.includes('thẩm định hồ sơ') && /chi tiết dự án cần thẩm định/i.test(current)) return FILES.execWorkflow;
+
+    // Document drill-down
+    if(t.includes('văn bản đến') && /văn bản điều hành điện tử/i.test(current)) return FILES.execDocDetail;
+    if(t.includes('quay lại') && /văn bản cần xử lý/i.test(current)) return FILES.execDocs;
+
+    // People drill-down
+    if(t.includes('mở sơ đồ đầy đủ')) return FILES.execOrg;
+
+    // Intranet channel to projects
+    if(t === 'dự án trọng điểm' && /intranet/i.test(current)) return FILES.execProjects;
+    return null;
+  }
+
+  const selectors = [
+    'a','.nav','.app','.appicon','.pm','.tree','.portfolio','.service','.back','.mode-switch button','.link','.project'
+  ].join(',');
+
+  document.querySelectorAll(selectors).forEach(el => {
+    const text = el.textContent || '';
+    const compactText = normalize(text);
+    // Some pages use .app as the root application container; never wire a large container.
+    if(el.classList.contains('app') && compactText.length > 40) return;
+    let target = null;
+    const nt = normalize(text);
+
+    // Mode switch is explicit and overrides text rules.
+    if(el.matches('.mode-switch button')){
+      if(nt === 'quản trị') target = FILES.mgmtHome;
+      if(nt === 'thực thi') target = FILES.execHome;
+    } else {
+      target = targetFor(text, el);
+    }
+    if(!target) return;
+
+    if(el.tagName === 'A') el.setAttribute('href', encodeURI(target));
+    el.setAttribute('data-nav-target', target);
+    el.setAttribute('role', el.getAttribute('role') || 'link');
+    if(!el.hasAttribute('tabindex') && el.tagName !== 'A' && el.tagName !== 'BUTTON') el.setAttribute('tabindex','0');
+    el.addEventListener('click', function(ev){
+      if(el.tagName === 'A') return; // native href works
+      ev.preventDefault();
+      goto(target);
+    });
+    if(el.tagName !== 'A' && el.tagName !== 'BUTTON'){
+      el.addEventListener('keydown', function(ev){
+        if(ev.key === 'Enter' || ev.key === ' '){ ev.preventDefault(); goto(target); }
+      });
+    }
+  });
+
+  // Brand/logo always returns to the home of the current mode, without changing visual design.
+  const brand = document.querySelector('.brand, .logo');
+  if(brand){
+    const target = isExec ? FILES.execHome : FILES.mgmtHome;
+    brand.setAttribute('data-nav-target',target);
+    brand.setAttribute('role','link');
+    brand.setAttribute('tabindex','0');
+    brand.addEventListener('click',()=>goto(target));
+    brand.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();goto(target);}});
+  }
+})();
+</script>
+</body></html>

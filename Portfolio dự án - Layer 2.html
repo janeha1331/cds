@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Danh mục dự án trọng điểm · Cần Thơ</title>
+<style>
+:root{--navy:#0B2239;--green:#07883E;--green2:#0A6F45;--red:#DB474C;--amber:#EC9619;--blue:#3C8CC8;--line:#DDE5E9;--muted:#71808B;--bg:#F6F8FA}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:var(--bg);color:#10202D}
+.shell{height:100vh;display:grid;grid-template-columns:235px minmax(880px,1fr) 300px;grid-template-rows:54px 1fr;overflow:hidden}
+.top{grid-column:1/-1;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 16px;gap:12px}
+.brand{width:220px;display:flex;align-items:center;gap:9px;font-weight:850;font-size:15px}.brand i{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--navy),var(--green));color:#fff;display:grid;place-items:center;font-style:normal;font-size:9px}
+.search{margin:auto;width:370px;border:1px solid #DCE3E7;border-radius:6px;padding:8px 12px;color:#7B8790;font-size:10px}.topicons{display:flex;gap:16px;align-items:center;color:#596771}.avatar{width:29px;height:29px;border-radius:50%;background:#E5F3EB;color:var(--green2);display:grid;place-items:center;font-size:8px;font-weight:850}
+.sidebar{grid-row:2;background:#fff;border-right:1px solid var(--line);padding:12px 10px;overflow:auto}.apptitle{font-size:14px;font-weight:850;padding:7px 9px 12px}.nav{padding:9px 10px;border-radius:6px;margin:2px 0;color:#4F5D66}.nav.active{background:#E6F3EB;color:#087246;font-weight:800}.section{font-size:8px;color:#87939B;font-weight:800;margin:16px 10px 7px;letter-spacing:.06em}.portfolio{padding:8px 9px;border-radius:7px;margin:2px 0;display:flex;align-items:center;gap:8px;color:#526069}.portfolio.active{background:#EEF6F2;color:#087246;font-weight:800}.dot{width:7px;height:7px;border-radius:50%;background:#5C9FD5;flex:0 0 auto}.portfolio small{margin-left:auto;color:#8B979E;font-size:7px}.filterbox{border:1px dashed #D3DADF;border-radius:8px;padding:10px;margin:8px 2px;font-size:8px;color:#6F7C85;line-height:1.5;background:#FBFCFD}
+.main{grid-row:2;background:#fff;overflow:auto;padding:22px 22px 30px}.head{display:flex;justify-content:space-between;align-items:flex-start}h1{font-size:27px;margin:0 0 7px}.sub{font-size:10px;color:#687985}.actions{display:flex;gap:8px}button{background:#fff;border:1px solid #D7E0E5;border-radius:9px;padding:9px 13px;font-size:8px;font-weight:750}button.primary{background:#07883E;color:#fff;border-color:#07883E}
+.summary{display:grid;grid-template-columns:1.6fr .86fr .86fr .86fr;gap:10px;margin:14px 0}.focus{background:linear-gradient(135deg,#073A43,#08633E);color:#fff;border-radius:14px;padding:15px 17px}.focus label{font-size:7px;color:#A9E4CA;font-weight:850;letter-spacing:.1em}.focus b{display:block;font-size:16px;margin:6px 0}.focus p{font-size:7.5px;margin:0;color:#D3E7E0}.stat{border:1px solid var(--line);border-radius:14px;padding:15px;background:#fff}.stat label{font-size:7px;color:#73818B;font-weight:800}.stat b{display:block;font-size:20px;margin:7px 0 4px}.stat small{font-size:7px;color:#7A8790}
+.toolbar{display:flex;gap:8px;align-items:center;margin:9px 0}.chip{border:1px solid #DCE4E8;border-radius:999px;padding:6px 10px;font-size:7px;font-weight:750}.chip.active{background:#EAF6EF;color:#087246;border-color:#D4E9DD}.sort{margin-left:auto}
+.gantt{border:1px solid var(--line);border-radius:13px;overflow:hidden;background:#fff}.ghead,.row{display:grid;grid-template-columns:385px 110px 90px 1fr}.ghead{height:38px;background:#F6F8F9;border-bottom:1px solid var(--line)}.ghead>div{display:flex;align-items:center;padding:0 12px;font-size:7px;font-weight:850;color:#63747F;border-right:1px solid #E6EBEE}.months{display:grid!important;grid-template-columns:repeat(12,1fr);padding:0!important}.months div{display:grid;place-items:center;border-right:1px solid #E5EAED;height:100%}
+.row{height:44px;border-bottom:1px solid #E7ECEF}.row:last-child{border-bottom:0}.project{display:flex;align-items:center;padding:5px 12px;gap:9px;border-right:1px solid #E7ECEF}.no{width:25px;height:25px;border-radius:8px;background:#EFF5F2;color:#58726A;display:grid;place-items:center;font-size:7px;font-weight:850;flex:none}.project b{display:block;font-size:8.5px}.project small{display:block;font-size:6.3px;color:#73818A;margin-top:3px}.status,.money{display:flex;align-items:center;justify-content:center;border-right:1px solid #E7ECEF;font-size:8px;font-weight:800}
+.pill{font-size:5.5px;padding:5px 7px;border-radius:999px}.pill.green{background:#E5F5EB;color:#08753D}.pill.red{background:#FCE9EA;color:#B3272D}.pill.amber{background:#FFF0D8;color:#A66500}.pill.blue{background:#E8F2FA;color:#2874A6}
+.timeline{position:relative;background:repeating-linear-gradient(to right,transparent 0,transparent calc(8.333% - 1px),#E8ECEF calc(8.333% - 1px),#E8ECEF 8.333%)}.bar{position:absolute;height:15px;top:10px;border-radius:4px;z-index:2}.bar.green{background:var(--green)}.bar.red{background:var(--red)}.bar.amber{background:var(--amber)}.bar.blue{background:var(--blue)}.bar span{color:#fff;font-size:5.8px;font-weight:850;position:absolute;left:7px;top:4px;white-space:nowrap}.baseline{position:absolute;height:4px;top:31px;background:#DCE4E7;border-radius:3px}.milestone{position:absolute;width:13px;height:13px;top:11px;background:#fff;transform:rotate(45deg);z-index:3;border:3px solid}.milestone.green{border-color:var(--green)}.milestone.red{border-color:var(--red)}.milestone.amber{border-color:var(--amber)}.milestone.blue{border-color:var(--blue)}.legend{display:flex;gap:18px;padding:8px 13px;font-size:7px;color:#6D7B84;border-top:1px solid var(--line)}.legend i{display:inline-block;width:16px;height:7px;border-radius:4px;margin-right:5px}
+.right{grid-row:2;background:#F7F9FA;border-left:1px solid var(--line);padding:14px;overflow:auto}.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px}.card h3{font-size:10px;margin:0 0 9px}.alert{background:#FFF7F7;border-color:#F0D2D3}.alert .ey{font-size:7px;color:#A43D42;font-weight:850}.alert h3{font-size:12px;margin:5px 0}.alert p{font-size:8px;color:#6F6666;line-height:1.45;margin:0}.cta{margin-top:9px;background:var(--red);color:#fff;border-radius:7px;text-align:center;padding:8px;font-size:8px;font-weight:800}.item{padding:8px 0;border-bottom:1px solid #EEF1F2}.item:last-child{border:0}.item b{font-size:8px}.item span{display:block;font-size:7px;color:#73818A;margin-top:3px}.item .link{color:#087246;font-weight:800;margin-top:5px}.ai{background:linear-gradient(135deg,#F1F9F5,#F5FAFD);border-color:#D6E7DE}.ai .ey{font-size:7px;color:var(--green2);font-weight:850}.prompt{background:#fff;border:1px solid #DCE8E1;border-radius:7px;padding:7px;margin-top:6px;font-size:7px;color:#53636D}
+@media(max-width:1200px){.shell{grid-template-columns:220px 1fr}.right{display:none}.search{width:300px}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="top"><div class="brand"><i>CT</i><span>Cần Thơ · Dự án</span></div><div class="search">⌕ &nbsp; Tìm dự án, milestone, blocker, đơn vị phụ trách...</div><div class="topicons"><span>?</span><span>♧ 9</span><span>◐</span><div class="avatar">VP</div><span>⌄</span></div></header>
+
+<aside class="sidebar">
+ <div class="apptitle">▣ &nbsp; Danh mục dự án</div>
+ <div class="nav active">▤ &nbsp; Portfolio Gantt</div><div class="nav">△ &nbsp; Risk & Blocker</div><div class="nav">↗ &nbsp; Giải ngân</div><div class="nav">◎ &nbsp; Bản đồ dự án</div>
+ <div class="section">DANH MỤC</div>
+ <div class="portfolio active"><span class="dot" style="background:#07883E"></span>Tất cả dự án trọng điểm <small>18</small></div>
+ <div class="portfolio"><span class="dot" style="background:#DB474C"></span>Cần lãnh đạo can thiệp <small>4</small></div>
+ <div class="portfolio"><span class="dot" style="background:#EC9619"></span>Cần chú ý <small>5</small></div>
+ <div class="portfolio"><span class="dot" style="background:#07883E"></span>Đúng tiến độ <small>9</small></div>
+ <div class="section">THEO LĨNH VỰC</div>
+ <div class="portfolio"><span class="dot"></span>Giao thông <small>7</small></div><div class="portfolio"><span class="dot"></span>Công nghiệp & Logistics <small>4</small></div><div class="portfolio"><span class="dot"></span>Y tế & Xã hội <small>3</small></div><div class="portfolio"><span class="dot"></span>Đô thị & Hạ tầng <small>4</small></div>
+ <div class="filterbox"><b>Drill-down</b><br>Click một dự án trong Gantt để mở Project Detail, milestone, risk, GPMB và nhiệm vụ liên quan.</div>
+</aside>
+
+<main class="main">
+<div class="head"><div><h1>Tình hình thực thi dự án trọng điểm</h1><div class="sub">Portfolio Gantt toàn Thành phố · baseline vs thực tế · critical path · milestone · giải ngân · cập nhật 19/08/2026</div></div><div class="actions"><button>Tháng</button><button>Baseline</button><button>Xuất báo cáo</button><button class="primary">＋ Thêm dự án</button></div></div>
+<div class="summary"><div class="focus"><label>PORTFOLIO FOCUS</label><b>4 dự án đang kéo giảm hiệu quả danh mục</b><p>Vành đai phía Tây và Bệnh viện Ung bướu chiếm phần lớn risk exposure. GPMB và hồ sơ tài chính là hai nguyên nhân cần điều hành trực tiếp.</p></div><div class="stat"><label>DỰ ÁN TRỌNG ĐIỂM</label><b>18</b><small>6 dự án ưu tiên cao</small></div><div class="stat"><label>CRITICAL / TRỄ</label><b style="color:#DB474C">4</b><small>2 cần lãnh đạo can thiệp</small></div><div class="stat"><label>GIẢI NGÂN DANH MỤC</label><b>63.2%</b><small>Target kỳ này 69%</small></div></div>
+<div class="toolbar"><span class="chip active">Tất cả</span><span class="chip">Chỉ critical path</span><span class="chip">Milestone 30 ngày</span><span class="chip">GPMB</span><span class="chip">Giải ngân thấp</span><span class="chip sort">Sắp xếp: Risk cao nhất</span></div>
+<div class="gantt"><div class="ghead"><div>DỰ ÁN</div><div>TRẠNG THÁI</div><div>GIẢI NGÂN</div><div class="months"><div>T1</div><div>T2</div><div>T3</div><div>T4</div><div>T5</div><div>T6</div><div>T7</div><div>T8</div><div>T9</div><div>T10</div><div>T11</div><div>T12</div></div></div>
+
+    <div class="row">
+      <div class="project"><span class="no">01</span><div><b>Vành đai phía Tây</b><small>Chủ trì: Ban QLDA ĐTXD</small></div></div>
+      <div class="status"><span class="pill red">CRITICAL</span></div>
+      <div class="money">61%</div>
+      <div class="timeline">
+        <div class="baseline" style="left:16.67%;width:83.33%"></div>
+        <div class="bar red" style="left:16.67%;width:83.33%"><span>72% · trễ 18 ngày</span></div>
+        <div class="milestone red" style="left:79.10%"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="project"><span class="no">02</span><div><b>Bệnh viện Ung bướu</b><small>Chủ trì: Sở Y tế</small></div></div>
+      <div class="status"><span class="pill red">CRITICAL</span></div>
+      <div class="money">49%</div>
+      <div class="timeline">
+        <div class="baseline" style="left:16.67%;width:75.00%"></div>
+        <div class="bar red" style="left:16.67%;width:75.00%"><span>58% · tài chính</span></div>
+        <div class="milestone red" style="left:79.10%"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="project"><span class="no">03</span><div><b>KCN Vĩnh Thạnh</b><small>Chủ trì: Ban QL Khu kinh tế</small></div></div>
+      <div class="status"><span class="pill amber">CẦN CHÚ Ý</span></div>
+      <div class="money">57%</div>
+      <div class="timeline">
+        <div class="baseline" style="left:16.67%;width:75.00%"></div>
+        <div class="bar amber" style="left:16.67%;width:75.00%"><span>66% · legal risk</span></div>
+        <div class="milestone amber" style="left:79.10%"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="project"><span class="no">04</span><div><b>Nâng cấp QL91</b><small>Chủ trì: Ban QLDA Giao thông</small></div></div>
+      <div class="status"><span class="pill amber">CẦN CHÚ Ý</span></div>
+      <div class="money">64%</div>
+      <div class="timeline">
+        <div class="baseline" style="left:8.33%;width:91.66%"></div>
+        <div class="bar amber" style="left:8.33%;width:91.66%"><span>69%</span></div>
+        <div class="milestone amber" style="left:70.76%"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="project"><span class="no">05</span><div><b>Cầu Cần Thơ 2</b><small>Chủ trì: Sở Xây dựng</small></div></div>
+      <div class="status"><span class="pill green">ĐÚNG TIẾN ĐỘ</span></div>
+      <div class="money">68%</div>
+      <div class="timeline">
+        <div class="baseline" style="left:8.33%;width:91.66%"></div>
+        <div class="bar green" style="left:8.33%;width:91.66%"><span>78%</span></div>
+        <div class="milestone green" style="left:54.10%"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="project"><span class="no">06</span><div><b>Trung tâm Logistics Cái Cui</b><small>Chủ trì: Sở Công Thương</small></div></div>
+      <div class="status"><span class="pill green">ĐÚNG TIẾN ĐỘ</span></div>
+      <div class="money">71%</div>
+      <div class="timeline">
+        <div class="baseline" style="left:0.00%;width:100.00%"></div>
+        <div class="bar green" style="left:0.00%;width:100.00%"><span>74%</span></div>
+        <div class="milestone green" style="left:70.76%"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="project"><span class="no">07</span><div><b>Hạ tầng dữ liệu Thành phố</b><small>Chủ trì: Sở KH&CN</small></div></div>
+      <div class="status"><span class="pill green">ĐÚNG TIẾN ĐỘ</span></div>
+      <div class="money">73%</div>
+      <div class="timeline">
+        <div class="baseline" style="left:0.00%;width:91.66%"></div>
+        <div class="bar green" style="left:0.00%;width:91.66%"><span>81%</span></div>
+        <div class="milestone green" style="left:70.76%"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="project"><span class="no">08</span><div><b>Mở rộng đường Võ Nguyên Giáp</b><small>Chủ trì: Sở Xây dựng</small></div></div>
+      <div class="status"><span class="pill green">ĐÚNG TIẾN ĐỘ</span></div>
+      <div class="money">72%</div>
+      <div class="timeline">
+        <div class="baseline" style="left:8.33%;width:83.33%"></div>
+        <div class="bar green" style="left:8.33%;width:83.33%"><span>75%</span></div>
+        <div class="milestone green" style="left:62.43%"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="project"><span class="no">09</span><div><b>Nút giao IC4 & kết nối cao tốc</b><small>Chủ trì: Ban QLDA Giao thông</small></div></div>
+      <div class="status"><span class="pill blue">GIAI ĐOẠN ĐẦU</span></div>
+      <div class="money">31%</div>
+      <div class="timeline">
+        <div class="baseline" style="left:25.00%;width:75.00%"></div>
+        <div class="bar blue" style="left:25.00%;width:75.00%"><span>Thiết kế & GPMB</span></div>
+        <div class="milestone blue" style="left:79.10%"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="project"><span class="no">10</span><div><b>Đường kết nối sân bay Cần Thơ</b><small>Chủ trì: Sở Xây dựng</small></div></div>
+      <div class="status"><span class="pill amber">CẦN CHÚ Ý</span></div>
+      <div class="money">52%</div>
+      <div class="timeline">
+        <div class="baseline" style="left:16.67%;width:83.33%"></div>
+        <div class="bar amber" style="left:16.67%;width:83.33%"><span>62% · GPMB</span></div>
+        <div class="milestone amber" style="left:70.76%"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="project"><span class="no">11</span><div><b>Cầu Trần Hoàng Na mở rộng</b><small>Chủ trì: Ban QLDA ĐTXD</small></div></div>
+      <div class="status"><span class="pill green">ĐÚNG TIẾN ĐỘ</span></div>
+      <div class="money">79%</div>
+      <div class="timeline">
+        <div class="baseline" style="left:0.00%;width:83.33%"></div>
+        <div class="bar green" style="left:0.00%;width:83.33%"><span>83%</span></div>
+        <div class="milestone green" style="left:70.76%"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="project"><span class="no">12</span><div><b>Cụm kho lạnh & logistics nông sản</b><small>Chủ trì: Sở Công Thương</small></div></div>
+      <div class="status"><span class="pill green">ĐÚNG TIẾN ĐỘ</span></div>
+      <div class="money">67%</div>
+      <div class="timeline">
+        <div class="baseline" style="left:16.67%;width:75.00%"></div>
+        <div class="bar green" style="left:16.67%;width:75.00%"><span>70%</span></div>
+        <div class="milestone green" style="left:62.43%"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="project"><span class="no">13</span><div><b>Hạ tầng KCN Ô Môn</b><small>Chủ trì: Ban QL Khu kinh tế</small></div></div>
+      <div class="status"><span class="pill blue">GIAI ĐOẠN ĐẦU</span></div>
+      <div class="money">35%</div>
+      <div class="timeline">
+        <div class="baseline" style="left:25.00%;width:75.00%"></div>
+        <div class="bar blue" style="left:25.00%;width:75.00%"><span>Chuẩn bị hạ tầng</span></div>
+        <div class="milestone blue" style="left:87.43%"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="project"><span class="no">14</span><div><b>Trung tâm Y tế thông minh</b><small>Chủ trì: Sở Y tế</small></div></div>
+      <div class="status"><span class="pill green">ĐÚNG TIẾN ĐỘ</span></div>
+      <div class="money">76%</div>
+      <div class="timeline">
+        <div class="baseline" style="left:0.00%;width:83.33%"></div>
+        <div class="bar green" style="left:0.00%;width:83.33%"><span>82%</span></div>
+        <div class="milestone green" style="left:70.76%"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="project"><span class="no">15</span><div><b>Cụm trường học phía Tây</b><small>Chủ trì: Sở GD&ĐT</small></div></div>
+      <div class="status"><span class="pill amber">CẦN CHÚ Ý</span></div>
+      <div class="money">59%</div>
+      <div class="timeline">
+        <div class="baseline" style="left:16.67%;width:75.00%"></div>
+        <div class="bar amber" style="left:16.67%;width:75.00%"><span>65%</span></div>
+        <div class="milestone amber" style="left:70.76%"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="project"><span class="no">16</span><div><b>Khu đô thị ven sông</b><small>Chủ trì: Sở Xây dựng</small></div></div>
+      <div class="status"><span class="pill blue">GIAI ĐOẠN ĐẦU</span></div>
+      <div class="money">28%</div>
+      <div class="timeline">
+        <div class="baseline" style="left:25.00%;width:75.00%"></div>
+        <div class="bar blue" style="left:25.00%;width:75.00%"><span>Kế hoạch triển khai</span></div>
+        <div class="milestone blue" style="left:79.10%"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="project"><span class="no">17</span><div><b>Hệ thống thoát nước trung tâm</b><small>Chủ trì: Sở Xây dựng</small></div></div>
+      <div class="status"><span class="pill amber">CẦN CHÚ Ý</span></div>
+      <div class="money">55%</div>
+      <div class="timeline">
+        <div class="baseline" style="left:16.67%;width:83.33%"></div>
+        <div class="bar amber" style="left:16.67%;width:83.33%"><span>63% · mặt bằng</span></div>
+        <div class="milestone amber" style="left:70.76%"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="project"><span class="no">18</span><div><b>Quan trắc môi trường & cảnh báo ngập</b><small>Chủ trì: Sở NN&MT</small></div></div>
+      <div class="status"><span class="pill green">ĐÚNG TIẾN ĐỘ</span></div>
+      <div class="money">74%</div>
+      <div class="timeline">
+        <div class="baseline" style="left:8.33%;width:83.33%"></div>
+        <div class="bar green" style="left:8.33%;width:83.33%"><span>78%</span></div>
+        <div class="milestone green" style="left:62.43%"></div>
+      </div>
+    </div>
+<div class="legend"><span><i style="background:#07883E"></i>Đúng tiến độ</span><span><i style="background:#EC9619"></i>Cần chú ý</span><span><i style="background:#DB474C"></i>Critical / trễ</span><span><i style="background:#3C8CC8"></i>Giai đoạn đầu</span><span style="margin-left:auto">◇ Milestone · đường xám = baseline</span></div></div>
+</main>
+
+<aside class="right">
+ <div class="card alert"><div class="ey">CẦN HÀNH ĐỘNG</div><h3>Vành đai phía Tây</h3><p>37 trường hợp GPMB đang ảnh hưởng trực tiếp critical path. Deadline xử lý nhóm ưu tiên là 25/08.</p><div class="cta">Mở Project Detail →</div></div>
+ <div class="card"><h3>Milestone cần chú ý · 30 ngày</h3><div class="item"><b>Vành đai phía Tây · 80% GPMB</b><span>31/08 · Risk +18 ngày</span><div class="link">Mở milestone →</div></div><div class="item"><b>BV Ung bướu · chốt phương án tài chính</b><span>25/08 · Critical</span><div class="link">Xem blocker →</div></div><div class="item"><b>KCN Vĩnh Thạnh · hồ sơ pháp lý</b><span>28/08 · Cần theo dõi</span><div class="link">Mở hồ sơ →</div></div></div>
+ <div class="card"><h3>CTA điều hành</h3><div class="item"><b>4 dự án critical / trễ</b><span>Tạo phiên rà soát danh mục với các owner.</span><div class="link">Tạo cuộc họp rà soát →</div></div><div class="item"><b>5 milestone có risk trong 30 ngày</b><span>Yêu cầu đơn vị cập nhật phương án xử lý.</span><div class="link">Gửi yêu cầu cập nhật →</div></div><div class="item"><b>Giải ngân 63.2% vs target 69%</b><span>Cần forecast mới cho 6 dự án ưu tiên.</span><div class="link">Mở forecast →</div></div></div>
+ <div class="card ai"><div class="ey">✦ AI PORTFOLIO COPILOT</div><h3 style="font-size:11px;margin:5px 0">Hỏi trên toàn danh mục</h3><div class="prompt">Milestone nào cần lãnh đạo can thiệp trong 30 ngày?</div><div class="prompt">Xếp hạng dự án theo risk exposure và vốn chưa giải ngân.</div></div>
+</aside>
+</div>
+<script id="ct-navigation-wiring">
+(function(){
+  'use strict';
+  const FILES = {
+    mgmtHome: 'Tổng quan quản trị.html',
+    mgmtKpi: 'KPI tỉnh.html',
+    mgmtProjects: 'Dự án trọng điểm.html',
+    mgmtTasks: 'Nhiệm vụ Lãnh đạo.html',
+    mgmtCalendar: 'Lịch công tác.html',
+    execHome: 'Cổng chat nội bộ - Layer 2.html',
+    execIntranet: 'Intranet cần thơ_Layer 2.html',
+    execProjects: 'Portfolio dự án - Layer 2.html',
+    execProjectDetail: 'Dự án trọng điểm_chi tiết_Layer 2.html',
+    execProjectRoadmap: 'Lộ trình dự án chi tiết - Layer 2.html',
+    execDocs: 'Văn bản điều hành điện tử_Layer 2.html',
+    execDocDetail: 'Văn bản cần xử lý - Layer 2.html',
+    execCalendar: 'Lịch làm việc chi tiết_Layer 2.html',
+    execMeetings: 'Phòng họp số Layer 2.html',
+    execPeople: 'Quản lý cán bộ tỉnh - Layer 2.html',
+    execOrg: 'Sơ đồ tổ chức - Layer 2.html',
+    execWorkflow: 'Quy trình thẩm định nghiệp vụ - layer 2.html',
+    execWorkflowDetail: 'Chi tiết dự án cần thẩm định - layer 2.html'
+  };
+  const current = decodeURIComponent(location.pathname.split('/').pop() || '');
+  const isExec = /layer\s*2/i.test(current);
+  const normalize = s => (s||'').replace(/\s+/g,' ').trim().toLowerCase();
+  const goto = file => { if(file && current !== file) location.href = encodeURI(file); };
+
+  function targetFor(text, el){
+    const t = normalize(text);
+    if(!t) return null;
+
+    // Existing management shell
+    if(t.includes('tổng quan') && !isExec && (el.matches('a') || el.closest('.nav'))) return FILES.mgmtHome;
+    if(t.includes('kpi chiến lược')) return FILES.mgmtKpi;
+    if(t.includes('dự án trọng điểm') && !isExec) return FILES.mgmtProjects;
+    if(t.includes('nhiệm vụ lãnh đạo')) return FILES.mgmtTasks;
+    if(t.includes('lịch công tác')) return FILES.mgmtCalendar;
+
+    // Execution app launcher / major modules
+    if(t === '▤ trao đổi' || t.includes('trao đổi')) return FILES.execHome;
+    if(t.includes('intranet')) return FILES.execIntranet;
+    if(t === '▣ dự án' || t.includes('portfolio gantt')) return FILES.execProjects;
+    if((t === '▥ văn bản' || t === 'văn bản') && isExec) return FILES.execDocs;
+    if(t.includes('lịch lãnh đạo')) return FILES.execCalendar;
+    if(t.includes('phòng họp') || t.includes('họp trực tuyến')) return FILES.execMeetings;
+    if(t === '♙ cán bộ' || t.includes('tổng quan nhân sự')) return FILES.execPeople;
+    if(t.includes('sơ đồ tổ chức')) return FILES.execOrg;
+    if(t.includes('dịch vụ / quy trình')) return FILES.execWorkflow;
+
+    // Project drill-down
+    if(t.includes('vành đai phía tây')) return FILES.execProjectDetail;
+    if(t === '▦ tổng quan' && /dự án trọng điểm_chi tiết|lộ trình dự án/i.test(current)) return FILES.execProjectDetail;
+    if(t.includes('lộ trình') && /dự án trọng điểm_chi tiết|lộ trình dự án/i.test(current)) return FILES.execProjectRoadmap;
+    if(t.includes('mở hồ sơ dự án')) return FILES.execProjectDetail;
+    if(t.includes('timeline đầy đủ') || t.includes('mở milestone')) return FILES.execProjectRoadmap;
+
+    // Workflow drill-down
+    if(t.includes('01. thẩm định chuyên môn')) return FILES.execWorkflowDetail;
+    if(t.includes('thẩm định hồ sơ') && /chi tiết dự án cần thẩm định/i.test(current)) return FILES.execWorkflow;
+
+    // Document drill-down
+    if(t.includes('văn bản đến') && /văn bản điều hành điện tử/i.test(current)) return FILES.execDocDetail;
+    if(t.includes('quay lại') && /văn bản cần xử lý/i.test(current)) return FILES.execDocs;
+
+    // People drill-down
+    if(t.includes('mở sơ đồ đầy đủ')) return FILES.execOrg;
+
+    // Intranet channel to projects
+    if(t === 'dự án trọng điểm' && /intranet/i.test(current)) return FILES.execProjects;
+    return null;
+  }
+
+  const selectors = [
+    'a','.nav','.app','.appicon','.pm','.tree','.portfolio','.service','.back','.mode-switch button','.link','.project'
+  ].join(',');
+
+  document.querySelectorAll(selectors).forEach(el => {
+    const text = el.textContent || '';
+    const compactText = normalize(text);
+    // Some pages use .app as the root application container; never wire a large container.
+    if(el.classList.contains('app') && compactText.length > 40) return;
+    let target = null;
+    const nt = normalize(text);
+
+    // Mode switch is explicit and overrides text rules.
+    if(el.matches('.mode-switch button')){
+      if(nt === 'quản trị') target = FILES.mgmtHome;
+      if(nt === 'thực thi') target = FILES.execHome;
+    } else {
+      target = targetFor(text, el);
+    }
+    if(!target) return;
+
+    if(el.tagName === 'A') el.setAttribute('href', encodeURI(target));
+    el.setAttribute('data-nav-target', target);
+    el.setAttribute('role', el.getAttribute('role') || 'link');
+    if(!el.hasAttribute('tabindex') && el.tagName !== 'A' && el.tagName !== 'BUTTON') el.setAttribute('tabindex','0');
+    el.addEventListener('click', function(ev){
+      if(el.tagName === 'A') return; // native href works
+      ev.preventDefault();
+      goto(target);
+    });
+    if(el.tagName !== 'A' && el.tagName !== 'BUTTON'){
+      el.addEventListener('keydown', function(ev){
+        if(ev.key === 'Enter' || ev.key === ' '){ ev.preventDefault(); goto(target); }
+      });
+    }
+  });
+
+  // Brand/logo always returns to the home of the current mode, without changing visual design.
+  const brand = document.querySelector('.brand, .logo');
+  if(brand){
+    const target = isExec ? FILES.execHome : FILES.mgmtHome;
+    brand.setAttribute('data-nav-target',target);
+    brand.setAttribute('role','link');
+    brand.setAttribute('tabindex','0');
+    brand.addEventListener('click',()=>goto(target));
+    brand.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();goto(target);}});
+  }
+})();
+</script>
+</body>
+</html>

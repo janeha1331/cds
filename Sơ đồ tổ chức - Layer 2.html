@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sơ đồ tổ chức & Thẩm quyền · Cần Thơ</title>
+<style>
+:root{
+ --navy:#0B2239;--navy2:#13344D;--green:#07883E;--g2:#0A6F45;--blue:#2678C6;
+ --amber:#E59619;--red:#D94747;--purple:#7B58C7;--bg:#F5F7F9;--line:#DFE6EA;
+ --txt:#17212B;--muted:#71808B;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--txt)}
+.shell{height:100vh;display:grid;grid-template-columns:68px 235px minmax(980px,1fr) 320px;grid-template-rows:54px 1fr;overflow:hidden}
+.top{grid-column:1/-1;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 14px;gap:12px}
+.brand{width:225px;display:flex;align-items:center;gap:9px;font-size:15px;font-weight:850}.brand i{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--navy),var(--green));color:#fff;display:grid;place-items:center;font-style:normal;font-size:9px}
+.search{margin:auto;width:390px;border:1px solid #DCE3E7;border-radius:6px;padding:8px 12px;color:#7B8790;font-size:10px}
+.topicons{display:flex;align-items:center;gap:16px;color:#596771}.avatar{width:29px;height:29px;border-radius:50%;background:#E5F3EB;color:var(--g2);display:grid;place-items:center;font-size:8px;font-weight:850}
+
+.apps{grid-row:2;background:#fff;border-right:1px solid var(--line);padding:9px 6px}
+.app{height:58px;text-align:center;border-radius:8px;padding:7px 2px;font-size:7px;color:#64717A}.app b{width:28px;height:28px;border-radius:7px;background:#EFF3F5;display:grid;place-items:center;margin:0 auto 4px;font-size:12px}.app.active{background:#E7F4EC;color:var(--g2);font-weight:800}.app.active b{background:var(--green);color:#fff}
+
+.sidebar{grid-row:2;background:#fff;border-right:1px solid var(--line);padding:10px 9px;overflow:auto}
+.apptitle{font-size:14px;font-weight:850;padding:10px}.nav{padding:9px 10px;border-radius:6px;margin:2px 0;color:#4F5D66}.nav.active{background:#E6F3EB;color:#087246;font-weight:800}
+.section{font-size:8px;color:#87939B;font-weight:800;margin:15px 10px 7px;letter-spacing:.06em}.count{float:right;color:#8B979E;font-size:7px}
+
+.main{grid-row:2;background:#fff;overflow:auto;padding:18px 22px 40px}
+.head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}.head h1{font-size:22px;margin:0 0 5px}.head p{font-size:10px;color:var(--muted);margin:0}.actions{display:flex;gap:7px}.btn{border:1px solid #D8E0E4;background:#fff;border-radius:7px;padding:8px 11px;font-size:8px;font-weight:750}.btn.primary{background:var(--green);color:#fff;border-color:var(--green)}
+
+.toolbar{display:flex;gap:8px;align-items:center;margin-bottom:10px}.chip{border:1px solid #DCE4E8;border-radius:999px;padding:6px 9px;font-size:7px;font-weight:750;background:#fff}.chip.active{background:#EAF6EF;color:#087246;border-color:#D4E9DD}.toolbar .spacer{flex:1}
+
+.canvas{border:1px solid var(--line);border-radius:12px;background-color:#FAFBFC;background-image:radial-gradient(#E2E8EB 1px,transparent 1px);background-size:18px 18px;padding:22px;min-width:1020px;position:relative}
+.level{display:flex;justify-content:center;gap:16px;position:relative;margin-bottom:34px}
+.level:after{content:"";position:absolute;left:50%;bottom:-18px;width:2px;height:18px;background:#C7D4CD}
+.level:last-child:after{display:none}
+.branch-line{height:2px;background:#C7D4CD;margin:-18px auto 16px;width:78%}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.cards.six{grid-template-columns:repeat(6,1fr)}
+.node{background:#fff;border:1px solid #DCE4E8;border-radius:10px;padding:11px;box-shadow:0 4px 12px rgba(11,34,57,.045);position:relative}
+.node.top{width:330px;background:linear-gradient(135deg,#0B2A42,#0A6248);color:#fff;border:0;box-shadow:0 10px 26px rgba(11,34,57,.12)}
+.node.vp{min-height:170px}
+.node.dept{min-height:126px}
+.node:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--green);border-radius:10px 0 0 10px}
+.node.top:before{display:none}
+.node.red:before{background:var(--red)}.node.amber:before{background:var(--amber)}.node.blue:before{background:var(--blue)}.node.purple:before{background:var(--purple)}
+.role{font-size:6.5px;color:#7D8A92;font-weight:850;letter-spacing:.07em}.top .role{color:#B9DCCD}
+.name{font-size:11px;font-weight:850;margin-top:4px}.top .name{font-size:18px}.sub{font-size:7px;color:#71808A;margin-top:3px;line-height:1.35}.top .sub{color:#D3E2DC}
+.authority{margin-top:9px;padding-top:8px;border-top:1px solid #EEF1F2}.top .authority{border-top-color:rgba(255,255,255,.14)}
+.authority b{font-size:7px}.authority span{display:block;font-size:6.5px;color:#6E7B84;margin-top:3px;line-height:1.4}.top .authority span{color:#D3E2DC}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:9px}.kpi{background:#F7F9FA;border:1px solid #E4E9EC;border-radius:6px;padding:6px}.top .kpi{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.12)}.kpi label{display:block;font-size:5.5px;color:#7B8790;font-weight:800}.top .kpi label{color:#BBD6CB}.kpi b{display:block;font-size:9px;margin-top:2px}.top .kpi b{color:#fff}
+.portfolio{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}.tag{font-size:5.8px;padding:3px 5px;border-radius:999px;background:#EDF5F1;color:#087246;font-weight:800}.top .tag{background:rgba(255,255,255,.1);color:#D7F2E5}
+.status{position:absolute;right:7px;top:7px;font-size:5.5px;border-radius:999px;padding:3px 5px;background:#E7F5EC;color:#087438;font-weight:850}.status.warn{background:#FFF2DF;color:#996109}.status.red{background:#FDE9E9;color:#B12D32}
+
+.layer-title{font-size:7px;color:#79868E;font-weight:850;letter-spacing:.08em;margin:5px 0 8px}
+.minimap{position:absolute;right:14px;bottom:14px;width:150px;height:88px;background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:8px;box-shadow:0 3px 12px rgba(11,34,57,.06)}
+.mm{position:absolute;border-radius:3px;background:#B9DCC8;height:8px}.mm.topm{background:#176E52}.mm.vpm{background:#95C7AA}.mm.dm{background:#CBD9D1}
+
+.right{grid-row:2;background:#F7F9FA;border-left:1px solid var(--line);padding:14px;overflow:auto}
+.rcard{background:#fff;border:1px solid var(--line);border-radius:9px;padding:12px;margin-bottom:10px}.rcard h3{font-size:10px;margin:0 0 9px}
+.focus{background:linear-gradient(135deg,#F1F9F5,#F5FAFD);border-color:#D6E8DE}.focus .ey{font-size:7px;color:var(--g2);font-weight:850}.focus h3{font-size:12px;margin:5px 0}.focus p{font-size:8px;color:#607069;line-height:1.45}
+.item{padding:8px 0;border-bottom:1px solid #EEF1F2}.item:last-child{border:0}.item b{font-size:8px}.item span{display:block;font-size:7px;color:#78858E;margin-top:3px}.item .link{color:#087246;font-weight:800;margin-top:5px}
+.risk{background:#FFF7F7;border-color:#F0D2D3}.risk .ey{font-size:7px;color:#A43D42;font-weight:850}.risk p{font-size:8px;color:#6F6666;line-height:1.45}
+@media(max-width:1250px){.shell{grid-template-columns:60px 220px 1fr}.right{display:none}.search{width:280px}}
+</style>
+
+<style>
+/* Executive chairman node — v2 */
+.node.top.chairman{
+  width:720px; max-width:76vw; padding:0; overflow:hidden;
+  background:linear-gradient(135deg,#0B2A42 0%,#0A5546 100%);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:14px;
+  box-shadow:0 14px 34px rgba(11,34,57,.16);
+}
+.chairman .chair-topline{display:flex;justify-content:space-between;align-items:flex-start;padding:16px 18px 13px;border-bottom:1px solid rgba(255,255,255,.12)}
+.chair-id{display:flex;gap:11px;align-items:center}
+.chair-avatar{width:42px;height:42px;border-radius:10px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);display:grid;place-items:center;font-size:11px;font-weight:900;color:#fff}
+.chairman .role{font-size:7px;letter-spacing:.1em;color:#B7D9CD}
+.chairman .name{font-size:20px;line-height:1.1;margin-top:3px;color:#fff}
+.chair-meta{font-size:7px;color:#C8DDD6;margin-top:4px}
+.chair-state{font-size:6.5px;font-weight:850;padding:5px 8px;border-radius:999px;background:rgba(112,231,164,.12);border:1px solid rgba(112,231,164,.2);color:#B8F1CF}
+.chair-body{display:grid;grid-template-columns:1.3fr .8fr;gap:0;padding:14px 18px}
+.chair-scope{padding-right:18px;border-right:1px solid rgba(255,255,255,.11)}
+.chair-authority{padding-left:18px}
+.chair-label{font-size:6px;letter-spacing:.11em;color:#A9CCC0;font-weight:900;margin-bottom:7px}
+.chair-copy{font-size:8px;line-height:1.55;color:#F2F7F5;max-width:390px}
+.chair-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:9px}
+.chair-tags span{font-size:6px;color:#D8EEE6;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);padding:4px 6px;border-radius:5px}
+.authority-item{display:grid;grid-template-columns:22px 1fr;gap:7px;align-items:center;margin:5px 0}
+.authority-item b{width:21px;height:21px;border-radius:6px;background:rgba(255,255,255,.1);display:grid;place-items:center;color:#BFE7D7;font-size:6px}
+.authority-item span{font-size:7px;color:#EDF5F2;line-height:1.3}
+.chair-kpi-title{display:flex;justify-content:space-between;align-items:center;padding:0 18px 7px}
+.chair-kpi-title span{font-size:6px;letter-spacing:.11em;color:#A9CCC0;font-weight:900}.chair-kpi-title small{font-size:6px;color:#9EBDB3}
+.chair-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:0 18px 14px}
+.chair-kpi{background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.11);border-radius:8px;padding:9px}
+.chair-kpi label{font-size:5.7px;color:#B6D1C8;font-weight:850;display:block}
+.chair-kpi strong{font-size:14px;color:#fff;display:inline-block;margin-top:4px}
+.chair-kpi span{font-size:6px;color:#BFD4CD;margin-left:5px}
+.chair-kpi i{height:3px;background:rgba(255,255,255,.12);display:block;border-radius:5px;margin-top:7px;overflow:hidden}
+.chair-kpi i em{display:block;height:100%;border-radius:5px;background:#75D7A0}
+.chair-kpi.warn i em{background:#F1B24C}
+.chair-footer{display:flex;align-items:center;gap:7px;padding:9px 18px;background:rgba(0,0,0,.08);font-size:6.5px;color:#BFD4CD}
+.chair-open{margin-left:auto;color:#C9F1DC;font-weight:850}
+@media(max-width:1100px){.node.top.chairman{width:650px}.chair-body{grid-template-columns:1fr}.chair-scope{border-right:0;padding-right:0}.chair-authority{padding-left:0;margin-top:12px}}
+</style>
+
+
+<style>
+.node.top.chairman-simple{
+  width:420px;
+  min-height:110px;
+  padding:22px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#0B2A42 0%,#0A6248 100%);
+}
+.chairman-simple .chair-id{display:flex;align-items:center;gap:14px}
+.chairman-simple .chair-avatar{
+  width:48px;height:48px;border-radius:12px;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.18);
+  display:grid;place-items:center;
+  color:#fff;font-size:11px;font-weight:900
+}
+.chairman-simple .role{
+  color:#B9DCCD;
+  font-size:7px;
+  letter-spacing:.1em;
+  margin:0 0 5px
+}
+.chairman-simple .name{
+  color:#fff;
+  font-size:22px;
+  line-height:1.1;
+  margin:0
+}
+</style>
+
+<style>
+.lower-level .node{min-height:118px}
+.lower-level .portfolio{margin-top:10px}
+.specialists{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.person-card{background:#fff;border:1px solid #DCE4E8;border-radius:9px;padding:10px;display:grid;grid-template-columns:34px 1fr auto;gap:8px;align-items:center;box-shadow:0 3px 10px rgba(11,34,57,.035)}
+.person-avatar{width:34px;height:34px;border-radius:9px;background:#E7F4EC;color:#087246;display:grid;place-items:center;font-size:7px;font-weight:900}
+.person-info{min-width:0}.person-unit{font-size:5.5px;color:#819098;font-weight:850;letter-spacing:.06em}.person-info b{font-size:8px;display:block;margin-top:2px}.person-info span{font-size:6px;color:#71808A;display:block;margin-top:2px}
+.work{grid-column:2/4;border-top:1px solid #EEF1F2;padding-top:7px;margin-top:1px}.work label{font-size:5.5px;color:#8A969D;font-weight:850;display:block}.work b{font-size:7px;display:block;margin-top:3px}.work span{font-size:6px;color:#75828A;display:block;margin-top:2px}
+.person-state{font-size:5.5px;font-weight:850;padding:4px 6px;border-radius:999px;background:#E7F5EC;color:#087438;white-space:nowrap}.person-state.warn-state{background:#FFF2DF;color:#996109}.person-state.risk-state{background:#FDE9E9;color:#B12D32}
+.canvas{padding-bottom:125px}
+@media(max-width:1350px){.specialists{grid-template-columns:repeat(2,1fr)}}
+</style>
+
+</head>
+<body>
+<div class="shell">
+<header class="top">
+ <div class="brand"><i>CT</i><span>Cần Thơ · Thực thi</span></div>
+ <div class="search">⌕ &nbsp; Tìm cán bộ, chức danh, đơn vị, thẩm quyền...</div>
+ <div class="topicons"><span>?</span><span>♧ 10</span><span>◐</span><div class="avatar">SN</div><span>⌄</span></div>
+</header>
+
+<aside class="apps">
+ <div class="app"><b>▤</b>Trao đổi</div><div class="app"><b>▣</b>Dự án</div><div class="app"><b>▥</b>Văn bản</div><div class="app active"><b>♙</b>Cán bộ</div><div class="app"><b>✦</b>AI</div>
+</aside>
+
+<aside class="sidebar">
+ <div class="apptitle">♙ &nbsp; Quản lý cán bộ</div>
+ <div class="nav">▦ &nbsp; Tổng quan nhân sự</div>
+ <div class="nav active">⌘ &nbsp; Sơ đồ tổ chức</div>
+ <div class="nav">👤 &nbsp; Hồ sơ cán bộ</div>
+ <div class="nav">◷ &nbsp; Chấm công & Check-in</div>
+ <div class="nav">₫ &nbsp; Công & Lương</div>
+ <div class="section">CÔNG TÁC CÁN BỘ</div>
+ <div class="nav">↗ &nbsp; Quy hoạch & Bổ nhiệm</div>
+ <div class="nav">⇄ &nbsp; Điều động & Luân chuyển</div>
+ <div class="nav">★ &nbsp; Thi đua & Khen thưởng</div>
+ <div class="nav">▣ &nbsp; Đánh giá cán bộ</div>
+ <div class="section">CHẾ ĐỘ XEM</div>
+ <div class="nav">⌘ &nbsp; Theo cơ cấu tổ chức</div>
+ <div class="nav">◎ &nbsp; Theo thẩm quyền</div>
+ <div class="nav">✓ &nbsp; Theo KPI / nhiệm vụ</div>
+</aside>
+
+<main class="main">
+ <div class="head">
+  <div><h1>Sơ đồ tổ chức & thẩm quyền UBND Thành phố</h1><p>Org-chart gắn người phụ trách, phạm vi chỉ đạo, đơn vị trực tiếp phụ trách và KPI điều hành</p></div>
+  <div class="actions"><button class="btn">Toàn Thành phố</button><button class="btn">Theo KPI</button><button class="btn primary">＋ Cập nhật cơ cấu</button></div>
+ </div>
+
+ <div class="toolbar">
+  <span class="chip active">Cơ cấu + Người phụ trách</span><span class="chip">Thẩm quyền</span><span class="chip">KPI</span><span class="chip">Nhiệm vụ trọng tâm</span>
+  <span class="spacer"></span><span class="chip">Thu gọn Sở/đơn vị</span><span class="chip">100%</span>
+ </div>
+
+ <section class="canvas">
+   <div class="layer-title">LÃNH ĐẠO UBND THÀNH PHỐ</div>
+   <div class="level">
+     <div class="node top chairman chairman-simple">
+       <div class="chair-id">
+         <div class="chair-avatar">TT</div>
+         <div>
+           <div class="role">CHỦ TỊCH UBND THÀNH PHỐ</div>
+           <div class="name">Trương Cảnh Tuyên</div>
+         </div>
+       </div>
+     </div>
+   </div>
+
+   <div class="branch-line"></div>
+
+   <div class="cards">
+     <div class="node vp">
+       <span class="status">On track</span>
+       <div class="role">PHÓ CHỦ TỊCH THƯỜNG TRỰC</div>
+       <div class="name">Lê Công Lý</div>
+       <div class="sub">Demo phạm vi: nội chính, cải cách hành chính, tổ chức bộ máy và điều phối hoạt động thường xuyên.</div>
+       <div class="authority"><b>Đơn vị trực tiếp phụ trách</b><span>Văn phòng UBND · Sở Nội vụ · Sở Tư pháp · Thanh tra</span></div>
+       <div class="kpis"><div class="kpi"><label>CCHC</label><b>94%</b></div><div class="kpi"><label>VB ĐÚNG HẠN</label><b>97%</b></div><div class="kpi"><label>NHIỆM VỤ</label><b>92%</b></div></div>
+     </div>
+
+     <div class="node vp amber">
+       <span class="status warn">Cần chú ý</span>
+       <div class="role">PHÓ CHỦ TỊCH UBND THÀNH PHỐ</div>
+       <div class="name">Nguyễn Văn Khởi</div>
+       <div class="sub">Demo phạm vi: khoa học công nghệ, đổi mới sáng tạo, chuyển đổi số và một số lĩnh vực kinh tế.</div>
+       <div class="authority"><b>Đơn vị trực tiếp phụ trách</b><span>Sở KH&CN · Trung tâm dữ liệu · chương trình chuyển đổi số</span></div>
+       <div class="kpis"><div class="kpi"><label>CĐS</label><b>82%</b></div><div class="kpi"><label>DATA INTEGRATION</label><b>76%</b></div><div class="kpi"><label>DỊCH VỤ SỐ</label><b>88%</b></div></div>
+     </div>
+
+     <div class="node vp blue">
+       <span class="status">On track</span>
+       <div class="role">PHÓ CHỦ TỊCH UBND THÀNH PHỐ</div>
+       <div class="name">Phó Chủ tịch phụ trách Kinh tế</div>
+       <div class="sub">Dữ liệu demo để mô phỏng node: đầu tư công, tài chính, công thương, logistics và phát triển doanh nghiệp.</div>
+       <div class="authority"><b>Đơn vị trực tiếp phụ trách</b><span>Sở Tài chính · Sở Công Thương · BQL Khu kinh tế · các Ban QLDA</span></div>
+       <div class="kpis"><div class="kpi"><label>GIẢI NGÂN</label><b>63.2%</b></div><div class="kpi"><label>THU NS</label><b>71%</b></div><div class="kpi"><label>ĐẦU TƯ</label><b>84%</b></div></div>
+     </div>
+
+     <div class="node vp purple">
+       <span class="status red">Risk</span>
+       <div class="role">PHÓ CHỦ TỊCH UBND THÀNH PHỐ</div>
+       <div class="name">Phó Chủ tịch phụ trách Đô thị</div>
+       <div class="sub">Dữ liệu demo để mô phỏng node: xây dựng, đất đai, môi trường, GPMB và hạ tầng đô thị.</div>
+       <div class="authority"><b>Đơn vị trực tiếp phụ trách</b><span>Sở Xây dựng · Sở NN&MT · Ban QLDA giao thông</span></div>
+       <div class="kpis"><div class="kpi"><label>GPMB</label><b>68%</b></div><div class="kpi"><label>DỰ ÁN ON TRACK</label><b>72%</b></div><div class="kpi"><label>HỒ SƠ QH</label><b>89%</b></div></div>
+     </div>
+   </div>
+
+   <div class="branch-line" style="margin-top:28px"></div>
+   <div class="layer-title">CƠ QUAN CHUYÊN MÔN / ĐƠN VỊ TRỰC THUỘC</div>
+
+   <div class="cards six">
+     <div class="node dept"><div class="role">VĂN PHÒNG UBND</div><div class="name">Chánh Văn phòng UBND</div><div class="sub">Điều phối chương trình công tác · văn bản · theo dõi kết luận</div><div class="kpis"><div class="kpi"><label>VB ĐÚNG HẠN</label><b>97%</b></div><div class="kpi"><label>KL HỌP</label><b>93%</b></div><div class="kpi"><label>FOLLOW-UP</label><b>91%</b></div></div></div>
+     <div class="node dept blue"><div class="role">SỞ TÀI CHÍNH</div><div class="name">Giám đốc Sở Tài chính</div><div class="sub">Ngân sách · đầu tư công · tài chính dự án</div><div class="kpis"><div class="kpi"><label>GIẢI NGÂN</label><b>63.2%</b></div><div class="kpi"><label>THU NS</label><b>71%</b></div><div class="kpi"><label>FORECAST</label><b>86%</b></div></div></div>
+     <div class="node dept red"><div class="role">SỞ XÂY DỰNG</div><div class="name">Giám đốc Sở Xây dựng</div><div class="sub">Hạ tầng · quy hoạch · dự án giao thông đô thị</div><div class="kpis"><div class="kpi"><label>DỰ ÁN ON TRACK</label><b>72%</b></div><div class="kpi"><label>SLA HỒ SƠ</label><b>88%</b></div><div class="kpi"><label>BLOCKER</label><b>7</b></div></div></div>
+     <div class="node dept amber"><div class="role">SỞ NN&MT</div><div class="name">Giám đốc Sở NN&MT</div><div class="sub">Đất đai · GPMB · môi trường</div><div class="kpis"><div class="kpi"><label>GPMB</label><b>68%</b></div><div class="kpi"><label>HỒ SƠ ĐẤT</label><b>91%</b></div><div class="kpi"><label>QUÁ HẠN</label><b>12</b></div></div></div>
+     <div class="node dept"><div class="role">SỞ KH&CN</div><div class="name">Ngô Anh Tín</div><div class="sub">Khoa học công nghệ · đổi mới sáng tạo · chuyển đổi số</div><div class="kpis"><div class="kpi"><label>CĐS</label><b>82%</b></div><div class="kpi"><label>DATA</label><b>76%</b></div><div class="kpi"><label>PILOT</label><b>14</b></div></div></div>
+     <div class="node dept purple"><div class="role">SỞ Y TẾ</div><div class="name">Giám đốc Sở Y tế</div><div class="sub">Y tế · bệnh viện · dịch vụ công ngành y</div><div class="kpis"><div class="kpi"><label>BV TRỌNG ĐIỂM</label><b>58%</b></div><div class="kpi"><label>SLA</label><b>94%</b></div><div class="kpi"><label>DỊCH VỤ SỐ</label><b>79%</b></div></div></div>
+   </div>
+
+
+   <div class="branch-line" style="margin-top:30px;width:88%"></div>
+   <div class="layer-title">PHÒNG / BAN CHUYÊN MÔN</div>
+   <div class="cards six lower-level">
+     <div class="node dept"><div class="role">VP UBND · PHÒNG TỔNG HỢP</div><div class="name">Trưởng phòng Tổng hợp</div><div class="sub">Theo dõi chương trình công tác · tổng hợp nhiệm vụ UBND</div><div class="portfolio"><span class="tag">8 chuyên viên</span><span class="tag">42 nhiệm vụ</span></div></div>
+     <div class="node dept blue"><div class="role">SỞ TÀI CHÍNH · PHÒNG ĐẦU TƯ</div><div class="name">Trưởng phòng Đầu tư</div><div class="sub">Theo dõi vốn đầu tư công · thẩm định nguồn vốn</div><div class="portfolio"><span class="tag">11 chuyên viên</span><span class="tag">18 dự án</span></div></div>
+     <div class="node dept red"><div class="role">SỞ XÂY DỰNG · PHÒNG HTKT</div><div class="name">Trưởng phòng Hạ tầng kỹ thuật</div><div class="sub">Hạ tầng đô thị · giao thông · tiến độ dự án</div><div class="portfolio"><span class="tag">13 chuyên viên</span><span class="tag">7 dự án</span></div></div>
+     <div class="node dept amber"><div class="role">SỞ NN&MT · PHÒNG ĐẤT ĐAI</div><div class="name">Trưởng phòng Quản lý đất đai</div><div class="sub">Hồ sơ đất · GPMB · xác minh pháp lý</div><div class="portfolio"><span class="tag">16 chuyên viên</span><span class="tag">31 hồ sơ</span></div></div>
+     <div class="node dept"><div class="role">SỞ KH&CN · PHÒNG CĐS</div><div class="name">Trưởng phòng Chuyển đổi số</div><div class="sub">Nền tảng số · dữ liệu dùng chung · AI</div><div class="portfolio"><span class="tag">9 chuyên viên</span><span class="tag">14 pilot</span></div></div>
+     <div class="node dept purple"><div class="role">SỞ Y TẾ · PHÒNG KHTC</div><div class="name">Trưởng phòng Kế hoạch – Tài chính</div><div class="sub">Kế hoạch ngành · ngân sách · dự án y tế</div><div class="portfolio"><span class="tag">10 chuyên viên</span><span class="tag">12 chương trình</span></div></div>
+   </div>
+
+   <div class="branch-line" style="margin-top:30px;width:94%"></div>
+   <div class="layer-title">CHUYÊN VIÊN / NGƯỜI THỰC THI</div>
+   <div class="specialists">
+     <div class="person-card"><div class="person-avatar">HL</div><div class="person-info"><div class="person-unit">SỞ XÂY DỰNG</div><b>Hoàng Long</b><span>Chuyên viên Hạ tầng kỹ thuật</span></div><div class="work"><label>ĐANG PHỤ TRÁCH</label><b>Vành đai phía Tây</b><span>4 ticket · 1 việc quá hạn</span></div><div class="person-state risk-state">Có risk</div></div>
+     <div class="person-card"><div class="person-avatar">MN</div><div class="person-info"><div class="person-unit">SỞ TÀI CHÍNH</div><b>Mai Ngọc</b><span>Chuyên viên Đầu tư</span></div><div class="work"><label>ĐANG PHỤ TRÁCH</label><b>Thẩm định kế hoạch vốn</b><span>6 hồ sơ · 92% đúng hạn</span></div><div class="person-state">On track</div></div>
+     <div class="person-card"><div class="person-avatar">TA</div><div class="person-info"><div class="person-unit">SỞ NN&MT</div><b>Trần Anh</b><span>Chuyên viên Quản lý đất đai</span></div><div class="work"><label>ĐANG PHỤ TRÁCH</label><b>GPMB Bình Thủy</b><span>12 hồ sơ · 3 cần bổ sung</span></div><div class="person-state warn-state">Cần chú ý</div></div>
+     <div class="person-card"><div class="person-avatar">QH</div><div class="person-info"><div class="person-unit">VP UBND</div><b>Quốc Huy</b><span>Chuyên viên Tổng hợp</span></div><div class="work"><label>ĐANG PHỤ TRÁCH</label><b>Theo dõi kết luận UBND</b><span>18 nhiệm vụ · 94% đúng hạn</span></div><div class="person-state">On track</div></div>
+     <div class="person-card"><div class="person-avatar">PT</div><div class="person-info"><div class="person-unit">SỞ KH&CN</div><b>Phương Thảo</b><span>Chuyên viên Chuyển đổi số</span></div><div class="work"><label>ĐANG PHỤ TRÁCH</label><b>Dữ liệu dùng chung</b><span>5 workstream · 78% tiến độ</span></div><div class="person-state">On track</div></div>
+     <div class="person-card"><div class="person-avatar">DN</div><div class="person-info"><div class="person-unit">SỞ Y TẾ</div><b>Đức Nam</b><span>Chuyên viên Kế hoạch</span></div><div class="work"><label>ĐANG PHỤ TRÁCH</label><b>Bệnh viện Ung bướu</b><span>5 ticket · 2 blocker</span></div><div class="person-state risk-state">Có risk</div></div>
+   </div>
+
+   <div class="minimap">
+    <div class="mm topm" style="left:55px;top:10px;width:40px"></div>
+    <div class="mm vpm" style="left:12px;top:35px;width:28px"></div><div class="mm vpm" style="left:46px;top:35px;width:28px"></div><div class="mm vpm" style="left:80px;top:35px;width:28px"></div><div class="mm vpm" style="left:114px;top:35px;width:28px"></div>
+    <div class="mm dm" style="left:8px;top:61px;width:18px"></div><div class="mm dm" style="left:31px;top:61px;width:18px"></div><div class="mm dm" style="left:54px;top:61px;width:18px"></div><div class="mm dm" style="left:77px;top:61px;width:18px"></div><div class="mm dm" style="left:100px;top:61px;width:18px"></div><div class="mm dm" style="left:123px;top:61px;width:18px"></div>
+   </div>
+ </section>
+</main>
+
+<aside class="right">
+ <div class="rcard focus">
+  <div class="ey">ORG INTELLIGENCE</div>
+  <h3>Node đang chọn: Chủ tịch UBND Thành phố</h3>
+  <p>Hệ thống có thể tổng hợp KPI của các Phó Chủ tịch và Sở/đơn vị trực thuộc để phản ánh mức độ hoàn thành theo chuỗi trách nhiệm.</p>
+ </div>
+
+ <div class="rcard">
+  <h3>Thẩm quyền gắn với node</h3>
+  <div class="item"><b>Phê duyệt / quyết định cấp Thành phố</b><span>Chỉ hiển thị các loại quyết định thuộc thẩm quyền node.</span></div>
+  <div class="item"><b>Giao nhiệm vụ trực tiếp</b><span>Các PCT, Chánh VP và đơn vị trực thuộc.</span></div>
+  <div class="item"><b>Escalation</b><span>Issue liên Sở hoặc KPI vượt ngưỡng risk.</span></div>
+  <div class="item"><b>Ủy quyền / phân công</b><span>Gắn theo lĩnh vực và thời hạn hiệu lực.</span></div>
+ </div>
+
+ <div class="rcard risk">
+  <div class="ey">KPI CASCADE</div>
+  <p><b>Giải ngân đầu tư công 63.2%</b> đang thấp hơn target 69%. KPI này cascade từ Chủ tịch → PCT phụ trách kinh tế → Sở Tài chính/Ban QLDA → từng dự án.</p>
+  <div class="item"><b>Vành đai phía Tây</b><span>61% giải ngân · critical</span><div class="link">Drill-down KPI →</div></div>
+  <div class="item"><b>BV Ung bướu</b><span>49% giải ngân · critical</span><div class="link">Drill-down KPI →</div></div>
+ </div>
+
+ <div class="rcard">
+  <h3>Nhiệm vụ theo thẩm quyền</h3>
+  <div class="item"><b>5 nhiệm vụ cấp Chủ tịch đang mở</b><span>2 việc cần quyết định trong 48h</span></div>
+  <div class="item"><b>14 nhiệm vụ giao PCT</b><span>91% đúng hạn</span></div>
+  <div class="item"><b>38 nhiệm vụ giao Sở/đơn vị</b><span>4 nhiệm vụ đang overdue</span></div>
+ </div>
+</aside>
+</div>
+<script id="ct-navigation-wiring">
+(function(){
+  'use strict';
+  const FILES = {
+    mgmtHome: 'Tổng quan quản trị.html',
+    mgmtKpi: 'KPI tỉnh.html',
+    mgmtProjects: 'Dự án trọng điểm.html',
+    mgmtTasks: 'Nhiệm vụ Lãnh đạo.html',
+    mgmtCalendar: 'Lịch công tác.html',
+    execHome: 'Cổng chat nội bộ - Layer 2.html',
+    execIntranet: 'Intranet cần thơ_Layer 2.html',
+    execProjects: 'Portfolio dự án - Layer 2.html',
+    execProjectDetail: 'Dự án trọng điểm_chi tiết_Layer 2.html',
+    execProjectRoadmap: 'Lộ trình dự án chi tiết - Layer 2.html',
+    execDocs: 'Văn bản điều hành điện tử_Layer 2.html',
+    execDocDetail: 'Văn bản cần xử lý - Layer 2.html',
+    execCalendar: 'Lịch làm việc chi tiết_Layer 2.html',
+    execMeetings: 'Phòng họp số Layer 2.html',
+    execPeople: 'Quản lý cán bộ tỉnh - Layer 2.html',
+    execOrg: 'Sơ đồ tổ chức - Layer 2.html',
+    execWorkflow: 'Quy trình thẩm định nghiệp vụ - layer 2.html',
+    execWorkflowDetail: 'Chi tiết dự án cần thẩm định - layer 2.html'
+  };
+  const current = decodeURIComponent(location.pathname.split('/').pop() || '');
+  const isExec = /layer\s*2/i.test(current);
+  const normalize = s => (s||'').replace(/\s+/g,' ').trim().toLowerCase();
+  const goto = file => { if(file && current !== file) location.href = encodeURI(file); };
+
+  function targetFor(text, el){
+    const t = normalize(text);
+    if(!t) return null;
+
+    // Existing management shell
+    if(t.includes('tổng quan') && !isExec && (el.matches('a') || el.closest('.nav'))) return FILES.mgmtHome;
+    if(t.includes('kpi chiến lược')) return FILES.mgmtKpi;
+    if(t.includes('dự án trọng điểm') && !isExec) return FILES.mgmtProjects;
+    if(t.includes('nhiệm vụ lãnh đạo')) return FILES.mgmtTasks;
+    if(t.includes('lịch công tác')) return FILES.mgmtCalendar;
+
+    // Execution app launcher / major modules
+    if(t === '▤ trao đổi' || t.includes('trao đổi')) return FILES.execHome;
+    if(t.includes('intranet')) return FILES.execIntranet;
+    if(t === '▣ dự án' || t.includes('portfolio gantt')) return FILES.execProjects;
+    if((t === '▥ văn bản' || t === 'văn bản') && isExec) return FILES.execDocs;
+    if(t.includes('lịch lãnh đạo')) return FILES.execCalendar;
+    if(t.includes('phòng họp') || t.includes('họp trực tuyến')) return FILES.execMeetings;
+    if(t === '♙ cán bộ' || t.includes('tổng quan nhân sự')) return FILES.execPeople;
+    if(t.includes('sơ đồ tổ chức')) return FILES.execOrg;
+    if(t.includes('dịch vụ / quy trình')) return FILES.execWorkflow;
+
+    // Project drill-down
+    if(t.includes('vành đai phía tây')) return FILES.execProjectDetail;
+    if(t === '▦ tổng quan' && /dự án trọng điểm_chi tiết|lộ trình dự án/i.test(current)) return FILES.execProjectDetail;
+    if(t.includes('lộ trình') && /dự án trọng điểm_chi tiết|lộ trình dự án/i.test(current)) return FILES.execProjectRoadmap;
+    if(t.includes('mở hồ sơ dự án')) return FILES.execProjectDetail;
+    if(t.includes('timeline đầy đủ') || t.includes('mở milestone')) return FILES.execProjectRoadmap;
+
+    // Workflow drill-down
+    if(t.includes('01. thẩm định chuyên môn')) return FILES.execWorkflowDetail;
+    if(t.includes('thẩm định hồ sơ') && /chi tiết dự án cần thẩm định/i.test(current)) return FILES.execWorkflow;
+
+    // Document drill-down
+    if(t.includes('văn bản đến') && /văn bản điều hành điện tử/i.test(current)) return FILES.execDocDetail;
+    if(t.includes('quay lại') && /văn bản cần xử lý/i.test(current)) return FILES.execDocs;
+
+    // People drill-down
+    if(t.includes('mở sơ đồ đầy đủ')) return FILES.execOrg;
+
+    // Intranet channel to projects
+    if(t === 'dự án trọng điểm' && /intranet/i.test(current)) return FILES.execProjects;
+    return null;
+  }
+
+  const selectors = [
+    'a','.nav','.app','.appicon','.pm','.tree','.portfolio','.service','.back','.mode-switch button','.link','.project'
+  ].join(',');
+
+  document.querySelectorAll(selectors).forEach(el => {
+    const text = el.textContent || '';
+    const compactText = normalize(text);
+    // Some pages use .app as the root application container; never wire a large container.
+    if(el.classList.contains('app') && compactText.length > 40) return;
+    let target = null;
+    const nt = normalize(text);
+
+    // Mode switch is explicit and overrides text rules.
+    if(el.matches('.mode-switch button')){
+      if(nt === 'quản trị') target = FILES.mgmtHome;
+      if(nt === 'thực thi') target = FILES.execHome;
+    } else {
+      target = targetFor(text, el);
+    }
+    if(!target) return;
+
+    if(el.tagName === 'A') el.setAttribute('href', encodeURI(target));
+    el.setAttribute('data-nav-target', target);
+    el.setAttribute('role', el.getAttribute('role') || 'link');
+    if(!el.hasAttribute('tabindex') && el.tagName !== 'A' && el.tagName !== 'BUTTON') el.setAttribute('tabindex','0');
+    el.addEventListener('click', function(ev){
+      if(el.tagName === 'A') return; // native href works
+      ev.preventDefault();
+      goto(target);
+    });
+    if(el.tagName !== 'A' && el.tagName !== 'BUTTON'){
+      el.addEventListener('keydown', function(ev){
+        if(ev.key === 'Enter' || ev.key === ' '){ ev.preventDefault(); goto(target); }
+      });
+    }
+  });
+
+  // Brand/logo always returns to the home of the current mode, without changing visual design.
+  const brand = document.querySelector('.brand, .logo');
+  if(brand){
+    const target = isExec ? FILES.execHome : FILES.mgmtHome;
+    brand.setAttribute('data-nav-target',target);
+    brand.setAttribute('role','link');
+    brand.setAttribute('tabindex','0');
+    brand.addEventListener('click',()=>goto(target));
+    brand.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();goto(target);}});
+  }
+})();
+</script>
+</body>
+</html>

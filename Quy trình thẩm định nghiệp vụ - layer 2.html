@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BPM · Quy trình thẩm định chuyên ngành</title>
+<style>
+:root{
+ --navy:#0B2239;--green:#07883E;--blue:#2E7BEF;--cyan:#1FA3A3;--purple:#8257D4;
+ --amber:#E59519;--red:#DD474D;--orange:#F07B35;--line:#DDE5EA;--muted:#74808A;
+ --bg:#F7F9FB;--node:#fff;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#17212B;background:#fff}
+.app{height:100vh;display:grid;grid-template-columns:220px 1fr;grid-template-rows:50px 46px 1fr;overflow:hidden}
+.top{grid-column:1/-1;display:flex;align-items:center;border-bottom:1px solid var(--line);padding:0 14px;background:#fff}
+.logo{display:flex;align-items:center;gap:8px;font-weight:850;width:205px}.logo i{width:26px;height:26px;border-radius:6px;background:linear-gradient(135deg,var(--navy),var(--green));color:#fff;display:grid;place-items:center;font-style:normal;font-size:9px}
+.search{margin:auto;width:360px;border:1px solid #DAE2E7;border-radius:6px;padding:8px 12px;font-size:10px;color:#78858E}
+.topicons{display:flex;gap:16px;align-items:center;color:#5C6972}.ava{width:28px;height:28px;border-radius:50%;background:#E8F5EC;color:#087246;display:grid;place-items:center;font-size:8px;font-weight:850}
+
+.side{grid-row:2/4;background:#F8F9FA;border-right:1px solid var(--line);overflow:auto;padding:8px}
+.apptitle{height:42px;display:flex;align-items:center;font-size:14px;font-weight:850;padding:0 8px}
+.nav{padding:9px 9px;border-radius:6px;margin:2px 0;font-size:10px;color:#4F5D66}.nav.active{background:#E6F2FB;color:#246EA9;font-weight:800}
+.section{font-size:8px;color:#87939B;font-weight:800;margin:15px 9px 6px;letter-spacing:.06em}
+.service{padding:7px 7px 7px 14px;border-radius:6px;font-size:9px;color:#56636D;margin:1px 0}.service.active{background:#E7F3EC;color:#087246;font-weight:800}
+.dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:#4F75FF;margin-right:7px}
+.bottom{margin-top:18px;border-top:1px solid var(--line);padding-top:8px}
+
+.headbar{grid-column:2;grid-row:2;display:flex;align-items:center;border-bottom:1px solid var(--line);padding:0 14px;background:#fff}
+.flowname{font-size:13px;font-weight:850}.flowname span{color:#7B8790;font-weight:500;margin-left:6px}.tabs{display:flex;gap:20px;margin-left:32px;height:100%;align-items:center}.tab{height:100%;display:flex;align-items:center;font-size:9px;color:#5D6972}.tab.active{color:#1672C4;font-weight:850;border-bottom:2px solid #1672C4}
+.head-actions{margin-left:auto;display:flex;gap:7px}.btn{border:1px solid #D8E0E4;background:#fff;border-radius:6px;padding:7px 10px;font-size:8px;font-weight:750}.btn.primary{background:#07883E;color:#fff;border-color:#07883E}
+
+.canvas-wrap{grid-column:2;grid-row:3;position:relative;overflow:hidden;background-color:#FAFBFC;background-image:radial-gradient(#DDE4E8 1px,transparent 1px);background-size:16px 16px}
+.traffic{position:absolute;top:12px;left:50%;transform:translateX(-50%);background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:10px;box-shadow:0 3px 10px rgba(11,34,57,.05);font-size:8px;z-index:5}
+.traffic b{font-size:9px}.seg{display:flex;border:1px solid #E0E6EA;border-radius:6px;overflow:hidden}.seg span{padding:4px 7px;border-right:1px solid #E0E6EA}.seg span:last-child{border:0}.seg .on{background:#EAF3FC;color:#2473B0;font-weight:800}
+
+.canvas{position:absolute;left:40px;right:40px;top:72px;bottom:40px;min-width:1450px;min-height:680px}
+
+.node{position:absolute;width:150px;background:#fff;border:1px solid #DCE3E7;border-radius:7px;box-shadow:0 3px 10px rgba(11,34,57,.055);padding:9px 10px 8px;z-index:3}
+.node:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:7px 0 0 7px;background:var(--blue)}
+.node.start:before{background:var(--blue)}.node.manual:before{background:var(--red)}.node.approval:before{background:var(--green)}.node.decision:before{background:var(--amber)}.node.auto:before{background:var(--purple)}.node.ai:before{background:var(--cyan)}.node.end:before{background:var(--green)}
+.node .type{font-size:6px;color:#7C8992;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.node .title{font-size:8px;font-weight:850;margin:4px 0 3px;line-height:1.3}.node .meta{font-size:6.5px;color:#7C8992;line-height:1.35}
+.node .badge{position:absolute;right:6px;top:6px;background:#F0F3F5;border-radius:999px;padding:2px 4px;font-size:5.5px;color:#67747D}.node .badge.red{background:#FDE9E9;color:#B62D33}.node .badge.green{background:#E7F5EC;color:#087438}
+.port{position:absolute;width:8px;height:8px;border-radius:50%;background:#fff;border:2px solid #A9B6BE;z-index:5}.port.in{left:-5px;top:50%;transform:translateY(-50%)}.port.out{right:-5px;top:50%;transform:translateY(-50%)}
+
+.connector{position:absolute;height:2px;background:#AFC0C9;z-index:1}.connector.green{background:#76B993}.connector.red{background:#E38B8F}.connector.amber{background:#E7B85D}.connector.purple{background:#A78AD9}
+.arrow{position:absolute;width:0;height:0;border-top:4px solid transparent;border-bottom:4px solid transparent;border-left:6px solid #AFC0C9;z-index:2}.arrow.green{border-left-color:#76B993}.arrow.red{border-left-color:#E38B8F}.arrow.amber{border-left-color:#E7B85D}.arrow.purple{border-left-color:#A78AD9}
+.label{position:absolute;background:#fff;border:1px solid #DCE3E7;border-radius:999px;padding:3px 6px;font-size:5.5px;color:#697780;z-index:4;white-space:nowrap}
+.label.green{background:#ECF7F1;color:#087246;border-color:#D2EADC}.label.red{background:#FDF0F0;color:#A83539;border-color:#F0D3D4}.label.amber{background:#FFF6E8;color:#96630F;border-color:#F0DFC1}
+
+.toolbox{position:absolute;right:12px;bottom:18px;display:flex;flex-direction:column;gap:7px;z-index:6}
+.tool{width:34px;height:34px;border-radius:8px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;font-size:12px;color:#5D6B74;box-shadow:0 3px 9px rgba(11,34,57,.05)}
+.minimap{position:absolute;right:54px;bottom:18px;width:160px;height:108px;background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:8px;box-shadow:0 4px 14px rgba(11,34,57,.07);z-index:5;overflow:hidden}
+.mmline{position:absolute;height:3px;border-radius:2px;background:#6A8DEB}.mmline.g{background:#0A9B5B}.mmline.r{background:#E44B50}.mmline.a{background:#E9A22A}.mmline.p{background:#8D61D5}
+.infobar{position:absolute;left:14px;bottom:16px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:7px;color:#63717A;box-shadow:0 3px 10px rgba(11,34,57,.04);z-index:5}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+ <div class="logo"><i>CT</i><span>Cần Thơ · BPM</span></div>
+ <div class="search">⌕ &nbsp; Tìm workflow, bước xử lý, hồ sơ...</div>
+ <div class="topicons"><span>?</span><span>♧ 12</span><span>◐</span><div class="ava">VP</div><span>⌄</span></div>
+</header>
+
+<aside class="side">
+ <div class="apptitle">⌘ &nbsp; Nghiệp vụ</div>
+ <div class="nav">☷ &nbsp; Công việc của tôi</div>
+ <div class="nav active">▦ &nbsp; Dịch vụ / Quy trình</div>
+ <div class="section">NGHIỆP VỤ CHUYÊN NGÀNH</div>
+ <div class="service active">▾ &nbsp; Thẩm định hồ sơ</div>
+ <div class="service"><span class="dot"></span>01. Tiếp nhận hồ sơ</div>
+ <div class="service"><span class="dot"></span>02. Thẩm định chuyên môn</div>
+ <div class="service"><span class="dot"></span>03. Phối hợp liên Sở</div>
+ <div class="service"><span class="dot"></span>04. Tổng hợp & trình duyệt</div>
+ <div class="service"><span class="dot"></span>05. Phê duyệt & phát hành</div>
+ <div class="section">LĨNH VỰC</div>
+ <div class="service">Giáo dục</div><div class="service">Y tế</div><div class="service">Công Thương</div><div class="service">Xây dựng</div><div class="service">NN&MT</div>
+ <div class="bottom"><div class="nav">▥ &nbsp; Báo cáo</div><div class="nav">⚙ &nbsp; Cài đặt</div></div>
+</aside>
+
+<div class="headbar">
+ <div class="flowname">01. Thẩm định hồ sơ chuyên ngành <span>● Đang hoạt động</span></div>
+ <div class="tabs"><div class="tab">Pipeline</div><div class="tab">Kanban</div><div class="tab">Bảng</div><div class="tab active">Workflow</div><div class="tab">Linked Flows</div><div class="tab">Báo cáo</div></div>
+ <div class="head-actions"><button class="btn">⚙ Sửa flow</button><button class="btn primary">＋ Hồ sơ mới</button></div>
+</div>
+
+<div class="canvas-wrap">
+ <div class="traffic"><b>Traffic</b><span>ⓘ</span><span>126 executions</span><div class="seg"><span>Off</span><span class="on">7d</span><span>30d</span><span>90d</span></div></div>
+
+ <div class="canvas">
+   <div class="node start" style="left:30px;top:250px"><span class="port out"></span><span class="badge green">126</span><div class="type">Start</div><div class="title">Hồ sơ được tiếp nhận</div><div class="meta">eForm / Văn bản điện tử<br>Khởi tạo SLA & mã hồ sơ</div></div>
+
+   <div class="node ai" style="left:235px;top:250px"><span class="port in"></span><span class="port out"></span><span class="badge">AI</span><div class="type">AI / Automation</div><div class="title">OCR & kiểm tra thành phần</div><div class="meta">Đọc hồ sơ · metadata<br>phát hiện tài liệu thiếu</div></div>
+
+   <div class="node decision" style="left:440px;top:250px"><span class="port in"></span><span class="port out"></span><span class="badge">Rule</span><div class="type">Decision</div><div class="title">Hồ sơ hợp lệ?</div><div class="meta">Rule engine<br>theo checklist chuyên ngành</div></div>
+
+   <div class="node manual" style="left:440px;top:430px"><span class="port in"></span><span class="port out"></span><span class="badge red">Return</span><div class="type">Manual</div><div class="title">Yêu cầu bổ sung hồ sơ</div><div class="meta">Bộ phận Một cửa<br>Deadline bổ sung: 3 ngày</div></div>
+
+   <div class="node approval" style="left:645px;top:250px"><span class="port in"></span><span class="port out"></span><span class="badge green">SLA 2d</span><div class="type">Approval</div><div class="title">Thẩm định chuyên môn</div><div class="meta">Phòng chuyên môn<br>Checklist & nhận xét</div></div>
+
+   <div class="node auto" style="left:850px;top:250px"><span class="port in"></span><span class="port out"></span><span class="badge">Parallel</span><div class="type">Sub-flow</div><div class="title">Lấy ý kiến liên Sở</div><div class="meta">Xây dựng · NN&MT · Tài chính<br>chạy song song</div></div>
+
+   <div class="node decision" style="left:1055px;top:250px"><span class="port in"></span><span class="port out"></span><span class="badge">Decision</span><div class="type">Decision</div><div class="title">Có ý kiến mâu thuẫn?</div><div class="meta">So sánh ý kiến<br>và mức độ ảnh hưởng</div></div>
+
+   <div class="node ai" style="left:1055px;top:430px"><span class="port in"></span><span class="port out"></span><span class="badge">AI</span><div class="type">AI Assist</div><div class="title">Tóm tắt điểm khác biệt</div><div class="meta">AI nhóm ý kiến<br>đề xuất phương án xử lý</div></div>
+
+   <div class="node manual" style="left:1260px;top:430px"><span class="port in"></span><span class="port out"></span><span class="badge red">Escalate</span><div class="type">Manual</div><div class="title">Xin ý kiến lãnh đạo Sở</div><div class="meta">Decision note<br>chọn phương án xử lý</div></div>
+
+   <div class="node approval" style="left:1260px;top:250px"><span class="port in"></span><span class="port out"></span><span class="badge green">SLA 1d</span><div class="type">Approval</div><div class="title">Tổng hợp & trình phê duyệt</div><div class="meta">Dự thảo kết luận<br>kèm toàn bộ ý kiến</div></div>
+
+   <div class="node approval" style="left:1465px;top:250px"><span class="port in"></span><span class="port out"></span><span class="badge green">Sign</span><div class="type">Approval</div><div class="title">Phê duyệt & ký số</div><div class="meta">Lãnh đạo có thẩm quyền<br>Digital signature</div></div>
+
+   <div class="node auto" style="left:1670px;top:250px"><span class="port in"></span><span class="port out"></span><span class="badge">Auto</span><div class="type">Automation</div><div class="title">Cấp số & phát hành</div><div class="meta">Văn thư điện tử<br>gửi kết quả & archive</div></div>
+
+   <div class="node end" style="left:1875px;top:250px"><span class="port in"></span><span class="badge green">Done</span><div class="type">End</div><div class="title">Hoàn tất hồ sơ</div><div class="meta">Lưu hồ sơ điện tử<br>đóng SLA & audit trail</div></div>
+
+   <div class="node auto" style="left:850px;top:65px"><span class="port out"></span><span class="badge">API</span><div class="type">HTTP / API</div><div class="title">Tra cứu dữ liệu dùng chung</div><div class="meta">Đất đai · doanh nghiệp<br>giấy phép liên quan</div></div>
+
+   <!-- connectors -->
+   <div class="connector green" style="left:180px;top:289px;width:55px"></div><div class="arrow green" style="left:229px;top:286px"></div>
+   <div class="connector green" style="left:385px;top:289px;width:55px"></div><div class="arrow green" style="left:434px;top:286px"></div>
+   <div class="connector green" style="left:590px;top:289px;width:55px"></div><div class="arrow green" style="left:639px;top:286px"></div>
+   <div class="connector green" style="left:795px;top:289px;width:55px"></div><div class="arrow green" style="left:844px;top:286px"></div>
+   <div class="connector green" style="left:1000px;top:289px;width:55px"></div><div class="arrow green" style="left:1049px;top:286px"></div>
+   <div class="connector green" style="left:1205px;top:289px;width:55px"></div><div class="arrow green" style="left:1254px;top:286px"></div>
+   <div class="connector green" style="left:1410px;top:289px;width:55px"></div><div class="arrow green" style="left:1459px;top:286px"></div>
+   <div class="connector green" style="left:1615px;top:289px;width:55px"></div><div class="arrow green" style="left:1664px;top:286px"></div>
+   <div class="connector green" style="left:1820px;top:289px;width:55px"></div><div class="arrow green" style="left:1869px;top:286px"></div>
+
+   <!-- invalid branch -->
+   <div class="connector red" style="left:515px;top:330px;width:2px;height:100px"></div>
+   <div class="arrow red" style="left:512px;top:423px;transform:rotate(90deg)"></div>
+   <div class="label red" style="left:524px;top:355px">Không hợp lệ</div>
+
+   <!-- conflict branch -->
+   <div class="connector amber" style="left:1130px;top:330px;width:2px;height:100px"></div>
+   <div class="arrow amber" style="left:1127px;top:423px;transform:rotate(90deg)"></div>
+   <div class="connector purple" style="left:1205px;top:469px;width:55px"></div><div class="arrow purple" style="left:1254px;top:466px"></div>
+   <div class="label amber" style="left:1140px;top:355px">Có mâu thuẫn</div>
+
+   <!-- API line -->
+   <div class="connector purple" style="left:925px;top:135px;width:2px;height:115px"></div>
+   <div class="arrow purple" style="left:922px;top:242px;transform:rotate(90deg)"></div>
+   <div class="label" style="left:938px;top:178px">Lookup dữ liệu</div>
+
+   <div class="label green" style="left:592px;top:274px">Hợp lệ</div>
+   <div class="label green" style="left:1210px;top:274px">Không mâu thuẫn</div>
+ </div>
+
+ <div class="infobar">Workflow v3.2 · 126 executions · SLA trung bình 6.4 ngày · 89% đúng hạn</div>
+
+ <div class="minimap">
+   <div class="mmline" style="left:12px;top:54px;width:22px"></div>
+   <div class="mmline" style="left:38px;top:54px;width:22px"></div>
+   <div class="mmline a" style="left:64px;top:54px;width:22px"></div>
+   <div class="mmline g" style="left:90px;top:54px;width:22px"></div>
+   <div class="mmline p" style="left:116px;top:54px;width:22px"></div>
+   <div class="mmline r" style="left:64px;top:78px;width:18px"></div>
+   <div class="mmline g" style="left:138px;top:54px;width:14px"></div>
+ </div>
+
+ <div class="toolbox"><div class="tool">☷</div><div class="tool">⌕</div><div class="tool">−</div><div class="tool">＋</div><div class="tool">⌗</div></div>
+</div>
+</div>
+<script id="ct-navigation-wiring">
+(function(){
+  'use strict';
+  const FILES = {
+    mgmtHome: 'Tổng quan quản trị.html',
+    mgmtKpi: 'KPI tỉnh.html',
+    mgmtProjects: 'Dự án trọng điểm.html',
+    mgmtTasks: 'Nhiệm vụ Lãnh đạo.html',
+    mgmtCalendar: 'Lịch công tác.html',
+    execHome: 'Cổng chat nội bộ - Layer 2.html',
+    execIntranet: 'Intranet cần thơ_Layer 2.html',
+    execProjects: 'Portfolio dự án - Layer 2.html',
+    execProjectDetail: 'Dự án trọng điểm_chi tiết_Layer 2.html',
+    execProjectRoadmap: 'Lộ trình dự án chi tiết - Layer 2.html',
+    execDocs: 'Văn bản điều hành điện tử_Layer 2.html',
+    execDocDetail: 'Văn bản cần xử lý - Layer 2.html',
+    execCalendar: 'Lịch làm việc chi tiết_Layer 2.html',
+    execMeetings: 'Phòng họp số Layer 2.html',
+    execPeople: 'Quản lý cán bộ tỉnh - Layer 2.html',
+    execOrg: 'Sơ đồ tổ chức - Layer 2.html',
+    execWorkflow: 'Quy trình thẩm định nghiệp vụ - layer 2.html',
+    execWorkflowDetail: 'Chi tiết dự án cần thẩm định - layer 2.html'
+  };
+  const current = decodeURIComponent(location.pathname.split('/').pop() || '');
+  const isExec = /layer\s*2/i.test(current);
+  const normalize = s => (s||'').replace(/\s+/g,' ').trim().toLowerCase();
+  const goto = file => { if(file && current !== file) location.href = encodeURI(file); };
+
+  function targetFor(text, el){
+    const t = normalize(text);
+    if(!t) return null;
+
+    // Existing management shell
+    if(t.includes('tổng quan') && !isExec && (el.matches('a') || el.closest('.nav'))) return FILES.mgmtHome;
+    if(t.includes('kpi chiến lược')) return FILES.mgmtKpi;
+    if(t.includes('dự án trọng điểm') && !isExec) return FILES.mgmtProjects;
+    if(t.includes('nhiệm vụ lãnh đạo')) return FILES.mgmtTasks;
+    if(t.includes('lịch công tác')) return FILES.mgmtCalendar;
+
+    // Execution app launcher / major modules
+    if(t === '▤ trao đổi' || t.includes('trao đổi')) return FILES.execHome;
+    if(t.includes('intranet')) return FILES.execIntranet;
+    if(t === '▣ dự án' || t.includes('portfolio gantt')) return FILES.execProjects;
+    if((t === '▥ văn bản' || t === 'văn bản') && isExec) return FILES.execDocs;
+    if(t.includes('lịch lãnh đạo')) return FILES.execCalendar;
+    if(t.includes('phòng họp') || t.includes('họp trực tuyến')) return FILES.execMeetings;
+    if(t === '♙ cán bộ' || t.includes('tổng quan nhân sự')) return FILES.execPeople;
+    if(t.includes('sơ đồ tổ chức')) return FILES.execOrg;
+    if(t.includes('dịch vụ / quy trình')) return FILES.execWorkflow;
+
+    // Project drill-down
+    if(t.includes('vành đai phía tây')) return FILES.execProjectDetail;
+    if(t === '▦ tổng quan' && /dự án trọng điểm_chi tiết|lộ trình dự án/i.test(current)) return FILES.execProjectDetail;
+    if(t.includes('lộ trình') && /dự án trọng điểm_chi tiết|lộ trình dự án/i.test(current)) return FILES.execProjectRoadmap;
+    if(t.includes('mở hồ sơ dự án')) return FILES.execProjectDetail;
+    if(t.includes('timeline đầy đủ') || t.includes('mở milestone')) return FILES.execProjectRoadmap;
+
+    // Workflow drill-down
+    if(t.includes('01. thẩm định chuyên môn')) return FILES.execWorkflowDetail;
+    if(t.includes('thẩm định hồ sơ') && /chi tiết dự án cần thẩm định/i.test(current)) return FILES.execWorkflow;
+
+    // Document drill-down
+    if(t.includes('văn bản đến') && /văn bản điều hành điện tử/i.test(current)) return FILES.execDocDetail;
+    if(t.includes('quay lại') && /văn bản cần xử lý/i.test(current)) return FILES.execDocs;
+
+    // People drill-down
+    if(t.includes('mở sơ đồ đầy đủ')) return FILES.execOrg;
+
+    // Intranet channel to projects
+    if(t === 'dự án trọng điểm' && /intranet/i.test(current)) return FILES.execProjects;
+    return null;
+  }
+
+  const selectors = [
+    'a','.nav','.app','.appicon','.pm','.tree','.portfolio','.service','.back','.mode-switch button','.link','.project'
+  ].join(',');
+
+  document.querySelectorAll(selectors).forEach(el => {
+    const text = el.textContent || '';
+    const compactText = normalize(text);
+    // Some pages use .app as the root application container; never wire a large container.
+    if(el.classList.contains('app') && compactText.length > 40) return;
+    let target = null;
+    const nt = normalize(text);
+
+    // Mode switch is explicit and overrides text rules.
+    if(el.matches('.mode-switch button')){
+      if(nt === 'quản trị') target = FILES.mgmtHome;
+      if(nt === 'thực thi') target = FILES.execHome;
+    } else {
+      target = targetFor(text, el);
+    }
+    if(!target) return;
+
+    if(el.tagName === 'A') el.setAttribute('href', encodeURI(target));
+    el.setAttribute('data-nav-target', target);
+    el.setAttribute('role', el.getAttribute('role') || 'link');
+    if(!el.hasAttribute('tabindex') && el.tagName !== 'A' && el.tagName !== 'BUTTON') el.setAttribute('tabindex','0');
+    el.addEventListener('click', function(ev){
+      if(el.tagName === 'A') return; // native href works
+      ev.preventDefault();
+      goto(target);
+    });
+    if(el.tagName !== 'A' && el.tagName !== 'BUTTON'){
+      el.addEventListener('keydown', function(ev){
+        if(ev.key === 'Enter' || ev.key === ' '){ ev.preventDefault(); goto(target); }
+      });
+    }
+  });
+
+  // Brand/logo always returns to the home of the current mode, without changing visual design.
+  const brand = document.querySelector('.brand, .logo');
+  if(brand){
+    const target = isExec ? FILES.execHome : FILES.mgmtHome;
+    brand.setAttribute('data-nav-target',target);
+    brand.setAttribute('role','link');
+    brand.setAttribute('tabindex','0');
+    brand.addEventListener('click',()=>goto(target));
+    brand.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();goto(target);}});
+  }
+})();
+</script>
+</body>
+</html>

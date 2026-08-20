@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trao đổi công việc · Cần Thơ Execution Layer</title>
+<style>
+:root{--navy:#0B2239;--navy2:#12304A;--green:#07883E;--green2:#0A6E43;--teal:#168C8C;--bg:#F5F7F8;--line:#E3E8EC;--text:#18232D;--muted:#77838C;--white:#fff;--red:#D84646;--amber:#E89A19}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:var(--text);background:#fff;font-size:13px}
+.app{height:100vh;display:grid;grid-template-columns:68px 54px 280px minmax(520px,1fr) 310px;grid-template-rows:52px 1fr;overflow:hidden}
+.top{grid-column:1/-1;background:var(--navy);color:#fff;display:flex;align-items:center;padding:0 14px;gap:12px}
+.launcher{width:38px;height:34px;border-radius:7px;background:rgba(255,255,255,.1);display:grid;place-items:center;font-size:17px}.product{height:34px;padding:0 12px;border-radius:7px;background:var(--green2);display:flex;align-items:center;gap:8px;font-weight:750}.product i{width:21px;height:21px;border-radius:50%;background:#fff;color:var(--green2);display:grid;place-items:center;font-style:normal;font-size:11px}
+.search{margin:auto;width:360px;background:rgba(255,255,255,.1);border-radius:6px;padding:8px 12px;color:#C9D6DE;font-size:11px}.topright{display:flex;gap:14px;align-items:center;font-size:11px}.badge{background:var(--red);padding:2px 5px;border-radius:8px;font-size:9px}.avatar{width:27px;height:27px;border-radius:50%;background:#E8F5EC;color:var(--green2);display:grid;place-items:center;font-weight:800}
+.apps{grid-row:2;background:#0D3550;color:#D9E6ED;padding:10px 6px;overflow:auto}.appicon{height:58px;border-radius:8px;margin-bottom:6px;text-align:center;padding:7px 2px;font-size:8px;line-height:1.2}.appicon b{width:28px;height:28px;border-radius:7px;background:rgba(255,255,255,.09);display:grid;place-items:center;margin:0 auto 4px;font-size:13px}.appicon.active{background:#0B7449;color:#fff}.appicon.active b{background:#0C8A55}
+.modules{grid-row:2;background:#0F4561;color:#D7E5EC;padding:10px 7px}.mod{width:39px;height:39px;border-radius:8px;display:grid;place-items:center;margin:0 auto 8px;background:rgba(255,255,255,.05);font-size:15px}.mod.active{background:var(--green);color:#fff}.mod.alert:after{content:"8";position:absolute;background:#D94B4B;color:#fff;border-radius:9px;font-size:8px;padding:2px 5px;margin:-30px -31px 0 0}
+.chats{grid-row:2;background:#fff;border-right:1px solid var(--line);overflow:auto}.chats-head{height:58px;display:flex;align-items:center;padding:0 16px;border-bottom:1px solid var(--line);font-size:17px;font-weight:800}.chats-head span{margin-left:auto;color:var(--muted);font-size:16px}.section{padding:15px 14px 5px;font-size:9px;font-weight:800;color:#53616B}.chat{margin:2px 8px;padding:8px;border-radius:7px;display:flex;gap:9px;align-items:center}.chat:hover,.chat.active{background:#EAF5EF}.circle{width:28px;height:28px;border-radius:50%;background:#DDEBE4;color:var(--green2);display:grid;place-items:center;font-size:9px;font-weight:800;flex:0 0 auto}.chat .name{font-size:11px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.chat .preview{font-size:9px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.unread{margin-left:auto;background:#D95757;color:#fff;border-radius:10px;padding:2px 5px;font-size:8px}
+.conversation{grid-row:2;display:grid;grid-template-rows:58px 44px 1fr 144px;min-width:0}.conv-head{display:flex;align-items:center;padding:0 18px;border-bottom:1px solid var(--line)}.conv-head .circle{width:34px;height:34px;background:#E7F4EC}.conv-title{margin-left:10px;font-size:15px;font-weight:800}.conv-sub{font-size:9px;color:var(--muted);margin-top:2px}.tools{margin-left:auto;color:#66757F;display:flex;gap:17px;font-size:15px}.pin{display:flex;align-items:center;padding:0 18px;border-bottom:1px solid var(--line);font-size:10px;background:#FCFDFD}.pin b{color:var(--green2);margin-right:7px}.messages{overflow:auto;padding:16px 20px}.msg{display:flex;gap:10px;margin-bottom:17px}.msg .circle{width:32px;height:32px}.bubble{max-width:760px}.who{font-size:11px;font-weight:800}.who span{font-weight:400;color:var(--muted);margin-left:5px}.text{font-size:11px;line-height:1.6;margin-top:4px}.mention{color:#087E50;font-weight:700}.attachment{margin-top:8px;border:1px solid var(--line);border-radius:8px;padding:9px 11px;background:#FAFCFB;display:flex;align-items:center;gap:9px;font-size:10px}.file{width:29px;height:34px;background:#E7F4EC;color:var(--green2);border-radius:5px;display:grid;place-items:center;font-weight:800}.system{margin:12px auto;text-align:center;font-size:9px;color:var(--muted);background:#F4F7F8;border-radius:10px;padding:5px 9px;width:max-content}.composer{border-top:1px solid var(--line);padding:10px 16px}.composebox{border:1px solid #CFD7DC;border-radius:8px;height:118px;padding:10px}.format{display:flex;gap:15px;color:#65737C;font-weight:700;font-size:12px}.placeholder{color:#9AA4AA;margin-top:16px;font-size:11px}.composebottom{display:flex;align-items:center;gap:14px;margin-top:20px;color:#697780}.send{margin-left:auto;color:var(--green);font-size:18px}
+.info{grid-row:2;border-left:1px solid var(--line);background:#fff;overflow:auto}.info-tabs{height:58px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:24px;padding:0 16px;color:#73808A}.info-tabs b{color:var(--green);border-bottom:2px solid var(--green);height:58px;display:flex;align-items:center}.group{padding:18px 16px;border-bottom:1px solid var(--line)}.group h3{font-size:12px;margin:0 0 12px}.group-title{display:flex;align-items:center;gap:10px}.group-title .circle{width:42px;height:42px}.group-title strong{font-size:13px}.group-title small{display:block;color:var(--muted);font-size:9px;margin-top:4px}.info-row{padding:11px 0;border-bottom:1px solid #F0F2F3;font-size:10px}.member{display:flex;gap:9px;align-items:center;margin:11px 0}.member .circle{width:31px;height:31px}.member b{font-size:10px}.member small{display:block;font-size:8px;color:var(--muted);margin-top:2px}.role{font-size:7px;background:#E8F5EC;color:var(--green2);padding:2px 5px;border-radius:5px;margin-left:5px}
+@media(max-width:1100px){.app{grid-template-columns:60px 48px 245px 1fr}.info{display:none}.search{width:260px}}
+
+/* High-tech execution refinements */
+.top{background:linear-gradient(90deg,#08263D 0%,#0B2239 55%,#0A3E3C 100%);box-shadow:0 1px 0 rgba(255,255,255,.05)}
+.product{background:linear-gradient(135deg,#087A4B,#0B9B61);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+.search{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(8px)}
+.apps{background:linear-gradient(180deg,#0B2B42,#09354A)}
+.modules{background:linear-gradient(180deg,#0D405B,#0B4B55)}
+.chats-head{background:linear-gradient(180deg,#fff,#FAFCFB)}
+.folder{margin:5px 8px 3px;padding:7px 8px;border-radius:7px;background:#F5F8F7;border:1px solid #E7EEEA;font-size:10px;font-weight:800;color:#496059;display:flex;align-items:center}
+.folder span{margin-left:auto;color:#83908A;font-weight:500}
+.folder .caret{margin-right:6px;color:#0A7A4B}
+.chat.project{margin-left:18px;position:relative}
+.chat.project:before{content:"";position:absolute;left:-10px;top:0;bottom:0;border-left:1px solid #D9E4DE}
+.chat.project .circle{background:linear-gradient(135deg,#DDF4E6,#EAF7F1);box-shadow:inset 0 0 0 1px #CBE6D6}
+.conv-head{background:linear-gradient(180deg,#fff,#FBFDFC)}
+.conv-title{letter-spacing:.01em}
+.pin{background:linear-gradient(90deg,#F3FAF6,#F8FBFA);border-left:3px solid var(--green)}
+.messages{background:
+ radial-gradient(circle at 20% 10%,rgba(7,136,62,.025),transparent 24%),
+ radial-gradient(circle at 80% 85%,rgba(22,140,140,.025),transparent 28%),
+ #fff}
+.msg .circle{box-shadow:0 0 0 2px #fff,0 0 0 3px #DDE8E2}
+.text{background:#FCFDFD;border-radius:7px;padding:2px 0}
+.ai-event{margin:12px auto;width:88%;background:linear-gradient(90deg,#ECF8F1,#EFF7FA);border:1px solid #D7E9DE;border-radius:10px;padding:9px 12px;font-size:9px;color:#49645A;display:flex;align-items:center;gap:8px}
+.ai-event b{color:#08784A}
+.smart-card{margin-top:8px;border:1px solid #D8E7DF;border-radius:9px;background:linear-gradient(135deg,#F7FCF9,#F8FBFC);padding:10px}
+.smart-card .smart-head{font-size:9px;font-weight:800;color:#08784A;margin-bottom:7px;letter-spacing:.04em}
+.smart-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.smart-kpi{background:#fff;border:1px solid #E3EAE6;border-radius:7px;padding:7px}
+.smart-kpi b{display:block;font-size:11px}.smart-kpi span{font-size:8px;color:var(--muted)}
+.action-chip{display:inline-block;margin:6px 5px 0 0;padding:5px 7px;border-radius:999px;background:#E9F5EF;color:#08784A;font-size:8px;font-weight:700}
+.composebox{background:linear-gradient(180deg,#fff,#FBFDFC);box-shadow:0 2px 14px rgba(11,34,57,.04)}
+.ai-compose{margin-left:auto;margin-right:10px;font-size:9px;color:#08784A;background:#EAF6EF;padding:5px 8px;border-radius:999px;font-weight:750}
+.info{background:linear-gradient(180deg,#fff,#FCFDFC)}
+.group h3,.card-title{letter-spacing:.02em}
+
+/* v3 sharp responsive composer */
+.conversation{grid-template-rows:58px 44px 1fr auto}
+.composer{
+  border-top:1px solid var(--line);
+  padding:12px 16px 14px;
+  background:linear-gradient(180deg,#FBFDFC,#F6FAF8);
+}
+.composebox{
+  height:auto;
+  min-height:132px;
+  border:1px solid #AFCABD;
+  border-radius:12px;
+  padding:0;
+  background:#fff;
+  box-shadow:0 5px 20px rgba(11,34,57,.06);
+  overflow:hidden;
+}
+.compose-top{
+  display:flex;align-items:center;gap:14px;
+  min-height:38px;padding:0 12px;
+  border-bottom:1px solid #EDF2EF;
+  color:#5E6C65;font-size:12px;
+}
+.compose-top .tool{cursor:pointer}
+.compose-top .tool:hover{color:var(--green)}
+.compose-editor{
+  min-height:58px;padding:13px 14px 8px;
+  color:#9AA4AA;font-size:11px;line-height:1.55;
+}
+.compose-bottom{
+  display:flex;align-items:center;gap:10px;
+  min-height:38px;padding:7px 10px 9px;
+}
+.compose-icon{
+  width:28px;height:28px;border-radius:7px;
+  display:grid;place-items:center;color:#61706A;
+  cursor:pointer;font-size:13px;
+}
+.compose-icon:hover{background:#EFF6F2;color:var(--green)}
+.ai-compose{
+  margin-left:4px;
+  font-size:9px;color:#08784A;
+  background:#EAF6EF;border:1px solid #D5EADD;
+  padding:6px 9px;border-radius:999px;font-weight:750;
+}
+.send-wrap{margin-left:auto;display:flex;align-items:center;gap:6px}
+.send-main{
+  width:42px;height:32px;border-radius:8px;
+  display:grid;place-items:center;
+  background:linear-gradient(135deg,#07883E,#0A9C5A);
+  color:#fff;font-size:16px;box-shadow:0 4px 12px rgba(7,136,62,.22);
+}
+.send-more{
+  width:26px;height:32px;border-radius:8px;
+  display:grid;place-items:center;
+  background:#EAF6EF;color:#08784A;font-size:10px;
+}
+.compose-hint{
+  margin-top:7px;
+  font-size:8px;color:#8A9690;
+  display:flex;justify-content:space-between;
+}
+@media(max-width:900px){
+  .app{grid-template-columns:56px 0 220px 1fr}
+  .modules{display:none}
+  .composer{padding:8px 10px 10px}
+  .composebox{min-height:116px}
+  .compose-top{gap:10px;overflow-x:auto}
+  .ai-compose{display:none}
+}
+@media(max-width:700px){
+  .app{grid-template-columns:52px 1fr}
+  .chats{display:none}
+  .conversation{grid-column:2}
+  .top .search{display:none}
+  .topright b{display:none}
+  .composer{position:sticky;bottom:0;z-index:5}
+}
+
+/* v4: composer is always visible inside chat detail */
+.conversation{
+  position:relative;
+  min-height:0;
+  overflow:hidden;
+  grid-template-rows:62px 42px 46px minmax(0,1fr) 156px;
+  background:#fff;
+}
+.messages{
+  min-height:0;
+  overflow-y:auto;
+  padding:16px 20px 22px;
+}
+.composer{
+  position:relative !important;
+  bottom:auto !important;
+  z-index:3;
+  height:156px;
+  padding:10px 16px 12px;
+  background:linear-gradient(180deg,#F9FCFA 0%,#F4F9F6 100%);
+  border-top:1px solid #DCE7E1;
+  box-shadow:0 -5px 18px rgba(11,34,57,.05);
+}
+.composebox{
+  min-height:126px;
+  height:126px;
+  border:1px solid #8FBDA4;
+  border-radius:12px;
+  box-shadow:0 3px 14px rgba(7,136,62,.08);
+}
+.compose-editor{
+  min-height:56px;
+  padding:12px 14px 7px;
+}
+.compose-bottom{padding-bottom:8px}
+@media(max-width:700px){
+  .conversation{grid-template-rows:56px 42px minmax(0,1fr) 148px}
+  .composer{height:148px;padding:8px 10px 10px}
+  .composebox{height:120px;min-height:120px}
+}
+
+/* v5: sharpen central chat detail */
+.conversation{
+  background:#F7FAF8;
+  border-left:1px solid #DDE6E1;
+  border-right:1px solid #DDE6E1;
+}
+.conv-head{
+  height:62px;
+  padding:0 18px;
+  background:#FFFFFF;
+  border-bottom:1px solid #DDE6E1;
+  box-shadow:0 2px 10px rgba(11,34,57,.035);
+}
+.conv-head .circle{
+  width:38px;height:38px;
+  background:linear-gradient(135deg,#0B7D4C,#0A9B5B);
+  color:#fff;
+  box-shadow:0 4px 10px rgba(7,136,62,.18);
+}
+.conv-title{
+  font-size:15px;
+  line-height:1.2;
+}
+.conv-sub{
+  margin-top:4px;
+  font-size:9px;
+}
+.tools span{
+  width:30px;height:30px;border-radius:7px;
+  display:grid;place-items:center;
+  background:#F5F8F6;
+  border:1px solid #E3E9E5;
+}
+.tools span:hover{
+  background:#EAF6EF;
+  color:#08784A;
+}
+.pin{
+  min-height:46px;
+  padding:0 16px;
+  background:#FFFFFF;
+  border-bottom:1px solid #E6ECE8;
+  border-left:0;
+}
+.pin:before{
+  content:"";
+  width:4px;height:26px;border-radius:3px;
+  background:#0A8A53;
+  margin-right:10px;
+}
+.messages{
+  padding:18px 24px 26px;
+  background:
+    linear-gradient(rgba(255,255,255,.94),rgba(255,255,255,.94)),
+    radial-gradient(circle at top right,rgba(7,136,62,.08),transparent 28%);
+}
+.msg{
+  margin-bottom:20px;
+  align-items:flex-start;
+}
+.msg .circle{
+  width:34px;height:34px;
+  font-size:9px;
+}
+.bubble{
+  max-width:720px;
+}
+.who{
+  font-size:11px;
+  margin-bottom:5px;
+}
+.text{
+  margin-top:0;
+  padding:10px 12px;
+  background:#FFFFFF;
+  border:1px solid #E0E8E3;
+  border-radius:10px;
+  line-height:1.6;
+  box-shadow:0 2px 8px rgba(11,34,57,.025);
+}
+.msg:nth-of-type(even) .text{
+  background:#FBFDFC;
+}
+.attachment{
+  margin-top:8px;
+  background:#F8FBF9;
+  border-color:#DDE8E1;
+}
+.smart-card{
+  margin-top:9px;
+  border-color:#CFE4D7;
+  background:linear-gradient(135deg,#F3FAF6,#F8FCFA);
+  box-shadow:0 2px 8px rgba(7,136,62,.04);
+}
+.ai-event{
+  width:92%;
+  margin:14px auto 18px;
+  border-left:3px solid #0A8A53;
+  border-radius:8px;
+  background:linear-gradient(90deg,#EDF8F2,#F5FAF8);
+  box-shadow:none;
+}
+.composer{
+  background:#FFFFFF;
+  border-top:1px solid #D6E2DB;
+  box-shadow:0 -8px 24px rgba(11,34,57,.05);
+}
+.composebox{
+  border:1px solid #82B99C;
+  box-shadow:0 0 0 2px rgba(7,136,62,.04),0 5px 16px rgba(11,34,57,.045);
+}
+.compose-editor{
+  color:#77827C;
+}
+
+/* v6 linked-object rail */
+.apps{padding:8px 6px}
+.object-hub{
+  margin:2px 2px 10px;
+  padding:8px 4px 7px;
+  border-radius:10px;
+  background:linear-gradient(180deg,#0B754A,#08653F);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);
+  text-align:center;color:#fff;
+}
+.object-hub .hubicon{
+  width:32px;height:32px;margin:0 auto 5px;border-radius:8px;
+  display:grid;place-items:center;background:rgba(255,255,255,.14);
+  font-size:15px
+}
+.object-hub b{font-size:8px;display:block;line-height:1.25}
+.object-label{
+  font-size:7px;font-weight:800;letter-spacing:.08em;
+  color:#8FB9AC;text-align:center;margin:10px 0 6px;
+}
+.linked-object{
+  position:relative;
+  min-height:51px;
+  border-radius:9px;
+  margin:4px 0;
+  padding:6px 2px;
+  text-align:center;
+  color:#D9E9E2;
+  font-size:7px;
+  line-height:1.2;
+  cursor:pointer;
+}
+.linked-object:hover{background:rgba(255,255,255,.07)}
+.linked-object .objicon{
+  width:27px;height:27px;border-radius:7px;
+  margin:0 auto 4px;
+  display:grid;place-items:center;
+  background:rgba(255,255,255,.08);
+  color:#BEE1D0;font-size:12px;
+}
+.linked-object.project-link{
+  background:rgba(255,255,255,.09);
+  box-shadow:inset 3px 0 0 #41C77B;
+}
+.linked-object.project-link .objicon{
+  background:#E8F6EE;color:#08784A;
+}
+.linked-object .dot{
+  position:absolute;right:5px;top:5px;
+  width:6px;height:6px;border-radius:50%;background:#49D082;
+  box-shadow:0 0 0 2px #0B3550;
+}
+.object-separator{height:1px;background:rgba(255,255,255,.1);margin:9px 5px}
+
+/* v7 linked objects in chat detail right panel */
+.info{background:#FCFDFC}
+.info-tabs{
+  position:sticky;top:0;z-index:2;
+  background:#fff;
+}
+.object-panel{padding:14px 14px 4px}
+.object-context{
+  border:1px solid #D9E6DF;
+  background:linear-gradient(135deg,#F2FAF5,#F8FBFA);
+  border-radius:12px;padding:12px;margin-bottom:12px;
+}
+.object-context .eyebrow{
+  font-size:8px;font-weight:800;letter-spacing:.08em;color:#0A7B4B;
+  margin-bottom:7px;
+}
+.object-context .main-object{display:flex;align-items:center;gap:10px}
+.object-context .main-icon{
+  width:38px;height:38px;border-radius:9px;
+  background:linear-gradient(135deg,#087C4C,#0A9A5B);color:#fff;
+  display:grid;place-items:center;font-size:15px;
+  box-shadow:0 4px 12px rgba(7,136,62,.16);
+}
+.object-context .main-object b{font-size:12px;display:block}
+.object-context .main-object span{font-size:8px;color:var(--muted);display:block;margin-top:3px}
+.object-kpis{
+  margin-top:10px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;
+}
+.object-kpi{
+  background:#fff;border:1px solid #E2EAE5;border-radius:8px;padding:7px;
+}
+.object-kpi b{font-size:10px;display:block}.object-kpi span{font-size:7px;color:var(--muted)}
+.link-section{margin-bottom:12px}
+.link-section-head{
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:9px;font-weight:800;color:#4D5C55;
+  margin:0 2px 7px;
+}
+.link-section-head span:last-child{font-weight:600;color:#8A9690}
+.link-object{
+  display:flex;align-items:center;gap:9px;
+  padding:9px 9px;border:1px solid #E3EAE6;
+  background:#fff;border-radius:9px;margin-bottom:6px;
+}
+.link-object:hover{border-color:#BDD6C8;background:#F8FCFA}
+.link-object .lo-icon{
+  width:30px;height:30px;border-radius:8px;
+  background:#EEF7F2;color:#08784A;
+  display:grid;place-items:center;font-size:12px;flex:0 0 auto;
+}
+.link-object .lo-body{min-width:0;flex:1}
+.link-object .lo-title{
+  font-size:9px;font-weight:750;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.link-object .lo-meta{font-size:7px;color:var(--muted);margin-top:3px}
+.link-object .lo-arrow{color:#8C9891;font-size:10px}
+.object-pill{
+  display:inline-block;padding:3px 5px;border-radius:999px;
+  font-size:7px;font-weight:800;margin-left:5px;
+}
+.object-pill.green{background:#E8F5EC;color:#087438}
+.object-pill.amber{background:#FFF3DF;color:#9B6100}
+.object-pill.red{background:#FBEAEA;color:#A72929}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+ <div class="launcher">⠿</div><div class="product"><i>CT</i> Thực thi</div>
+ <div style="font-size:14px">▣</div><div style="font-size:15px">⚙</div><div style="font-size:17px">＋</div>
+ <div class="search">⌕ &nbsp; Tìm kiếm công việc, người, văn bản...</div>
+ <div class="topright"><span>◉</span><span>◷ <i class="badge">5</i></span><span>▣ <i class="badge">12</i></span><div class="avatar">NA</div><b>Nguyễn Anh</b></div>
+</header>
+
+<aside class="apps">
+ <div class="appicon active"><b>▤</b>Trao đổi</div>
+ <div class="appicon"><b>✓</b>Nhiệm vụ</div>
+ <div class="appicon"><b>⇄</b>Phối hợp</div>
+ <div class="appicon"><b>▣</b>Dự án</div>
+ <div class="appicon"><b>▥</b>Văn bản</div>
+ <div class="appicon"><b>▧</b>Báo cáo</div>
+ <div class="appicon"><b>◫</b>Hồ sơ</div>
+ <div class="appicon"><b>✦</b>Trợ lý AI</div>
+</aside>
+
+<aside class="modules">
+ <div class="mod">◆</div><div class="mod active">▤</div><div class="mod alert">◉</div><div class="mod">☆</div><div class="mod">▱</div>
+</aside>
+
+<section class="chats">
+ <div class="chats-head">☷ &nbsp; Trao đổi <span>⌕ &nbsp; ✎</span></div>
+ <div class="section">GHIM</div>
+ <div class="chat"><div class="circle">UB</div><div><div class="name">Lãnh đạo UBND Thành phố</div><div class="preview">Điều phối công việc trọng tâm</div></div></div>
+ <div class="chat"><div class="circle">TC</div><div><div class="name">Sở Tài chính · Điều hành</div><div class="preview">Giải ngân & ngân sách</div></div></div>
+
+ <div class="section">KHÔNG GIAN CÔNG VIỆC</div>
+ <div class="folder"><span class="caret">⌄</span>Dự án trọng điểm <span>6 nhóm</span></div>
+ <div class="chat project active"><div class="circle">VD</div><div style="min-width:0"><div class="name">Vành đai phía Tây</div><div class="preview">GPMB · tiến độ · giải ngân</div></div><span class="unread">9</span></div>
+ <div class="chat project"><div class="circle">KC</div><div><div class="name">KCN Vĩnh Thạnh</div><div class="preview">Thủ tục · nhà đầu tư · hạ tầng</div></div></div>
+ <div class="chat project"><div class="circle">BV</div><div><div class="name">Bệnh viện Ung bướu</div><div class="preview">Tài chính · tiến độ · nhà thầu</div></div><span class="unread">2</span></div>
+ <div class="chat project"><div class="circle">LG</div><div><div class="name">Logistics Cái Cui</div><div class="preview">Quy hoạch · hạ tầng kết nối</div></div></div>
+ <div class="chat project"><div class="circle">CT</div><div><div class="name">Cầu Cần Thơ 2</div><div class="preview">Thi công · mốc tiến độ</div></div></div>
+ <div class="chat project"><div class="circle">91</div><div><div class="name">Nâng cấp QL91</div><div class="preview">Thi công · GPMB · vốn</div></div></div>
+
+ <div class="folder"><span class="caret">⌄</span>Điều hành liên Sở <span>4 nhóm</span></div>
+ <div class="chat project"><div class="circle">ĐT</div><div><div class="name">Vành đai phía Tây</div><div class="preview">Theo dõi toàn danh mục</div></div><span class="unread">6</span></div>
+ <div class="chat project"><div class="circle">GR</div><div><div class="name">Tổ điều hành tăng trưởng GRDP</div><div class="preview">Kịch bản tăng trưởng quý III–IV</div></div></div>
+ <div class="chat project"><div class="circle">CD</div><div><div class="name">Chuyển đổi số Thành phố</div><div class="preview">Dữ liệu · tích hợp · nền tảng</div></div></div>
+ <div class="chat project"><div class="circle">DL</div><div><div class="name">Dữ liệu dùng chung</div><div class="preview">Chuẩn hóa nguồn dữ liệu</div></div></div>
+
+ <div class="section">GẦN ĐÂY</div>
+ <div class="chat"><div class="circle">YT</div><div><div class="name">Sở Y tế · Điều hành</div><div class="preview">Báo cáo chuyên ngành</div></div></div>
+ <div class="chat"><div class="circle">NM</div><div><div class="name">Sở NN&MT · Điều hành</div><div class="preview">Đất đai · môi trường · GPMB</div></div></div>
+</section>
+<main class="conversation">
+ <div class="conv-head"><div class="circle">ĐT</div><div class="conv-title">VÀNH ĐAI PHÍA TÂY · ĐIỀU PHỐI DỰ ÁN<div class="conv-sub">24 thành viên · 7 Sở/đơn vị · Dự án trọng điểm</div></div><div class="tools"><span>☆</span><span>▣</span><span>•••</span></div></div>
+ <div style="height:42px;background:#F8FBF9;border-bottom:1px solid #E6ECE8;display:flex;align-items:center;padding:0 18px;gap:8px">
+  <span style="font-size:8px;font-weight:800;color:#08784A;background:#E8F5EC;padding:5px 8px;border-radius:999px">DỰ ÁN TRỌNG ĐIỂM</span>
+  <span style="font-size:9px;color:#68766F">Vành đai phía Tây</span>
+  <span style="color:#B2BCB6">•</span>
+  <span style="font-size:9px;color:#68766F">GPMB 68%</span>
+  <span style="color:#B2BCB6">•</span>
+  <span style="font-size:9px;color:#68766F">Tiến độ 72%</span>
+  <span style="color:#B2BCB6">•</span>
+  <span style="font-size:9px;color:#68766F">Giải ngân 61%</span>
+  <span style="margin-left:auto;font-size:9px;color:#08784A;font-weight:700">Mở hồ sơ dự án →</span>
+</div>
+ <div class="pin"><b>📌 GHIM</b> Hồ sơ dự án hợp nhất · GPMB 72% · Tiến độ 72% · Giải ngân 61% <span style="margin-left:auto;color:var(--green)">Mở báo cáo</span></div>
+ <div class="messages">
+   <div class="msg"><div class="circle">VP</div><div class="bubble"><div class="who">Lê Minh Hà · Văn phòng UBND <span>08:42</span></div><div class="text">Theo kết luận của Chủ tịch sáng nay, nhóm cần chốt lại toàn bộ status dự án trước 14:00. Trọng tâm là <b>GPMB, tiến độ thi công và giải ngân</b>. Đề nghị mỗi đơn vị cập nhật đúng phần mình phụ trách ngay trong thread này.</div></div></div>
+
+   <div class="msg"><div class="circle">XD</div><div class="bubble"><div class="who">Nguyễn Văn Hùng · Sở Xây dựng <span>08:51</span></div><div class="text">Tiến độ tổng thể hiện đạt <b>72%</b>, thấp hơn kế hoạch 90%. Các gói thi công chính vẫn chạy, nhưng phần mặt bằng chưa bàn giao đang làm chậm 2 mũi thi công phía Tây.</div>
+   <div class="smart-card"><div class="smart-head">PROJECT SNAPSHOT · LIVE DATA</div><div class="smart-grid">
+   <div class="smart-kpi"><b>72%</b><span>Tiến độ tổng thể</span></div><div class="smart-kpi"><b>68%</b><span>GPMB</span></div><div class="smart-kpi"><b>61%</b><span>Giải ngân</span></div></div>
+   <span class="action-chip">Mở hồ sơ dự án</span><span class="action-chip">Xem milestone</span><span class="action-chip">Xem blocker</span></div></div></div>
+
+   <div class="msg"><div class="circle">NM</div><div class="bubble"><div class="who">Phạm Thu Trang · Sở NN&MT <span>09:03</span></div><div class="text">Số liệu GPMB cập nhật sáng nay là <b>37 trường hợp chưa bàn giao</b>. Trong đó Bình Thủy 22 trường hợp, các khu vực liên quan 15 trường hợp. Chúng tôi đã chia thành 3 nhóm theo nguyên nhân để xử lý.</div>
+   <div class="attachment"><div class="file">XLS</div><div><b>GPMB_Vanh_dai_Tay_1908.xlsx</b><div class="meta">2,4 MB · 37 trường hợp · cập nhật 08:58</div></div></div></div></div>
+
+   <div class="ai-event">✦ <div><b>AI Project Intelligence</b> phát hiện số liệu GPMB trong báo cáo hôm qua là 64%, khác với số cập nhật hiện tại 68%. Đã đánh dấu cần xác minh.</div></div>
+
+   <div class="msg"><div class="circle">DA</div><div class="bubble"><div class="who">Võ Quốc Bảo · Ban QLDA <span>09:16</span></div><div class="text">BQLDA xác nhận số mới 68% là đúng. Báo cáo hôm qua cut-off lúc 17:00 nên chưa phản ánh 11 hồ sơ vừa hoàn tất. Mình sẽ cập nhật lại dashboard và hồ sơ dự án ngay.</div></div></div>
+
+   <div class="msg"><div class="circle">TC</div><div class="bubble"><div class="who">Trần Hoàng Nam · Sở Tài chính <span>09:28</span></div><div class="text">Giải ngân hiện đạt <b>61%</b>. Nếu 2 mũi thi công phía Tây tiếp tục chậm quá 3 tuần thì dự báo cuối quý chỉ đạt khoảng 83–85% kế hoạch. Đề nghị BQLDA gửi lại cashflow theo milestone để Sở cập nhật forecast.</div></div></div>
+
+   <div class="msg"><div class="circle">DA</div><div class="bubble"><div class="who">Võ Quốc Bảo · Ban QLDA <span>09:34</span></div><div class="text">Đã rõ. Cashflow mới sẽ gửi trước 11:00. Riêng gói thầu số 3 hiện có thêm rủi ro giá vật liệu tăng, nhưng chưa ảnh hưởng critical path.</div>
+   <div class="attachment"><div class="file">PDF</div><div><b>Milestone_Cashflow_v8.pdf</b><div class="meta">4,1 MB · 18 trang · cập nhật 09:31</div></div></div></div></div>
+
+   <div class="ai-event">✦ <div><b>AI Risk Monitor</b> liên kết “giá vật liệu tăng” với Risk #R-026 và xác định mức ảnh hưởng hiện tại: Trung bình. Không cần escalate Chủ tịch ở thời điểm này.</div></div>
+
+   <div class="msg"><div class="circle">VP</div><div class="bubble"><div class="who">Lê Minh Hà · Văn phòng UBND <span>09:47</span></div><div class="text">Vậy thống nhất 3 việc cần đóng trước 14:00: <b>(1)</b> NN&MT chốt danh sách 37 trường hợp và phương án từng nhóm; <b>(2)</b> BQLDA cập nhật milestone/cashflow; <b>(3)</b> Sở Tài chính cập nhật forecast giải ngân. Sau đó VP UBND sẽ tổng hợp 1 trang cho Chủ tịch.</div>
+   <span class="action-chip">Tạo 3 nhiệm vụ</span><span class="action-chip">Gắn deadline 14:00</span><span class="action-chip">Theo dõi tự động</span></div></div>
+
+   <div class="msg"><div class="circle">NM</div><div class="bubble"><div class="who">Phạm Thu Trang · Sở NN&MT <span>10:06</span></div><div class="text">Phương án xử lý 37 trường hợp đã chia: 18 hồ sơ có thể hoàn tất trong 5 ngày, 11 hồ sơ cần phối hợp địa phương, 8 hồ sơ cần xử lý pháp lý sâu hơn. Với nhóm 8 hồ sơ cuối, đề nghị VP UBND cho lịch làm việc riêng trong tuần.</div></div></div>
+
+   <div class="msg"><div class="circle">VP</div><div class="bubble"><div class="who">Lê Minh Hà · Văn phòng UBND <span>10:14</span></div><div class="text">Đã ghi nhận. <span class="mention">@Sở NN&MT</span> vui lòng đưa 8 hồ sơ đó vào phụ lục riêng. Mình sẽ xin ý kiến PCT phụ trách xem có cần tổ chức phiên xử lý chuyên đề hay không.</div></div></div>
+
+   <div class="ai-event">✦ <div><b>AI Summary</b> hiện có 3 action đang mở, 1 issue cần xin ý kiến PCT và 2 file mới chưa được đưa vào hồ sơ dự án chính thức.</div></div>
+ </div>
+ <div class="composer">
+   <div class="composebox">
+     <div class="compose-top">
+       <span class="tool"><b>B</b></span>
+       <span class="tool"><i>I</i></span>
+       <span class="tool"><u>U</u></span>
+       <span class="tool">‹/›</span>
+       <span class="tool">☷</span>
+       <span class="tool">≡</span>
+       <span class="tool">❞</span>
+       <span class="tool">🔗</span>
+     </div>
+     <div style="padding:7px 12px 0;font-size:8px;font-weight:800;color:#0A7A4B;letter-spacing:.05em">TRẢ LỜI TRONG NHÓM</div><div class="compose-editor">Nhập nội dung trao đổi... <span style="color:#6E7C75">(@ để nhắc người, / để tạo nhiệm vụ hoặc action)</span></div>
+     <div class="compose-bottom">
+       <span class="compose-icon">＋</span>
+       <span class="compose-icon">📎</span>
+       <span class="compose-icon">☺</span>
+       <span class="compose-icon">@</span>
+       <span class="compose-icon">▣</span>
+       <span class="compose-icon">✓</span>
+       <span class="ai-compose">✦ AI hỗ trợ</span>
+       <div class="send-wrap">
+         <div class="send-main">➤</div>
+         <div class="send-more">⌄</div>
+       </div>
+     </div>
+   </div>
+   <div class="compose-hint"><span>Shift + Enter để xuống dòng</span><span>AI có thể tóm tắt & tạo nhiệm vụ từ hội thoại</span></div>
+ </div>
+</main>
+
+<aside class="info">
+ <div class="info-tabs"><b>▤</b><span>◯</span><span>☆</span><span>▧</span><span>⌘</span></div>
+
+ <div class="object-panel">
+   <div class="object-context">
+     <div class="eyebrow">LINKED OBJECT · DỰ ÁN TRỌNG ĐIỂM</div>
+     <div class="main-object">
+       <div class="main-icon">▣</div>
+       <div><b>Vành đai phía Tây</b><span>#PRJ-CT-001 · Chủ trì: Ban QLDA</span></div>
+     </div>
+     <div class="object-kpis">
+       <div class="object-kpi"><b>72%</b><span>Tiến độ</span></div>
+       <div class="object-kpi"><b>68%</b><span>GPMB</span></div>
+       <div class="object-kpi"><b>61%</b><span>Giải ngân</span></div>
+     </div>
+   </div>
+
+   <div class="link-section">
+     <div class="link-section-head"><span>CUỘC HỌP LIÊN QUAN</span><span>4</span></div>
+
+     <div class="link-object">
+       <div class="lo-icon">◷</div>
+       <div class="lo-body"><div class="lo-title">Họp xử lý GPMB <span class="object-pill green">ĐÃ HỌP</span></div><div class="lo-meta">18/08 · 8 đơn vị · 7 nhiệm vụ được tạo</div></div>
+       <div class="lo-arrow">›</div>
+     </div>
+
+     <div class="link-object">
+       <div class="lo-icon">◷</div>
+       <div class="lo-body"><div class="lo-title">Giao ban dự án</div><div class="lo-meta">15/08 · Tiến độ, milestone, nhà thầu</div></div>
+       <div class="lo-arrow">›</div>
+     </div>
+
+     <div class="link-object">
+       <div class="lo-icon">◷</div>
+       <div class="lo-body"><div class="lo-title">Họp giải ngân <span class="object-pill amber">FOLLOW-UP</span></div><div class="lo-meta">12/08 · Sở Tài chính · BQLDA</div></div>
+       <div class="lo-arrow">›</div>
+     </div>
+
+     <div class="link-object">
+       <div class="lo-icon">◷</div>
+       <div class="lo-body"><div class="lo-title">Làm việc với Sở NN&MT</div><div class="lo-meta">08/08 · Hồ sơ GPMB và pháp lý</div></div>
+       <div class="lo-arrow">›</div>
+     </div>
+   </div>
+
+   <div class="link-section">
+     <div class="link-section-head"><span>OBJECT KHÁC</span><span>liên kết trực tiếp</span></div>
+
+     <div class="link-object">
+       <div class="lo-icon">✓</div>
+       <div class="lo-body"><div class="lo-title">7 nhiệm vụ đang mở <span class="object-pill red">2 QUÁ HẠN</span></div><div class="lo-meta">NN&MT · Tài chính · BQLDA · VP UBND</div></div>
+       <div class="lo-arrow">›</div>
+     </div>
+
+     <div class="link-object">
+       <div class="lo-icon">▥</div>
+       <div class="lo-body"><div class="lo-title">12 văn bản liên quan</div><div class="lo-meta">4 văn bản Trung ương · 8 văn bản Thành phố</div></div>
+       <div class="lo-arrow">›</div>
+     </div>
+
+     <div class="link-object">
+       <div class="lo-icon">△</div>
+       <div class="lo-body"><div class="lo-title">3 rủi ro đang theo dõi <span class="object-pill amber">1 CAO</span></div><div class="lo-meta">GPMB · vật liệu · tiến độ giải ngân</div></div>
+       <div class="lo-arrow">›</div>
+     </div>
+
+     <div class="link-object">
+       <div class="lo-icon">◎</div>
+       <div class="lo-body"><div class="lo-title">KPI: Giải ngân đầu tư công</div><div class="lo-meta">Ảnh hưởng trực tiếp · trạng thái cần chú ý</div></div>
+       <div class="lo-arrow">›</div>
+     </div>
+   </div>
+ </div>
+</aside>
+</div>
+<script id="ct-navigation-wiring">
+(function(){
+  'use strict';
+  const FILES = {
+    mgmtHome: 'Tổng quan quản trị.html',
+    mgmtKpi: 'KPI tỉnh.html',
+    mgmtProjects: 'Dự án trọng điểm.html',
+    mgmtTasks: 'Nhiệm vụ Lãnh đạo.html',
+    mgmtCalendar: 'Lịch công tác.html',
+    execHome: 'Cổng chat nội bộ - Layer 2.html',
+    execIntranet: 'Intranet cần thơ_Layer 2.html',
+    execProjects: 'Portfolio dự án - Layer 2.html',
+    execProjectDetail: 'Dự án trọng điểm_chi tiết_Layer 2.html',
+    execProjectRoadmap: 'Lộ trình dự án chi tiết - Layer 2.html',
+    execDocs: 'Văn bản điều hành điện tử_Layer 2.html',
+    execDocDetail: 'Văn bản cần xử lý - Layer 2.html',
+    execCalendar: 'Lịch làm việc chi tiết_Layer 2.html',
+    execMeetings: 'Phòng họp số Layer 2.html',
+    execPeople: 'Quản lý cán bộ tỉnh - Layer 2.html',
+    execOrg: 'Sơ đồ tổ chức - Layer 2.html',
+    execWorkflow: 'Quy trình thẩm định nghiệp vụ - layer 2.html',
+    execWorkflowDetail: 'Chi tiết dự án cần thẩm định - layer 2.html'
+  };
+  const current = decodeURIComponent(location.pathname.split('/').pop() || '');
+  const isExec = /layer\s*2/i.test(current);
+  const normalize = s => (s||'').replace(/\s+/g,' ').trim().toLowerCase();
+  const goto = file => { if(file && current !== file) location.href = encodeURI(file); };
+
+  function targetFor(text, el){
+    const t = normalize(text);
+    if(!t) return null;
+
+    // Existing management shell
+    if(t.includes('tổng quan') && !isExec && (el.matches('a') || el.closest('.nav'))) return FILES.mgmtHome;
+    if(t.includes('kpi chiến lược')) return FILES.mgmtKpi;
+    if(t.includes('dự án trọng điểm') && !isExec) return FILES.mgmtProjects;
+    if(t.includes('nhiệm vụ lãnh đạo')) return FILES.mgmtTasks;
+    if(t.includes('lịch công tác')) return FILES.mgmtCalendar;
+
+    // Execution app launcher / major modules
+    if(t === '▤ trao đổi' || t.includes('trao đổi')) return FILES.execHome;
+    if(t.includes('intranet')) return FILES.execIntranet;
+    if(t === '▣ dự án' || t.includes('portfolio gantt')) return FILES.execProjects;
+    if((t === '▥ văn bản' || t === 'văn bản') && isExec) return FILES.execDocs;
+    if(t.includes('lịch lãnh đạo')) return FILES.execCalendar;
+    if(t.includes('phòng họp') || t.includes('họp trực tuyến')) return FILES.execMeetings;
+    if(t === '♙ cán bộ' || t.includes('tổng quan nhân sự')) return FILES.execPeople;
+    if(t.includes('sơ đồ tổ chức')) return FILES.execOrg;
+    if(t.includes('dịch vụ / quy trình')) return FILES.execWorkflow;
+
+    // Project drill-down
+    if(t.includes('vành đai phía tây')) return FILES.execProjectDetail;
+    if(t === '▦ tổng quan' && /dự án trọng điểm_chi tiết|lộ trình dự án/i.test(current)) return FILES.execProjectDetail;
+    if(t.includes('lộ trình') && /dự án trọng điểm_chi tiết|lộ trình dự án/i.test(current)) return FILES.execProjectRoadmap;
+    if(t.includes('mở hồ sơ dự án')) return FILES.execProjectDetail;
+    if(t.includes('timeline đầy đủ') || t.includes('mở milestone')) return FILES.execProjectRoadmap;
+
+    // Workflow drill-down
+    if(t.includes('01. thẩm định chuyên môn')) return FILES.execWorkflowDetail;
+    if(t.includes('thẩm định hồ sơ') && /chi tiết dự án cần thẩm định/i.test(current)) return FILES.execWorkflow;
+
+    // Document drill-down
+    if(t.includes('văn bản đến') && /văn bản điều hành điện tử/i.test(current)) return FILES.execDocDetail;
+    if(t.includes('quay lại') && /văn bản cần xử lý/i.test(current)) return FILES.execDocs;
+
+    // People drill-down
+    if(t.includes('mở sơ đồ đầy đủ')) return FILES.execOrg;
+
+    // Intranet channel to projects
+    if(t === 'dự án trọng điểm' && /intranet/i.test(current)) return FILES.execProjects;
+    return null;
+  }
+
+  const selectors = [
+    'a','.nav','.app','.appicon','.pm','.tree','.portfolio','.service','.back','.mode-switch button','.link','.project'
+  ].join(',');
+
+  document.querySelectorAll(selectors).forEach(el => {
+    const text = el.textContent || '';
+    const compactText = normalize(text);
+    // Some pages use .app as the root application container; never wire a large container.
+    if(el.classList.contains('app') && compactText.length > 40) return;
+    let target = null;
+    const nt = normalize(text);
+
+    // Mode switch is explicit and overrides text rules.
+    if(el.matches('.mode-switch button')){
+      if(nt === 'quản trị') target = FILES.mgmtHome;
+      if(nt === 'thực thi') target = FILES.execHome;
+    } else {
+      target = targetFor(text, el);
+    }
+    if(!target) return;
+
+    if(el.tagName === 'A') el.setAttribute('href', encodeURI(target));
+    el.setAttribute('data-nav-target', target);
+    el.setAttribute('role', el.getAttribute('role') || 'link');
+    if(!el.hasAttribute('tabindex') && el.tagName !== 'A' && el.tagName !== 'BUTTON') el.setAttribute('tabindex','0');
+    el.addEventListener('click', function(ev){
+      if(el.tagName === 'A') return; // native href works
+      ev.preventDefault();
+      goto(target);
+    });
+    if(el.tagName !== 'A' && el.tagName !== 'BUTTON'){
+      el.addEventListener('keydown', function(ev){
+        if(ev.key === 'Enter' || ev.key === ' '){ ev.preventDefault(); goto(target); }
+      });
+    }
+  });
+
+  // Brand/logo always returns to the home of the current mode, without changing visual design.
+  const brand = document.querySelector('.brand, .logo');
+  if(brand){
+    const target = isExec ? FILES.execHome : FILES.mgmtHome;
+    brand.setAttribute('data-nav-target',target);
+    brand.setAttribute('role','link');
+    brand.setAttribute('tabindex','0');
+    brand.addEventListener('click',()=>goto(target));
+    brand.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();goto(target);}});
+  }
+})();
+</script>
+</body></html>

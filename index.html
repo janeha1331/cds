@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Thư viện màn hình · Cần Thơ Digital Government</title>
+<style>
+:root{
+  --navy:#071d36; --navy2:#0b2d55; --blue:#1768c9; --green:#16a05d; --teal:#0c9aa5;
+  --orange:#ef8b12; --red:#e33636; --purple:#6955c7;
+  --ink:#162642; --muted:#6f7d91; --line:#dfe6ee; --bg:#f4f7fb; --card:#fff;
+  --shadow:0 3px 14px rgba(20,47,78,.07);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
+
+/* ---- Header : command-center strip ---- */
+.hero{background:linear-gradient(180deg,var(--navy),#05162b);color:#fff;padding:36px 28px 30px}
+.hero-inner{max-width:1220px;margin:0 auto}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8ea1b7;font-weight:800;margin-bottom:10px}
+.hero h1{font-size:clamp(24px,3vw,34px);margin:0 0 10px;letter-spacing:-.02em;font-weight:800}
+.hero p{max-width:640px;color:#c7d3e2;font-size:13.5px;line-height:1.6;margin:0 0 20px}
+.hero-stats{display:flex;gap:22px;flex-wrap:wrap}
+.hstat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px 16px;min-width:110px}
+.hstat b{display:block;font-size:20px;font-weight:800}
+.hstat span{font-size:10px;color:#a9b8ca;text-transform:uppercase;letter-spacing:.05em}
+
+/* ---- Layout ---- */
+.wrap{max-width:1220px;margin:0 auto;padding:26px 28px 60px}
+.group{margin-bottom:34px}
+.group-head{display:flex;align-items:baseline;gap:10px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.group-head h2{font-size:15px;margin:0;text-transform:uppercase;letter-spacing:.04em;color:var(--navy2)}
+.group-head .count{font-size:11px;color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
+
+/* ---- Card ---- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;transition:transform .15s ease, box-shadow .15s ease}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(20,47,78,.14)}
+
+.preview{position:relative;height:190px;background:#dbe2e8;overflow:hidden;border-bottom:1px solid var(--line)}
+.preview iframe{position:absolute;top:0;left:0;width:1440px;height:900px;border:0;transform-origin:top left;pointer-events:none;background:#fff}
+.preview-veil{position:absolute;inset:0;background:transparent}
+
+.body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.tag{align-self:flex-start;font-size:9px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;padding:3px 8px;border-radius:999px}
+.tag.mgmt{background:#e5f1ff;color:var(--blue)}
+.tag.exec{background:#e6f7ee;color:var(--green)}
+.card h3{font-size:13.5px;margin:0;font-weight:800;letter-spacing:-.01em;line-height:1.35}
+.card p{font-size:11.5px;color:var(--muted);line-height:1.55;margin:0;flex:1}
+.view{display:flex;align-items:center;justify-content:space-between;margin-top:4px;text-decoration:none;color:var(--navy2);font-size:12px;font-weight:800}
+.view span.arrow{transition:transform .15s ease}
+.card:hover .view span.arrow{transform:translateX(3px)}
+
+footer{max-width:1220px;margin:0 auto;padding:0 28px 40px;color:var(--muted);font-size:11px}
+a.card-link{display:block;color:inherit;text-decoration:none}
+
+@media(max-width:520px){
+  .hero{padding:28px 18px 24px}
+  .wrap{padding:20px 18px 40px}
+  .grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Cần Thơ Digital Government</div>
+    <h1>Thư viện màn hình sản phẩm</h1>
+    <p>Toàn bộ giao diện đã dựng cho nền tảng điều hành số thành phố Cần Thơ — từ dashboard lãnh đạo đến các màn hình thực thi hằng ngày. Bấm vào từng thẻ để xem trực tiếp.</p>
+    <div class="hero-stats">
+      <div class="hstat"><b>18</b><span>Màn hình</span></div>
+      <div class="hstat"><b>5</b><span>Quản trị</span></div>
+      <div class="hstat"><b>13</b><span>Thực thi</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="group" id="mgmt">
+    <div class="group-head"><span class="dot" style="background:var(--blue)"></span><h2>Quản trị — Dashboard lãnh đạo</h2><span class="count">5 màn hình</span></div>
+    <div class="grid" data-group="mgmt"></div>
+  </section>
+
+  <section class="group" id="exec">
+    <div class="group-head"><span class="dot" style="background:var(--green)"></span><h2>Thực thi — Lớp vận hành hằng ngày</h2><span class="count">13 màn hình</span></div>
+    <div class="grid" data-group="exec"></div>
+  </section>
+
+</main>
+
+<footer>Thư viện nội bộ dùng để hình dung tổng thể sản phẩm — mọi dữ liệu hiển thị là dữ liệu minh hoạ.</footer>
+
+<script>
+const SCREENS = [
+  {group:'mgmt', tag:'Quản trị', file:'tong-quan-quan-tri.html', title:'Tổng quan quản trị', desc:'Bức tranh toàn cảnh KPI, dự án và rủi ro dành cho lãnh đạo thành phố.'},
+  {group:'mgmt', tag:'Quản trị', file:'kpi-tinh.html', title:'KPI chiến lược', desc:'Theo dõi các chỉ số kinh tế – xã hội trọng yếu so với kế hoạch năm.'},
+  {group:'mgmt', tag:'Quản trị', file:'du-an-trong-diem.html', title:'Dự án trọng điểm', desc:'Danh mục và tiến độ các dự án đầu tư công quan trọng của thành phố.'},
+  {group:'mgmt', tag:'Quản trị', file:'nhiem-vu-lanh-dao.html', title:'Nhiệm vụ Lãnh đạo', desc:'Danh sách nhiệm vụ được giao, người phụ trách và hạn hoàn thành.'},
+  {group:'mgmt', tag:'Quản trị', file:'lich-cong-tac.html', title:'Lịch công tác', desc:'Lịch làm việc và các cuộc họp trong tuần của lãnh đạo thành phố.'},
+
+  {group:'exec', tag:'Thực thi', file:'cong-chat-noi-bo.html', title:'Cổng chat nội bộ', desc:'Trao đổi công việc và giao việc nhanh giữa các phòng ban.'},
+  {group:'exec', tag:'Thực thi', file:'intranet-can-tho.html', title:'Intranet Cần Thơ', desc:'Cổng thông tin nội bộ: tin tức, thông báo và tài liệu dùng chung.'},
+  {group:'exec', tag:'Thực thi', file:'portfolio-du-an.html', title:'Portfolio dự án', desc:'Danh mục dự án trọng điểm dạng Gantt, theo dõi tiến độ tổng thể.'},
+  {group:'exec', tag:'Thực thi', file:'du-an-trong-diem-chi-tiet.html', title:'Dự án trọng điểm · Chi tiết', desc:'Hồ sơ chi tiết một dự án — mục tiêu, ngân sách, rủi ro và tiến độ.'},
+  {group:'exec', tag:'Thực thi', file:'lo-trinh-du-an-chi-tiet.html', title:'Lộ trình dự án · Chi tiết', desc:'Timeline đầy đủ các mốc tiến độ (milestones) của dự án.'},
+  {group:'exec', tag:'Thực thi', file:'van-ban-dieu-hanh-dien-tu.html', title:'Văn bản điều hành điện tử', desc:'Quản lý văn bản đến, văn bản đi và điều hành công việc qua văn bản.'},
+  {group:'exec', tag:'Thực thi', file:'van-ban-can-xu-ly.html', title:'Văn bản cần xử lý (Mobile)', desc:'Xử lý văn bản khẩn trên điện thoại: đọc, tóm tắt AI, bút phê.'},
+  {group:'exec', tag:'Thực thi', file:'lich-lam-viec-chi-tiet.html', title:'Lịch làm việc · Chi tiết', desc:'Lịch làm việc chi tiết theo ngày của Chủ tịch UBND thành phố.'},
+  {group:'exec', tag:'Thực thi', file:'phong-hop-so.html', title:'Phòng họp số', desc:'Họp trực tuyến, ghi chú và biên bản họp tập trung một nơi.'},
+  {group:'exec', tag:'Thực thi', file:'quan-ly-can-bo.html', title:'Quản lý cán bộ', desc:'Hồ sơ, phân công và tổng quan nhân sự toàn thành phố.'},
+  {group:'exec', tag:'Thực thi', file:'so-do-to-chuc.html', title:'Sơ đồ tổ chức', desc:'Cây tổ chức và thẩm quyền ra quyết định của từng đơn vị.'},
+  {group:'exec', tag:'Thực thi', file:'quy-trinh-tham-dinh.html', title:'Quy trình thẩm định (BPM)', desc:'Quy trình thẩm định chuyên ngành theo từng bước, dạng workflow.'},
+  {group:'exec', tag:'Thực thi', file:'chi-tiet-tham-dinh.html', title:'Hồ sơ thẩm định', desc:'Chi tiết một hồ sơ thẩm định dạng ticket, theo dõi trạng thái xử lý.'},
+];
+
+function cardHTML(s){
+  const encoded = encodeURI(s.file);
+  const tagClass = s.group === 'mgmt' ? 'mgmt' : 'exec';
+  return `
+    <a class="card-link" href="${encoded}" target="_blank" rel="noopener">
+      <div class="card">
+        <div class="preview">
+          <iframe src="${encoded}" loading="lazy" tabindex="-1"></iframe>
+          <div class="preview-veil"></div>
+        </div>
+        <div class="body">
+          <span class="tag ${tagClass}">${s.tag}</span>
+          <h3>${s.title}</h3>
+          <p>${s.desc}</p>
+          <span class="view">Xem màn hình <span class="arrow">→</span></span>
+        </div>
+      </div>
+    </a>`;
+}
+
+const mgmtGrid = document.querySelector('.grid[data-group="mgmt"]');
+const execGrid = document.querySelector('.grid[data-group="exec"]');
+SCREENS.forEach(s => {
+  const html = cardHTML(s);
+  (s.group === 'mgmt' ? mgmtGrid : execGrid).insertAdjacentHTML('beforeend', html);
+});
+
+// Scale each preview iframe (rendered at 1440x900) down to fit its card.
+function scalePreviews(){
+  document.querySelectorAll('.preview').forEach(box => {
+    const w = box.clientWidth;
+    const scale = w / 1440;
+    const iframe = box.querySelector('iframe');
+    iframe.style.transform = `scale(${scale})`;
+  });
+}
+window.addEventListener('load', scalePreviews);
+window.addEventListener('resize', scalePreviews);
+setTimeout(scalePreviews, 50);
+</script>
+
+</body>
+</html>

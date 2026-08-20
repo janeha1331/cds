@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quản lý Cán bộ · Cần Thơ</title>
+<style>
+:root{
+ --navy:#0B2239;--navy2:#12304A;--green:#07883E;--g2:#0A6F45;--blue:#2678C6;
+ --teal:#158E88;--amber:#E59619;--red:#D94747;--purple:#7B58C7;
+ --bg:#F5F7F9;--line:#DFE6EA;--txt:#17212B;--muted:#71808B;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--txt)}
+.shell{height:100vh;display:grid;grid-template-columns:68px 235px minmax(760px,1fr) 310px;grid-template-rows:54px 1fr;overflow:hidden}
+.top{grid-column:1/-1;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 14px;gap:12px}
+.brand{width:225px;display:flex;align-items:center;gap:9px;font-size:15px;font-weight:850}.brand i{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--navy),var(--green));color:#fff;display:grid;place-items:center;font-style:normal;font-size:9px}
+.search{margin:auto;width:380px;border:1px solid #DCE3E7;border-radius:6px;padding:8px 12px;color:#7B8790;font-size:10px}
+.topicons{display:flex;align-items:center;gap:16px;color:#596771}.avatar{width:29px;height:29px;border-radius:50%;background:#E5F3EB;color:var(--g2);display:grid;place-items:center;font-size:8px;font-weight:850}
+
+.apps{grid-row:2;background:#fff;border-right:1px solid var(--line);padding:9px 6px}
+.app{height:58px;text-align:center;border-radius:8px;padding:7px 2px;font-size:7px;color:#64717A}.app b{width:28px;height:28px;border-radius:7px;background:#EFF3F5;display:grid;place-items:center;margin:0 auto 4px;font-size:12px}.app.active{background:#E7F4EC;color:var(--g2);font-weight:800}.app.active b{background:var(--green);color:#fff}
+
+.sidebar{grid-row:2;background:#fff;border-right:1px solid var(--line);padding:10px 9px;overflow:auto}
+.apptitle{font-size:14px;font-weight:850;padding:10px}.nav{padding:9px 10px;border-radius:6px;margin:2px 0;color:#4F5D66}.nav.active{background:#E6F3EB;color:#087246;font-weight:800}
+.section{font-size:8px;color:#87939B;font-weight:800;margin:15px 10px 7px;letter-spacing:.06em}.count{float:right;color:#8B979E;font-size:7px}
+
+.main{grid-row:2;background:#fff;overflow:auto;padding:20px 22px 40px}
+.head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:13px}.head h1{font-size:22px;margin:0 0 5px}.head p{font-size:10px;color:var(--muted);margin:0}.actions{display:flex;gap:7px}.btn{border:1px solid #D8E0E4;background:#fff;border-radius:7px;padding:8px 11px;font-size:8px;font-weight:750}.btn.primary{background:var(--green);color:#fff;border-color:var(--green)}
+
+.hero{display:grid;grid-template-columns:1.2fr repeat(3,.7fr);gap:8px;margin-bottom:12px}
+.hero-main{background:linear-gradient(135deg,#0B293F,#0A6548);color:#fff;border-radius:12px;padding:14px}
+.hero-main .ey{font-size:7px;color:#B9DCCE;font-weight:850;letter-spacing:.08em}.hero-main h2{font-size:15px;margin:6px 0}.hero-main p{font-size:8px;color:#D4E2DD;line-height:1.5;margin:0}
+.kpi{border:1px solid var(--line);border-radius:10px;padding:11px;background:#fff}.kpi span{font-size:7px;color:var(--muted);font-weight:800}.kpi b{display:block;font-size:18px;margin-top:4px}.kpi small{display:block;font-size:7px;color:var(--muted);margin-top:3px}
+
+.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:12px}
+.card{border:1px solid var(--line);border-radius:10px;background:#fff;padding:12px;margin-bottom:12px}.ch{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.ch h3{font-size:11px;margin:0}.link{font-size:7px;color:#087246;font-weight:800}
+
+.org{background:#FAFCFB;border:1px solid #E3EAE6;border-radius:9px;padding:10px}
+.org-level{display:flex;justify-content:center;gap:12px;margin:8px 0}
+.orgnode{min-width:135px;border:1px solid #DCE5E1;border-radius:8px;padding:8px 9px;background:#fff;text-align:center}
+.orgnode.top{background:#EAF6EF;border-color:#CFE5D8}.orgnode b{font-size:8px;display:block}.orgnode span{font-size:6.5px;color:var(--muted);display:block;margin-top:3px}
+.orgline{height:18px;width:2px;background:#D6E2DC;margin:0 auto}
+.org-branches{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.org-branches .orgnode{min-width:auto}
+
+.row{display:grid;grid-template-columns:1fr 100px 85px 70px;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid #EEF1F2}.row:last-child{border:0}.row b{font-size:8.5px}.row small{display:block;font-size:6.5px;color:var(--muted);margin-top:3px}.owner{font-size:7.5px}.date{font-size:7px}.pill{font-size:6px;padding:4px 6px;border-radius:999px;text-align:center;font-weight:850}.green{background:#E7F5EC;color:#087438}.amber{background:#FFF2DF;color:#996109}.red{background:#FDE9E9;color:#B12D32}.blue{background:#E8F2FB;color:#236FA8}.purple{background:#F0E9FB;color:#7450B8}
+
+.attendance{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.att{border:1px solid #E2E8EB;border-radius:8px;padding:9px}.att span{font-size:6.5px;color:var(--muted);font-weight:800}.att b{display:block;font-size:14px;margin-top:4px}
+.progress{height:6px;background:#E6ECEF;border-radius:6px;overflow:hidden;margin-top:7px}.progress i{display:block;height:100%;background:var(--green)}
+
+.timeline{display:flex;gap:6px;align-items:center}.tstep{flex:1;border:1px solid #E0E6EA;border-radius:7px;padding:7px;background:#fff;position:relative}.tstep:after{content:"→";position:absolute;right:-9px;top:50%;transform:translateY(-50%);font-size:8px;color:#A2ADB4}.tstep:last-child:after{display:none}.tstep b{font-size:7px;display:block}.tstep span{font-size:6px;color:var(--muted);display:block;margin-top:3px}.tstep.done{background:#F3FAF6}.tstep.current{background:#EAF3FC;border-color:#9FC4E2}.tstep.warn{background:#FFF9EF;border-color:#ECDAB8}
+
+.right{grid-row:2;background:#F7F9FA;border-left:1px solid var(--line);padding:14px;overflow:auto}
+.rcard{background:#fff;border:1px solid var(--line);border-radius:9px;padding:12px;margin-bottom:10px}.rcard h3{font-size:10px;margin:0 0 9px}
+.alert{background:#FFF7F7;border-color:#F0D2D3}.alert .ey{font-size:7px;color:#A43D42;font-weight:850}.alert h3{font-size:12px;margin:5px 0}.alert p{font-size:8px;color:#6F6666;line-height:1.45;margin:0}.cta{margin-top:9px;background:var(--red);color:#fff;border-radius:7px;text-align:center;padding:8px;font-size:8px;font-weight:800}
+.item{padding:8px 0;border-bottom:1px solid #EEF1F2}.item:last-child{border:0}.item b{font-size:8px}.item span{display:block;font-size:7px;color:#78858E;margin-top:3px}.item .link{color:#087246;font-weight:800;margin-top:5px}
+.ai{background:linear-gradient(135deg,#F1F9F5,#F5FAFD);border-color:#D6E8DE}.ai .ey{font-size:7px;color:var(--g2);font-weight:850}.prompt{background:#fff;border:1px solid #DCE8E1;border-radius:7px;padding:7px;margin-top:6px;font-size:7px;color:#53636D}
+
+@media(max-width:1200px){.shell{grid-template-columns:60px 220px 1fr}.right{display:none}.search{width:280px}}
+@media(max-width:850px){.shell{grid-template-columns:56px 1fr}.sidebar{display:none}.search{display:none}.hero{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="top">
+ <div class="brand"><i>CT</i><span>Cần Thơ · Thực thi</span></div>
+ <div class="search">⌕ &nbsp; Tìm cán bộ, đơn vị, quyết định, nhiệm vụ...</div>
+ <div class="topicons"><span>?</span><span>♧ 14</span><span>◐</span><div class="avatar">SN</div><span>⌄</span></div>
+</header>
+
+<aside class="apps">
+ <div class="app"><b>▤</b>Trao đổi</div><div class="app"><b>▣</b>Dự án</div><div class="app"><b>▥</b>Văn bản</div><div class="app active"><b>♙</b>Cán bộ</div><div class="app"><b>✦</b>AI</div>
+</aside>
+
+<aside class="sidebar">
+ <div class="apptitle">♙ &nbsp; Quản lý cán bộ</div>
+ <div class="nav active">▦ &nbsp; Tổng quan nhân sự</div>
+ <div class="nav">⌘ &nbsp; Sơ đồ tổ chức</div>
+ <div class="nav">👤 &nbsp; Hồ sơ cán bộ</div>
+ <div class="nav">◷ &nbsp; Chấm công & Check-in</div>
+ <div class="nav">₫ &nbsp; Công & Lương</div>
+
+ <div class="section">CÔNG TÁC CÁN BỘ</div>
+ <div class="nav">↗ &nbsp; Quy hoạch & Bổ nhiệm <span class="count">12</span></div>
+ <div class="nav">⇄ &nbsp; Điều động & Luân chuyển <span class="count">6</span></div>
+ <div class="nav">★ &nbsp; Thi đua & Khen thưởng <span class="count">18</span></div>
+ <div class="nav">▣ &nbsp; Đánh giá cán bộ</div>
+ <div class="nav">▥ &nbsp; Hồ sơ quyết định</div>
+
+ <div class="section">QUẢN TRỊ HIỆU QUẢ</div>
+ <div class="nav">✓ &nbsp; Nhiệm vụ trọng tâm kỳ</div>
+ <div class="nav">◎ &nbsp; KPI / Kết quả công tác</div>
+ <div class="nav">▤ &nbsp; Đào tạo & Bồi dưỡng</div>
+ <div class="nav">⚙ &nbsp; Cài đặt</div>
+</aside>
+
+<main class="main">
+ <div class="head">
+  <div><h1>Quản lý cán bộ Thành phố</h1><p>Hồ sơ cán bộ · tổ chức · công/lương · bổ nhiệm · thi đua khen thưởng · nhiệm vụ trọng tâm</p></div>
+  <div class="actions"><button class="btn">Xuất báo cáo</button><button class="btn">Kỳ 08/2026</button><button class="btn primary">＋ Hồ sơ cán bộ</button></div>
+ </div>
+
+ <div class="hero">
+  <div class="hero-main"><div class="ey">WORKFORCE FOCUS</div><h2>12 hồ sơ công tác cán bộ cần hoàn tất trong kỳ</h2><p>4 hồ sơ bổ nhiệm, 3 hồ sơ điều động, 5 hồ sơ thi đua khen thưởng. Hai hồ sơ đang chờ ý kiến cấp có thẩm quyền.</p></div>
+  <div class="kpi"><span>TỔNG CÁN BỘ</span><b>3.842</b><small>42 đơn vị trực thuộc</small></div>
+  <div class="kpi"><span>BIÊN CHẾ ĐANG SỬ DỤNG</span><b>94.6%</b><small>3.842 / 4.062</small></div>
+  <div class="kpi"><span>NHIỆM VỤ TRỌNG TÂM</span><b>126</b><small>89% đúng tiến độ</small></div>
+ </div>
+
+ <div class="grid">
+  <div>
+   <section class="card">
+    <div class="ch"><h3>Sơ đồ tổ chức cán bộ</h3><span class="link">Mở sơ đồ đầy đủ →</span></div>
+    <div class="org">
+      <div class="org-level"><div class="orgnode top"><b>UBND Thành phố</b><span>Chủ tịch + 3 Phó Chủ tịch</span></div></div>
+      <div class="orgline"></div>
+      <div class="org-level"><div class="orgnode"><b>Văn phòng UBND</b><span>96 cán bộ</span></div><div class="orgnode"><b>Sở Nội vụ</b><span>118 cán bộ</span></div><div class="orgnode"><b>Sở Tài chính</b><span>162 cán bộ</span></div></div>
+      <div class="orgline"></div>
+      <div class="org-branches"><div class="orgnode"><b>Sở Xây dựng</b><span>214 cán bộ</span></div><div class="orgnode"><b>Sở NN&MT</b><span>326 cán bộ</span></div><div class="orgnode"><b>Sở KH&CN</b><span>104 cán bộ</span></div><div class="orgnode"><b>Sở Y tế</b><span>488 cán bộ</span></div></div>
+    </div>
+   </section>
+
+   <section class="card">
+    <div class="ch"><h3>Công tác cán bộ đang xử lý</h3><span class="link">Xem tất cả →</span></div>
+    <div class="row"><div><b>Bổ nhiệm Phó Giám đốc Sở Xây dựng</b><small>Hồ sơ CB-2026-041 · quy trình 6 bước</small></div><div class="owner">Sở Nội vụ</div><div class="date">25/08</div><div class="pill amber">Đang thẩm định</div></div>
+    <div class="row"><div><b>Điều động Trưởng phòng Kế hoạch</b><small>Từ Sở Công Thương → VP UBND</small></div><div class="owner">Ban Tổ chức</div><div class="date">22/08</div><div class="pill blue">Xin ý kiến</div></div>
+    <div class="row"><div><b>Danh sách thi đua quý III</b><small>18 cá nhân · 6 tập thể</small></div><div class="owner">Sở Nội vụ</div><div class="date">28/08</div><div class="pill green">Đang tổng hợp</div></div>
+    <div class="row"><div><b>Quy hoạch cán bộ nguồn 2027–2030</b><small>Khối Sở, ban, ngành</small></div><div class="owner">Sở Nội vụ</div><div class="date">05/09</div><div class="pill purple">Đang rà soát</div></div>
+   </section>
+
+   <section class="card">
+    <div class="ch"><h3>Nhiệm vụ trọng tâm trong kỳ</h3><span class="link">Mở quản trị nhiệm vụ →</span></div>
+    <div class="row"><div><b>Hoàn tất đánh giá cán bộ giữa năm</b><small>42/42 đơn vị phải hoàn thành</small></div><div class="owner">Sở Nội vụ</div><div class="date">30/08</div><div class="pill amber">34/42</div></div>
+    <div class="row"><div><b>Rà soát vị trí việc làm & biên chế</b><small>Ưu tiên các đơn vị có tỷ lệ sử dụng >98%</small></div><div class="owner">Phòng TCCB</div><div class="date">05/09</div><div class="pill green">On track</div></div>
+    <div class="row"><div><b>Chuẩn hóa hồ sơ điện tử cán bộ</b><small>Đồng bộ văn bằng, quyết định, lịch sử chức vụ</small></div><div class="owner">Trung tâm CNTT</div><div class="date">15/09</div><div class="pill blue">76%</div></div>
+   </section>
+  </div>
+
+  <div>
+   <section class="card">
+    <div class="ch"><h3>Chấm công & Check-in tháng 8</h3><span class="link">Mở bảng công →</span></div>
+    <div class="attendance">
+      <div class="att"><span>TỶ LỆ CHECK-IN</span><b>97.8%</b><div class="progress"><i style="width:97.8%"></i></div></div>
+      <div class="att"><span>ĐI MUỘN</span><b style="color:var(--amber)">126</b><div class="progress"><i style="width:28%;background:var(--amber)"></i></div></div>
+      <div class="att"><span>NGHỈ PHÉP</span><b>214</b><div class="progress"><i style="width:42%;background:var(--blue)"></i></div></div>
+      <div class="att"><span>CẦN XÁC MINH</span><b style="color:var(--red)">18</b><div class="progress"><i style="width:18%;background:var(--red)"></i></div></div>
+    </div>
+   </section>
+
+   <section class="card">
+    <div class="ch"><h3>Công & Lương</h3><span class="link">Mở kỳ lương →</span></div>
+    <div class="row"><div><b>Kỳ lương tháng 08/2026</b><small>3.842 cán bộ · dự kiến chốt 26/08</small></div><div class="owner">Phòng C&B</div><div class="date">26/08</div><div class="pill amber">Đang tính</div></div>
+    <div class="row"><div><b>Điều chỉnh phụ cấp chức vụ</b><small>14 hồ sơ có thay đổi trong tháng</small></div><div class="owner">Sở Nội vụ</div><div class="date">24/08</div><div class="pill blue">Review</div></div>
+    <div class="row"><div><b>Đối soát dữ liệu chấm công</b><small>18 trường hợp cần xác minh</small></div><div class="owner">Các đơn vị</div><div class="date">23/08</div><div class="pill red">Cần xử lý</div></div>
+   </section>
+
+   <section class="card">
+    <div class="ch"><h3>Quy trình bổ nhiệm đang nổi bật</h3><span class="link">Mở hồ sơ →</span></div>
+    <div style="font-size:8.5px;font-weight:800;margin-bottom:8px">Bổ nhiệm Phó Giám đốc Sở Xây dựng</div>
+    <div class="timeline">
+      <div class="tstep done"><b>1. Đề xuất</b><span>Hoàn thành</span></div>
+      <div class="tstep done"><b>2. Thẩm tra</b><span>Hoàn thành</span></div>
+      <div class="tstep current"><b>3. Đánh giá</b><span>Đang xử lý</span></div>
+      <div class="tstep warn"><b>4. Xin ý kiến</b><span>Chờ</span></div>
+      <div class="tstep"><b>5. Quyết định</b><span>Chưa bắt đầu</span></div>
+    </div>
+   </section>
+
+   <section class="card">
+    <div class="ch"><h3>Thi đua & Khen thưởng</h3><span class="link">Mở danh sách →</span></div>
+    <div class="row"><div><b>18 cá nhân được đề xuất</b><small>5 hồ sơ cần bổ sung minh chứng</small></div><div class="owner">6 đơn vị</div><div class="date">28/08</div><div class="pill amber">Review</div></div>
+    <div class="row"><div><b>6 tập thể được đề xuất</b><small>2 tập thể đạt đủ tiêu chí tự động</small></div><div class="owner">Sở Nội vụ</div><div class="date">28/08</div><div class="pill green">Đang tổng hợp</div></div>
+   </section>
+  </div>
+ </div>
+</main>
+
+<aside class="right">
+ <div class="rcard alert">
+  <div class="ey">CẦN XỬ LÝ TRONG KỲ</div>
+  <h3>2 hồ sơ công tác cán bộ có nguy cơ chậm</h3>
+  <p>Một hồ sơ bổ nhiệm đang chờ xác minh tiêu chuẩn chức danh; một hồ sơ điều động chưa đủ ý kiến đơn vị tiếp nhận.</p>
+  <div class="cta">Mở danh sách cần xử lý →</div>
+ </div>
+
+ <div class="rcard">
+  <h3>Quyết định sắp ban hành</h3>
+  <div class="item"><b>Bổ nhiệm 01 Phó Giám đốc Sở</b><span>Dự kiến trình 27/08</span><div class="link">Mở hồ sơ →</div></div>
+  <div class="item"><b>Khen thưởng 6 tập thể quý III</b><span>Dự kiến ký 30/08</span><div class="link">Xem danh sách →</div></div>
+  <div class="item"><b>Điều động 03 cán bộ quản lý</b><span>Chờ ý kiến 2 đơn vị</span><div class="link">Theo dõi →</div></div>
+ </div>
+
+ <div class="rcard">
+  <h3>Biến động tổ chức tháng này</h3>
+  <div class="item"><b>＋ 8 cán bộ tiếp nhận mới</b><span>3 đơn vị</span></div>
+  <div class="item"><b>⇄ 6 trường hợp điều động</b><span>5 đơn vị</span></div>
+  <div class="item"><b>↗ 4 trường hợp bổ nhiệm</b><span>Đang hoàn tất quy trình</span></div>
+  <div class="item"><b>− 11 trường hợp nghỉ / chuyển công tác</b><span>Đã cập nhật hồ sơ</span></div>
+ </div>
+
+ <div class="rcard ai">
+  <div class="ey">✦ AI WORKFORCE COPILOT</div>
+  <h3 style="font-size:11px;margin:5px 0">Hỏi trên dữ liệu cán bộ</h3>
+  <div class="prompt">Đơn vị nào đang thiếu biên chế nhất?</div>
+  <div class="prompt">Hồ sơ bổ nhiệm nào còn thiếu tiêu chuẩn?</div>
+  <div class="prompt">Ai đang có quá nhiều nhiệm vụ trọng tâm?</div>
+  <div class="prompt">Xếp hạng hồ sơ thi đua cần review trước.</div>
+ </div>
+</aside>
+</div>
+<script id="ct-navigation-wiring">
+(function(){
+  'use strict';
+  const FILES = {
+    directory: 'index.html',
+    mgmtHome: 'tong-quan-quan-tri.html',
+    mgmtKpi: 'kpi-tinh.html',
+    mgmtProjects: 'du-an-trong-diem.html',
+    mgmtTasks: 'nhiem-vu-lanh-dao.html',
+    mgmtCalendar: 'lich-cong-tac.html',
+    execHome: 'cong-chat-noi-bo.html',
+    execIntranet: 'intranet-can-tho.html',
+    execProjects: 'portfolio-du-an.html',
+    execProjectDetail: 'du-an-trong-diem-chi-tiet.html',
+    execProjectRoadmap: 'lo-trinh-du-an-chi-tiet.html',
+    execDocs: 'van-ban-dieu-hanh-dien-tu.html',
+    execDocDetail: 'van-ban-can-xu-ly.html',
+    execCalendar: 'lich-lam-viec-chi-tiet.html',
+    execMeetings: 'phong-hop-so.html',
+    execPeople: 'quan-ly-can-bo.html',
+    execOrg: 'so-do-to-chuc.html',
+    execWorkflow: 'quy-trinh-tham-dinh.html',
+    execWorkflowDetail: 'chi-tiet-tham-dinh.html'
+  };
+  const current = decodeURIComponent(location.pathname.split('/').pop() || '');
+  const isExec = /layer\s*2/i.test(current);
+  const normalize = s => (s||'').replace(/\s+/g,' ').trim().toLowerCase();
+  const goto = file => { if(file && current !== file) location.href = encodeURI(file); };
+
+  function targetFor(text, el){
+    const t = normalize(text);
+    if(!t) return null;
+
+    // Existing management shell
+    if(t.includes('tổng quan') && !isExec && (el.matches('a') || el.closest('.nav'))) return FILES.mgmtHome;
+    if(t.includes('kpi chiến lược')) return FILES.mgmtKpi;
+    if(t.includes('dự án trọng điểm') && !isExec) return FILES.mgmtProjects;
+    if(t.includes('nhiệm vụ lãnh đạo')) return FILES.mgmtTasks;
+    if(t.includes('lịch công tác')) return FILES.mgmtCalendar;
+    if(t === 'văn bản cần xử lý') return FILES.execDocDetail;
+
+    // Management shell items with no dedicated screen yet — send to the screen directory
+    if(t.includes('cảnh báo & rủi ro') || t.includes('cảnh báo và rủi ro')) return FILES.directory;
+    if(t.includes('báo cáo nhanh')) return FILES.directory;
+    if(t.includes('kinh tế - tài chính') || t.includes('kinh tế – tài chính')) return FILES.directory;
+    if(t.includes('đầu tư - doanh nghiệp') || t.includes('đầu tư – doanh nghiệp')) return FILES.directory;
+    if(t.includes('hạ tầng - đô thị') || t.includes('hạ tầng – đô thị')) return FILES.directory;
+    if(t.includes('xã hội - nhân văn') || t.includes('xã hội – nhân văn')) return FILES.directory;
+    if(t.includes('chuyển đổi số')) return FILES.directory;
+    if(t.includes('bản đồ số')) return FILES.directory;
+    if(t.includes('trợ lý ai')) return FILES.directory;
+    if(t.includes('dữ liệu dùng chung')) return FILES.directory;
+
+    // Execution app launcher / major modules
+    if(t === '▤ trao đổi' || t.includes('trao đổi')) return FILES.execHome;
+    if(t.includes('intranet')) return FILES.execIntranet;
+    if(t === '▣ dự án' || t === 'dự án' || t.includes('portfolio gantt')) return FILES.execProjects;
+    if((t === '▥ văn bản' || t === 'văn bản') && isExec) return FILES.execDocs;
+    if(t.includes('hồ sơ & tài liệu') || t.includes('hồ sơ và tài liệu')) return FILES.execDocs;
+    if(t.includes('lịch lãnh đạo')) return FILES.execCalendar;
+    if(t.includes('phòng họp') || t.includes('họp trực tuyến')) return FILES.execMeetings;
+    if(t === '♙ cán bộ' || t.includes('tổng quan nhân sự')) return FILES.execPeople;
+    if(t.includes('sơ đồ tổ chức')) return FILES.execOrg;
+    if(t.includes('dịch vụ / quy trình') || t === 'quy trình') return FILES.execWorkflow;
+
+    // Execution shell items with no dedicated screen yet
+    if(t === 'công việc của tôi') return FILES.execHome;
+    if(t === 'nhiệm vụ' && isExec) return FILES.directory;
+    if(t.includes('yêu cầu phối hợp')) return FILES.directory;
+    if(t === 'báo cáo' && isExec) return FILES.directory;
+
+    // Project drill-down
+    if(t.includes('vành đai phía tây')) return FILES.execProjectDetail;
+    if(t === '▦ tổng quan' && /dự án trọng điểm_chi tiết|lộ trình dự án/i.test(current)) return FILES.execProjectDetail;
+    if(t.includes('lộ trình') && /dự án trọng điểm_chi tiết|lộ trình dự án/i.test(current)) return FILES.execProjectRoadmap;
+    if(t.includes('mở hồ sơ dự án')) return FILES.execProjectDetail;
+    if(t.includes('timeline đầy đủ') || t.includes('mở milestone')) return FILES.execProjectRoadmap;
+
+    // Workflow drill-down
+    if(t.includes('01. thẩm định chuyên môn')) return FILES.execWorkflowDetail;
+    if(t.includes('thẩm định hồ sơ') && /chi tiết dự án cần thẩm định/i.test(current)) return FILES.execWorkflow;
+
+    // Document drill-down
+    if(t.includes('văn bản đến') && /văn bản điều hành điện tử/i.test(current)) return FILES.execDocDetail;
+    if(t.includes('quay lại') && /văn bản cần xử lý/i.test(current)) return FILES.execDocs;
+
+    // People drill-down
+    if(t.includes('mở sơ đồ đầy đủ')) return FILES.execOrg;
+
+    // Intranet channel to projects
+    if(t === 'dự án trọng điểm' && /intranet/i.test(current)) return FILES.execProjects;
+    return null;
+  }
+
+  const selectors = [
+    'a','.nav','.app','.appicon','.pm','.tree','.portfolio','.service','.back','.mode-switch button','.link','.project'
+  ].join(',');
+
+  document.querySelectorAll(selectors).forEach(el => {
+    const text = el.textContent || '';
+    const compactText = normalize(text);
+    // Some pages use .app as the root application container; never wire a large container.
+    if(el.classList.contains('app') && compactText.length > 40) return;
+    let target = null;
+    const nt = normalize(text);
+
+    // Mode switch is explicit and overrides text rules.
+    if(el.matches('.mode-switch button')){
+      if(nt === 'quản trị') target = FILES.mgmtHome;
+      if(nt === 'thực thi') target = FILES.execHome;
+    } else {
+      target = targetFor(text, el);
+    }
+    if(!target) return;
+
+    if(el.tagName === 'A') el.setAttribute('href', encodeURI(target));
+    el.setAttribute('data-nav-target', target);
+    el.setAttribute('role', el.getAttribute('role') || 'link');
+    if(!el.hasAttribute('tabindex') && el.tagName !== 'A' && el.tagName !== 'BUTTON') el.setAttribute('tabindex','0');
+    el.addEventListener('click', function(ev){
+      if(el.tagName === 'A') return; // native href works
+      ev.preventDefault();
+      goto(target);
+    });
+    if(el.tagName !== 'A' && el.tagName !== 'BUTTON'){
+      el.addEventListener('keydown', function(ev){
+        if(ev.key === 'Enter' || ev.key === ' '){ ev.preventDefault(); goto(target); }
+      });
+    }
+  });
+
+  // Brand/logo always returns to the home of the current mode, without changing visual design.
+  const brand = document.querySelector('.brand, .logo');
+  if(brand){
+    const target = isExec ? FILES.execHome : FILES.mgmtHome;
+    brand.setAttribute('data-nav-target',target);
+    brand.setAttribute('role','link');
+    brand.setAttribute('tabindex','0');
+    brand.addEventListener('click',()=>goto(target));
+    brand.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();goto(target);}});
+  }
+})();
+</script>
+
+</body>
+</html>
